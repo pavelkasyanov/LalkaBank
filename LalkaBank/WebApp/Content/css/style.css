@@ -1,0 +1,199 @@
+.container {
+	margin: 30px auto;
+	display: block;
+	background: #999;
+	width: 350px;
+	height: 220px;
+	box-shadow: 15px 15px 15px 15px rgba(0,0,0,.3);
+	border-radius: 10px 25px 25px;
+	font-family: Arial;
+	vertical-align: top;
+}
+
+.container_inner {
+	position: relative;
+	top: 20px;
+	padding-left: 30px;
+	margin-top: 20px;
+    margin-left: 40px;
+	display: block;
+	background: #998;
+	width: 600px;
+	height: 270px;
+	box-shadow: 25px 25px 25px 25px rgba(0,0,0,.2);
+	border-radius: 10px 25px 25px;
+	font-family: Arial;
+}
+
+.right {
+	position: relative;
+	top: -211px;
+	left: 300px;
+}
+
+.main {
+	display: inline-block;
+}
+
+.main_text {
+	font-weight: lighter;
+}
+
+.central_pos {
+	margin-left: 500px ;
+}
+
+.center {
+	margin: 0px auto;
+ 	text-align: center;
+}
+
+.frame {
+	height: 30px;
+  	width: 60px;
+	border: 2px groove #000;
+	box-shadow: 0 3px 20px rgba(0,0,0,0.5),
+		inset 0 2px 0 rgba(255,255,255,0.4),
+			0 2px 0 rgba(0,0,0,0.2),
+			inset 0 0 20px rgba(0,0,0, 0.3);
+	border-radius: 5px 10px 13px;
+	padding: 10px 0px 1px 15px;
+	background: #787
+}
+
+.button {
+	display: block;
+	height: 42px;
+  	width: 100px;
+  	cursor: pointer;
+}
+
+.button:hover {
+	box-shadow: inset 10 0px 20px rgba(0,0,0,0.1),
+		 0 2px 0 rgba(255,255,255,0.1),
+		inset	0 2px 0 rgba(0,0,0,0.1);
+}
+
+body {
+	background-image	: url(http://www.bankoboev.ru/fons/OTMxMQ==/Bankoboev.Ru_fon_kanvy_seroi.png);
+}
+
+#login {
+	position: relative;
+	color: #fff;
+	left: 235px;
+	top: 20px;
+}
+
+#login_prev {
+	width: 82px;
+	position: relative;
+}
+
+#registration {
+	position: relative;
+	color: #fff;
+	margin: 10px;
+	padding-left: 225px;
+	top:35px;
+}
+
+#registration_edit {
+	height: 1000px;
+}
+
+#reg_button {
+	width: 100px;
+	color: #fff;
+	left: 225px;
+	top: 20px;
+}
+
+#reg_button_prev {
+	width: 120px;
+	position: relative;
+	color: #fff;
+	left: 225px;
+	top: 20px;
+}
+
+#blank_button {
+	width: 100px;
+	color: #fff;
+	left: 200px;
+	top: 20px;
+}
+
+#blank_button_prev {
+	width: 120px;
+	position: relative;
+	color: #fff;
+	left: 350px;
+	top: 20px;
+}
+
+#blank_area {
+	height: 500px;
+	width: 550px;
+	margin-left: 400px;
+}
+
+#message_area {
+	height:  600px;
+	width: 720px;
+	margin-left: 320px;
+}
+
+#profile_area {
+	height:  600px;
+	width: 720px;
+	margin-left: 300px;	
+}
+
+#area {
+	position: fixed;
+	padding-left: 20px;
+	width: 190px;
+	height: 300px;
+}
+
+.area {
+	display: block;
+	margin-bottom: 20px;
+}
+
+#select_type{
+	width: 170px;
+}
+
+.multi_text {
+	height: 200px;
+	max-height: 200px;
+	max-width: 350px;
+	width: 350px;
+	overflow-y: scroll;
+	overflow-x: scroll; 
+}
+
+#message_text {
+	height: 500px;
+	max-height: 500px;
+	max-width: 600px;
+	width: 600px;
+	overflow-y: scroll;
+}
+
+#table_button {
+	width: 100px;
+	color: #fff;
+	left: 200px;
+	top: 20px;
+}
+
+#table_button_prev {
+	width: 120px;
+	position: relative;
+	color: #fff;
+	left: 2px;
+	top: 0px;
+}
