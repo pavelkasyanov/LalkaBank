@@ -41,3 +41,7 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.nupkg
+LalkaBank/packages/*
+LalkaBank/WebApp/bin/*
+LalkaBank/WebApp/obj/*
