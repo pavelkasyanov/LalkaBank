@@ -8,13 +8,11 @@ namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
 
-        [Authorize]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
