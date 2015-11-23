@@ -4,8 +4,51 @@
     ViewBag.Title = "Log in";
 }
 
-<h2>@ViewBag.Title.</h2>
 <div class="row">
+    <h1 class="lb-center">
+        <p class="lb-main_text">Lalka Bank</p>
+        <h2>@ViewBag.Title.</h2>
+    </h1>
+    <div class="lb-main">
+        <div class="lb-central_pos">
+            <div class="lb-container">
+                <section id="loginForm">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        <div class="lb-center">
+                            @Html.AntiForgeryToken()
+                            <h4>Use a local account to log in.</h4>
+                            <hr />
+                            <h2>Gretings</h2>
+                            <div class="row">
+                                <b>@Html.LabelFor(m => m.Email)</b>
+                                <div class="row">
+                                    @Html.TextBoxFor(m => m.Email)
+                                    @Html.ValidationMessageFor(m => m.Email, "")
+                                </div>
+                            </div>
+                            <div class="row">
+                                <b>@Html.LabelFor(m => m.Password)</b>
+                                <div class="row">
+                                    @Html.PasswordFor(m => m.Password)
+                                    @Html.ValidationMessageFor(m => m.Password, "")
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                            </div>
+                        </div>
+                        <div class="row" id="login">
+                            <input type="submit" value="Log in" class="btn btn-default" />
+                        </div>
+                        <b><a id="registration" href="@Url.Action("Register", "Account")">Регистрация</a></b>
+                    }
+                </section>
+</div>
+        </div>
+    </div>
+    <!--
     <div class="col-md-8">
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -50,12 +93,7 @@
                     </p>*@
             }
         </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
+    </div>-->
 </div>
 
 @section Scripts {
