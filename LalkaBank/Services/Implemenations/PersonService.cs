@@ -45,6 +45,20 @@ namespace Services.Implemenations
 
         public bool RegisterUser(PersonSet person, PassportSet passport)
         {
+            var pers = _personDao.Get(person.PersonId);
+            if (pers != null)
+            {
+                person.Passport_PassportId = pers.Passport_PassportId;
+                _personDao.Update(person);
+
+                var pass = _passportDao.Get(pers.Passport_PassportId);
+
+                passport.PassportId = pass.PassportId;
+                _passportDao.Create(passport);
+
+                return true;
+            }
+
             passport.PassportId = Guid.NewGuid();
             person.Passport_PassportId = passport.PassportId;
 

@@ -13,5 +13,7 @@ namespace DAO.Interafaces
         void Delete(Guid id);
 
         List<PersonSet> GetList();
+
+        void Update(PersonSet person);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using DAO.Interafaces;
 
@@ -12,7 +13,7 @@ namespace DAO.Implemenation
 
         public void Create(PassportSet passport)
         {
-            _db.PassportSets.Add(passport);
+            _db.PassportSets.AddOrUpdate(passport);
             _db.SaveChanges();
         }
 

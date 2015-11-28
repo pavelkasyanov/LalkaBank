@@ -82,6 +82,8 @@ namespace WebApp.Controllers
 
             _personService.RegisterUser(person, pasport);
 
+            ViewBag.Result = true;
+
             return View(model);
         }
     }

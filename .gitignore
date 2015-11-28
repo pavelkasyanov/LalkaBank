@@ -44,12 +44,12 @@ Temporary Items
 *.nupkg
 LalkaBank/packages/*
 LalkaBank/WebApp/bin/*
-LalkaBank/WebApp/obj/*
-LalkaBank/WebApp/App_Data/logs/*
+LalkaBank\WebApp\obj\*
+LalkaBank/WebApp/App_Data/*
 #===========
-LalkaBank/Services/bin/*
-LalkaBank/Services/obj/*
+LalkaBank\Services\bin\*
+LalkaBank\Services\obj\*
 #=======
-LalkaBank/DAO/bin/*
-LalkaBank/DAO/obj/*
+LalkaBank\DAO\bin\*
+LalkaBank\DAO\obj\*
 
