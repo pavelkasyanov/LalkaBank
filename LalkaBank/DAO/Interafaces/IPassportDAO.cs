@@ -6,12 +6,12 @@ namespace DAO.Interafaces
     // ReSharper disable once InconsistentNaming
     public interface IPassportDAO
     {
-        void Create(PassportSet passport);
+        void Create(Passport passport);
 
-        PassportSet Get(Guid id);
+        Passport Get(Guid id);
 
         void Delete(Guid id);
 
-        List<PassportSet> GetList();
+        List<Passport> GetList();
     }
 }
