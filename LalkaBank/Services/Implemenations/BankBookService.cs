@@ -15,6 +15,11 @@ namespace Services.Implemenations
             _bankBookDao = new BankBookDAO();
         }
 
+        public BankBookService(IBankBookDAO bankBookDao)
+        {
+            _bankBookDao = bankBookDao;
+        }
+
         public void Create(BankBookSet book)
         {
             _bankBookDao.Create(book);

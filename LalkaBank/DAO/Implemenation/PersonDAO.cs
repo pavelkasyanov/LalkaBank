@@ -19,7 +19,7 @@ namespace DAO.Implemenation
         public PersonSet Get(Guid id)
         {
             var person = _db.PersonSets.Find(id);
-            if (person == null) { throw new Exception("not found"); }
+            //if (person == null) { throw new Exception("not found"); }
 
             return person;
         }

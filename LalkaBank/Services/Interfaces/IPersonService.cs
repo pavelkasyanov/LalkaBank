@@ -13,5 +13,7 @@ namespace Services.Interfaces
         void Delete(Guid id);
 
         List<PersonSet> GetList();
+
+        bool RegisterUser(PersonSet person, PassportSet passport);
     }
 }

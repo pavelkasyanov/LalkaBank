@@ -49,4 +49,7 @@ LalkaBank/WebApp/App_Data/logs/*
 #===========
 LalkaBank/Services/bin/*
 LalkaBank/Services/obj/*
+#=======
+LalkaBank/DAO/bin/*
+LalkaBank/DAO/obj/*
 

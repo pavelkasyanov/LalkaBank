@@ -12,12 +12,14 @@ namespace Services.Implemenations
         [Obsolete("use other constructor")]
         public PersonService()
         {
+            _passportDao = new PassportDAO();
             _personDao = new PersonDAO();
         }
 
-        public PersonService(IPersonDAO personDao)
+        public PersonService(IPersonDAO personDao, IPassportDAO passportDao)
         {
             _personDao = personDao;
+            _passportDao = passportDao;
         }
 
         public void Create(PersonSet person)
@@ -41,6 +43,18 @@ namespace Services.Implemenations
             return _personDao.GetList();
         }
 
+        public bool RegisterUser(PersonSet person, PassportSet passport)
+        {
+            passport.PassportId = Guid.NewGuid();
+            person.Passport_PassportId = passport.PassportId;
+
+            _passportDao.Create(passport);
+            _personDao.Create(person);
+
+            return true;
+        }
+
         private readonly IPersonDAO _personDao;
+        private readonly IPassportDAO _passportDao;
     }
 }

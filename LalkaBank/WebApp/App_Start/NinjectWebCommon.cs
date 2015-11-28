@@ -1,3 +1,5 @@
+using DAO.Implemenation;
+using DAO.Interafaces;
 using Services.Implemenations;
 using Services.Interfaces;
 
@@ -76,6 +78,19 @@ namespace WebApp.App_Start
             kernel.Bind<IPersonService>().To<PersonService>();
             kernel.Bind<IRequestService>().To<RequestService>();
             #endregion
-        }        
+
+            #region DAOInjection
+            kernel.Bind<IBankBookDAO>().To<BankBookDAO>();
+            kernel.Bind<ICreditDAO>().To<CreditDAO>();
+            kernel.Bind<ICreditTypesDAO>().To<CreditTypesDAO>();
+            kernel.Bind<IDebtDAO>().To<DebtDAO>();
+            kernel.Bind<IManagerDAO>().To<ManagerDAO>();
+            kernel.Bind<IMessageDAO>().To<MessageDAO>();
+            kernel.Bind<IPassportDAO>().To<PassportDAO>();
+            kernel.Bind<IPaymentDAO>().To<PaymentDAO>();
+            kernel.Bind<IPersonDAO>().To<PersonDAO>();
+            kernel.Bind<IRequestDAO>().To<RequestDAO>();
+            #endregion
+        }
     }
 }

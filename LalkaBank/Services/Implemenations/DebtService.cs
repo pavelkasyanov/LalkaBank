@@ -12,34 +12,34 @@ namespace Services.Implemenations
         [Obsolete("use other constructor")]
         public DebtService()
         {
-            _debtsDao = new DebtsDAO();
+            _debtDao = new DebtDAO();
         }
 
-        public DebtService(IDebtsDAO debtsDao)
+        public DebtService(IDebtDAO debtDao)
         {
-            _debtsDao = debtsDao;
+            _debtDao = debtDao;
         }
 
         public void Create(DebtsSet debt)
         {
-            _debtsDao.Create(debt);
+            _debtDao.Create(debt);
         }
 
         public DebtsSet Get(Guid id)
         {
-            return _debtsDao.Get(id);
+            return _debtDao.Get(id);
         }
 
         public void Delete(Guid id)
         {
-            _debtsDao.Delete(id);
+            _debtDao.Delete(id);
         }
 
         public List<DebtsSet> GetList()
         {
-            return _debtsDao.GetList();
+            return _debtDao.GetList();
         }
 
-        private readonly IDebtsDAO _debtsDao;
+        private readonly IDebtDAO _debtDao;
     }
 }
