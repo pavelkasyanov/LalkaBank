@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAO;
-namespace Services
+
+namespace DAO.Interafaces
 {
-    interface IPassport
+    // ReSharper disable once InconsistentNaming
+    public interface IPassportDAO
     {
         void Create(PassportSet passport);
+
         PassportSet Get(Guid id);
+
         void Delete(Guid id);
+
         List<PassportSet> GetList();
     }
 }

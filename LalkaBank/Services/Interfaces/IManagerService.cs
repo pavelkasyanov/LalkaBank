@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DAO;
-namespace Services
+
+namespace Services.Interfaces
 {
-    interface IManager
+    public interface IManagerService
     {
         void Create(ManagerSet manager);
+
         ManagerSet Get(Guid id);
+
         void Delete(Guid id);
+
         List<ManagerSet> GetList();
     }
 }

@@ -3,11 +3,15 @@ using System.Collections.Generic;
 
 namespace DAO.Interafaces
 {
-    interface IRequestDAO
+    // ReSharper disable once InconsistentNaming
+    public interface IRequestDAO
     {
-         void Create(RequestSet request);
+        void Create(RequestSet request);
+
         RequestSet Get(Guid id);
-         void Delete(Guid id);
-         List<RequestSet> GetList();
+
+        void Delete(Guid id);
+
+        List<RequestSet> GetList();
     }
 }

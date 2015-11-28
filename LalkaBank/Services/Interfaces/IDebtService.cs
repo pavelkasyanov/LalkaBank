@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DAO;
-namespace Services
+
+namespace Services.Interfaces
 {
-    interface IDebt
+    public interface IDebtService
     {
         void Create(DebtsSet debts);
+
+
         DebtsSet Get(Guid id);
+
         void Delete(Guid id);
+
         List<DebtsSet> GetList();
     }
 }

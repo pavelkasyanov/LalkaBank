@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 using DAO;
 namespace Services
 {
-    interface IMessage
+    public interface ICreditTypesService
     {
-        void Create(MessageSet message);
-        MessageSet Get(Guid id);
+        void Create(CreditTypesSet creditTypes);
+
+        CreditTypesSet Get(Guid id);
+
         void Delete(Guid id);
-        List<MessageSet> GetList();
+
+        List<CreditTypesSet> GetList();
+
     }
 }

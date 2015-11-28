@@ -6,13 +6,13 @@ using DAO.Interafaces;
 namespace DAO.Implemenation
 {
     // ReSharper disable once InconsistentNaming
-    class CreditTypesDAO : ICreditTypesDAO
+    public class CreditTypesDAO : ICreditTypesDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
-        public void Create(CreditTypesSet credit_type)
+        public void Create(CreditTypesSet creditType)
         {
-            _db.CreditTypesSets.Add(credit_type);
+            _db.CreditTypesSets.Add(creditType);
             _db.SaveChanges();
         }
 

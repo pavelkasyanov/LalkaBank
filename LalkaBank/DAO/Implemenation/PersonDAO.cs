@@ -6,7 +6,7 @@ using DAO.Interafaces;
 namespace DAO.Implemenation
 {
     // ReSharper disable once InconsistentNaming
-    class PersonDAO : IPersonDAO
+    public class PersonDAO : IPersonDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
@@ -19,23 +19,18 @@ namespace DAO.Implemenation
         public PersonSet Get(Guid id)
         {
             var person = _db.PersonSets.Find(id);
-            if (person == null)
-                throw new Exception("not found");
-            else
-                return person;
+            if (person == null) { throw new Exception("not found"); }
+
+            return person;
         }
 
         public void Delete(Guid id)
         {
-            PersonSet person = _db.PersonSets.Find(id);
-            if (person == null)
-                throw new Exception("not found");
-            else
-            {
-                _db.PersonSets.Remove(person);
-                _db.SaveChanges();
-            }
+            var person = _db.PersonSets.Find(id);
+            if (person == null) { throw new Exception("not found"); }
 
+            _db.PersonSets.Remove(person);
+            _db.SaveChanges();
         }
 
         public List<PersonSet> GetList()

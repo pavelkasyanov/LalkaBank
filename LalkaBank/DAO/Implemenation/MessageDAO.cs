@@ -6,7 +6,7 @@ using DAO.Interafaces;
 namespace DAO.Implemenation
 {
     // ReSharper disable once InconsistentNaming
-    class MessageDAO : IMessageDAO
+    public class MessageDAO : IMessageDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
@@ -18,24 +18,19 @@ namespace DAO.Implemenation
 
         public MessageSet Get(Guid id)
         {
-            MessageSet message = _db.MessageSets.Find(id);
-            if (message == null)
-                throw new Exception("not found");
-            else
-                return message;
+            var message = _db.MessageSets.Find(id);
+            if (message == null) { throw new Exception("not found"); }
+
+            return message;
         }
 
         public void Delete(Guid id)
         {
-            MessageSet message = _db.MessageSets.Find(id);
-            if (message == null)
-                throw new Exception("not found");
-            else
-            {
-                _db.MessageSets.Remove(message);
-                _db.SaveChanges();
-            }
-
+            var message = _db.MessageSets.Find(id);
+            if (message == null) { throw new Exception("not found"); }
+            
+            _db.MessageSets.Remove(message);
+            _db.SaveChanges();
         }
 
         public List<MessageSet> GetList()

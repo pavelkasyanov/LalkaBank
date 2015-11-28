@@ -9,7 +9,11 @@ namespace Services.Implemenations
 {
     public class BankBookService :IBankBookService
     {
-        private readonly IBankBookDAO _bankBookDao = new BankBookDAO();
+        [Obsolete("use other constructor")]
+        public BankBookService()
+        {
+            _bankBookDao = new BankBookDAO();
+        }
 
         public void Create(BankBookSet book)
         {
@@ -37,5 +41,7 @@ namespace Services.Implemenations
         {
             _bankBookDao.Update(book);
         }
+
+        private readonly IBankBookDAO _bankBookDao;
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using DAO;
 
-namespace DAO.Interafaces
+namespace Services.Interfaces
 {
-    // ReSharper disable once InconsistentNaming
-    public interface IMessageDAO
+    public interface IMessageService
     {
         void Create(MessageSet message);
 
