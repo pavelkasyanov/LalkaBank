@@ -6,12 +6,12 @@ namespace DAO.Interafaces
     // ReSharper disable once InconsistentNaming
     public interface IMessageDAO
     {
-        void Create(Message message);
+        void Create(MessageSet message);
 
-        Message Get(Guid id);
+        MessageSet Get(Guid id);
 
         void Delete(Guid id);
 
-        List<Message> GetList();
+        List<MessageSet> GetList();
     }
 }

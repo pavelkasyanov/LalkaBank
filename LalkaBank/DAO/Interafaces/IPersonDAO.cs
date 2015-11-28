@@ -6,12 +6,12 @@ namespace DAO.Interafaces
     // ReSharper disable once InconsistentNaming
     public interface IPersonDAO
     {
-        void Create(Person person);
+        void Create(PersonSet person);
 
-        Person Get(Guid id);
+        PersonSet Get(Guid id);
 
         void Delete(Guid id);
 
-        List<Person> GetList();
+        List<PersonSet> GetList();
     }
 }

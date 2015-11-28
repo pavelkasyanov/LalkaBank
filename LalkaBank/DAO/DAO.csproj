@@ -51,6 +51,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BankBookSet.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CreditSet.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CreditTypesSet.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DebtsSet.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Implemenation\BankBookDAO.cs" />
     <Compile Include="Implemenation\CreditDAO.cs" />
     <Compile Include="Implemenation\CreditTypesDAO.cs" />
@@ -86,7 +98,28 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LalkaBankDabaseModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ManagerSet.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MessageSet.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PassportSet.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentsSet.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonSet.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestSet.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="testSet.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="LalkaBankDabaseModel.edmx">

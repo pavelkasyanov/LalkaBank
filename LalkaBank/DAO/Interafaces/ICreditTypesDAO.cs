@@ -6,12 +6,12 @@ namespace DAO.Interafaces
     // ReSharper disable once InconsistentNaming
     public interface ICreditTypesDAO
     {
-        void Create(CreditType creditTypes);
+        void Create(CreditTypesSet creditTypes);
 
-        CreditType GetById(Guid id);
+        CreditTypesSet GetById(Guid id);
 
         void Delete(Guid id);
 
-        List<CreditType> GetList();
+        List<CreditTypesSet> GetList();
     }
 }

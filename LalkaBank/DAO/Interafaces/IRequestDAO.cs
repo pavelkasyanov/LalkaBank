@@ -6,12 +6,12 @@ namespace DAO.Interafaces
     // ReSharper disable once InconsistentNaming
     public interface IRequestDAO
     {
-        void Create(Request request);
+        void Create(RequestSet request);
 
-        Request Get(Guid id);
+        RequestSet Get(Guid id);
 
         void Delete(Guid id);
 
-        List<Request> GetList();
+        List<RequestSet> GetList();
     }
 }

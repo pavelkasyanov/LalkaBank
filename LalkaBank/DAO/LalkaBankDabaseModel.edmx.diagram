@@ -4,17 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e1c2ac442718405bab9d7b8223c53ab4" Name="Diagram1" ZoomLevel="110" >
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.BankBook" Width="1.5" PointX="5.25" PointY="10" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Credit" Width="1.5" PointX="3" PointY="4.875" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.CreditType" Width="1.5" PointX="0.75" PointY="12.375" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Debts" Width="1.5" PointX="0.75" PointY="10" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Manager" Width="1.5" PointX="0.75" PointY="6.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Message" Width="1.5" PointX="6" PointY="2.25" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Passport" Width="1.5" PointX="1.5" PointY="1.25" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Payments" Width="1.5" PointX="5.25" PointY="12.625" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Person" Width="1.5" PointX="3.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Request" Width="1.5" PointX="6" PointY="6" />
+      <Diagram DiagramId="e1c2ac442718405bab9d7b8223c53ab4" Name="Diagram1" >
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.BankBookSet" Width="1.5" PointX="5.25" PointY="10" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.CreditSet" Width="1.5" PointX="3" PointY="4.875" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.CreditTypesSet" Width="1.5" PointX="0.75" PointY="12.375" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.DebtsSet" Width="1.5" PointX="0.75" PointY="10" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.ManagerSet" Width="1.5" PointX="0.75" PointY="6.125" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.MessageSet" Width="1.5" PointX="6" PointY="2.25" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.PassportSet" Width="1.5" PointX="1.5" PointY="1.25" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.PaymentsSet" Width="1.5" PointX="5.25" PointY="12.625" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.PersonSet" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.RequestSet" Width="1.5" PointX="6" PointY="6" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.testSet" Width="1.5" PointX="8.75" PointY="1.125" />
         <AssociationConnector Association="LalkaBankDabaseModel.FK_BankBookCredit" />
         <AssociationConnector Association="LalkaBankDabaseModel.FK_CreditCreditTypes" />
         <AssociationConnector Association="LalkaBankDabaseModel.FK_CreditDebts" />
@@ -26,39 +27,6 @@
         <AssociationConnector Association="LalkaBankDabaseModel.FK_PersonMessage" />
         <AssociationConnector Association="LalkaBankDabaseModel.FK_PersonPassport" />
         <AssociationConnector Association="LalkaBankDabaseModel.FK_PersonRequest" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.BankBooks" Width="1.5" PointX="0.75" PointY="16.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.BankBookSets" Width="1.5" PointX="13.25" PointY="10" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Credits" Width="1.5" PointX="2.75" PointY="16.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.CreditSets" Width="1.5" PointX="11" PointY="4.875" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.CreditTypesSets" Width="1.5" PointX="8.75" PointY="10" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.DebtsSets" Width="1.5" PointX="8.75" PointY="13" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Managers" Width="1.5" PointX="4.75" PointY="16.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.ManagerSets" Width="1.5" PointX="8.75" PointY="6.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Messages" Width="1.5" PointX="6.75" PointY="16.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.MessageSets" Width="1.5" PointX="14" PointY="2.25" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Passports" Width="1.5" PointX="8.75" PointY="16.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.PassportSets" Width="1.5" PointX="9.5" PointY="1.25" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.PaymentsSets" Width="1.5" PointX="13.25" PointY="12.625" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Persons" Width="1.5" PointX="15.75" PointY="10.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.PersonSets" Width="1.5" PointX="11.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Requests" Width="1.5" PointX="10.75" PointY="16.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.RequestSets" Width="1.5" PointX="14" PointY="6" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.tests" Width="1.5" PointX="12.75" PointY="16.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.testSets" Width="1.5" PointX="15.75" PointY="14.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.CreditTypess" Width="1.5" PointX="16.75" PointY="1.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Debtss" Width="1.5" PointX="16.75" PointY="4.125" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.Paymentss" Width="1.5" PointX="16.75" PointY="7.125" />
-        <AssociationConnector Association="LalkaBankDabaseModel.FK_BankBookCredit1" />
-        <AssociationConnector Association="LalkaBankDabaseModel.FK_CreditCreditTypes1" />
-        <AssociationConnector Association="LalkaBankDabaseModel.FK_CreditDebts1" />
-        <AssociationConnector Association="LalkaBankDabaseModel.FK_ManagerCredit1" />
-        <AssociationConnector Association="LalkaBankDabaseModel.FK_PaymentsCredit1" />
-        <AssociationConnector Association="LalkaBankDabaseModel.FK_PersonCredit1" />
-        <AssociationConnector Association="LalkaBankDabaseModel.FK_ManagerMessage1" />
-        <AssociationConnector Association="LalkaBankDabaseModel.FK_ManagerRequest1" />
-        <AssociationConnector Association="LalkaBankDabaseModel.FK_PersonMessage1" />
-        <AssociationConnector Association="LalkaBankDabaseModel.FK_PersonPassport1" />
-        <AssociationConnector Association="LalkaBankDabaseModel.FK_PersonRequest1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
