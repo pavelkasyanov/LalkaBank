@@ -3,11 +3,15 @@ using System.Collections.Generic;
 
 namespace DAO.Interafaces
 {
-    interface IManagerDAO
+    // ReSharper disable once InconsistentNaming
+    public interface IManagerDAO
     {
-         void Create(ManagerSet manager);
+        void Create(ManagerSet manager);
+
         ManagerSet Get(Guid id);
-         void Delete(Guid id);
-         List<ManagerSet> GetList();
+
+        void Delete(Guid id);
+
+        List<ManagerSet> GetList();
     }
 }

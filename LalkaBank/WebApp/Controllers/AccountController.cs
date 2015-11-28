@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -169,7 +166,8 @@ namespace WebApp.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            //return View(model);
+            return RedirectToAction("UserInfo", "User");
         }
 
         //

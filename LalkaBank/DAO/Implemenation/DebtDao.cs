@@ -6,7 +6,7 @@ using DAO.Interafaces;
 namespace DAO.Implemenation
 {
     // ReSharper disable once InconsistentNaming
-    class DebtsDAO : IDebtsDAO
+    public class DebtDAO : IDebtDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
@@ -18,24 +18,24 @@ namespace DAO.Implemenation
 
         public DebtsSet Get(Guid id)
         {
-            DebtsSet debt = _db.DebtsSets.Find(id);
-            if (debt == null)
-                throw new Exception("not found");
-            else
+            //var debt = _db.DebtsSets.ToList().FirstOrDefault(x => x.DebtsId == id);
+            var debt = _db.DebtsSets.Find(id);
+            if (debt != null)
+            {
                 return debt;
+            }
+
+            throw new Exception("not found");
         }
 
         public void Delete(Guid id)
         {
             var debt = _db.DebtsSets.Find(id);
-            if (debt == null)
-                throw new Exception("not found");
-            else
-            {
-                _db.DebtsSets.Remove(debt);
-                _db.SaveChanges();
-            }
 
+            if (debt == null) { throw new Exception("not found"); }
+
+            _db.DebtsSets.Remove(debt);
+            _db.SaveChanges();
         }
 
         public List<DebtsSet> GetList()

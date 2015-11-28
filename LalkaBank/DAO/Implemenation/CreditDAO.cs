@@ -6,9 +6,8 @@ using DAO.Interafaces;
 namespace DAO.Implemenation
 {
     // ReSharper disable once InconsistentNaming
-    class CreditDAO : ICreditDAO
+    public class CreditDAO : ICreditDAO
     {
-
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer(); 
     
         public void Create(CreditSet credit)
@@ -19,7 +18,7 @@ namespace DAO.Implemenation
 
         public CreditSet Get(Guid id)
         {
-            CreditSet credit = _db.CreditSets.Find(id);
+            var credit = _db.CreditSets.Find(id);
             if (credit == null)
                 throw new Exception("not found");
             else
@@ -28,13 +27,15 @@ namespace DAO.Implemenation
 
         public void Delete(Guid id)
         {
-            CreditSet credit = _db.CreditSets.Find(id);
-            if (credit == null)
-                throw new Exception("not found");
-            else
+            var credit = _db.CreditSets.Find(id);
+            if (credit != null)
             {
                 _db.CreditSets.Remove(credit);
                 _db.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("not found");
             }
 
         }

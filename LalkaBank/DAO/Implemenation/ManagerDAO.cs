@@ -6,7 +6,7 @@ using DAO.Interafaces;
 namespace DAO.Implemenation
 {
     // ReSharper disable once InconsistentNaming
-    class ManagerDAO : IManagerDAO
+    public class ManagerDAO : IManagerDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
@@ -18,24 +18,19 @@ namespace DAO.Implemenation
 
         public ManagerSet Get(Guid id)
         {
-            ManagerSet manager = _db.ManagerSets.Find(id);
-            if (manager == null)
-                throw new Exception("not found");
-            else
-                return manager;
+            var manager = _db.ManagerSets.Find(id);
+            if (manager != null) { return manager; }
+
+            throw new Exception("not found");
         }
 
         public void Delete(Guid id)
         {
-            ManagerSet manager = _db.ManagerSets.Find(id);
-            if (manager == null)
-                throw new Exception("not found");
-            else
-            {
-                _db.ManagerSets.Remove(manager);
-                _db.SaveChanges();
-            }
-
+            var manager = _db.ManagerSets.Find(id);
+            if (manager == null) { throw new Exception("not found"); }
+            
+            _db.ManagerSets.Remove(manager);
+            _db.SaveChanges();
         }
 
         public List<ManagerSet> GetList()

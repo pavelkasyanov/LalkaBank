@@ -6,7 +6,7 @@ using DAO.Interafaces;
 namespace DAO.Implemenation
 {
     // ReSharper disable once InconsistentNaming
-    class PaymentDAO : IPaymentDAO
+    public class PaymentDAO : IPaymentDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
@@ -18,24 +18,19 @@ namespace DAO.Implemenation
 
         public PaymentsSet Get(Guid id)
         {
-            PaymentsSet payment = _db.PaymentsSets.Find(id);
-            if (payment == null)
-                throw new Exception("not found");
-            else
-                return payment;
+            var payment = _db.PaymentsSets.Find(id);
+            if (payment == null) { throw new Exception("not found"); }
+
+            return payment;
         }
 
         public void Delete(Guid id)
         {
-            PaymentsSet payment = _db.PaymentsSets.Find(id);
-            if (payment == null)
-                throw new Exception("not found");
-            else
-            {
-                _db.PaymentsSets.Remove(payment);
-                _db.SaveChanges();
-            }
+            var payment = _db.PaymentsSets.Find(id);
+            if (payment == null) { throw new Exception("not found"); }
 
+            _db.PaymentsSets.Remove(payment);
+            _db.SaveChanges();
         }
 
         public List<PaymentsSet> GetList()

@@ -6,7 +6,7 @@ using DAO.Interafaces;
 namespace DAO.Implemenation
 {
     // ReSharper disable once InconsistentNaming
-    class PassportDAO : IPasportDAO
+    public class PassportDAO : IPassportDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
@@ -18,24 +18,19 @@ namespace DAO.Implemenation
 
         public PassportSet Get(Guid id)
         {
-            PassportSet passport = _db.PassportSets.Find(id);
-            if (passport == null)
-                throw new Exception("not found");
-            else
-                return passport;
+            var passport = _db.PassportSets.Find(id);
+            if (passport == null) { throw new Exception("not found"); }
+
+            return passport;
         }
 
         public void Delete(Guid id)
         {
-            PassportSet passport = _db.PassportSets.Find(id);
-            if (passport == null)
-                throw new Exception("not found");
-            else
-            {
-                _db.PassportSets.Remove(passport);
-                _db.SaveChanges();
-            }
+            var passport = _db.PassportSets.Find(id);
+            if (passport == null) { throw new Exception("not found"); }
 
+            _db.PassportSets.Remove(passport);
+            _db.SaveChanges();
         }
 
         public List<PassportSet> GetList()

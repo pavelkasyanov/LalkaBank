@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace DAO.Interafaces
 {
-    interface IBankBookDAO
+    // ReSharper disable once InconsistentNaming
+    public interface IBankBookDAO
     {
         void Create(BankBookSet credit);
         BankBookSet Get(Guid id);

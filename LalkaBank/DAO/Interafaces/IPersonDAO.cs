@@ -3,11 +3,15 @@ using System.Collections.Generic;
 
 namespace DAO.Interafaces
 {
-    interface IPersonDAO
+    // ReSharper disable once InconsistentNaming
+    public interface IPersonDAO
     {
-         void Create(PersonSet person);
+        void Create(PersonSet person);
+
         PersonSet Get(Guid id);
-         void Delete(Guid id);
-         List<PersonSet> GetList();
+
+        void Delete(Guid id);
+
+        List<PersonSet> GetList();
     }
 }
