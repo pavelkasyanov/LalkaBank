@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using WebApp.Models;
@@ -14,15 +15,19 @@ namespace WebApp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, 
+            ApplicationSignInManager signInManager, 
+            ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         public ApplicationSignInManager SignInManager
@@ -46,6 +51,18 @@ namespace WebApp.Controllers
             private set
             {
                 _userManager = value;
+            }
+        }
+
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
             }
         }
 
@@ -136,7 +153,13 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var model = new RegisterViewModel
+            {
+              UserRoles  = RoleManager.Roles.Select(
+                  role => new SelectListItem() {Text = role.Name, Value = role.Name})
+                  .ToList()
+            };
+            return View(model);
         }
 
         //
@@ -150,15 +173,20 @@ namespace WebApp.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var userRoleResult = await UserManager.AddToRoleAsync(user.Id, model.UserRole);
+                if (result.Succeeded && userRoleResult.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    if (model.UserRole.Equals("User"))
+                    {
+                        return RedirectToAction("UserInfo", "User");
+                    }
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -166,8 +194,7 @@ namespace WebApp.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            //return View(model);
-            return RedirectToAction("UserInfo", "User");
+            return View(model);
         }
 
         //

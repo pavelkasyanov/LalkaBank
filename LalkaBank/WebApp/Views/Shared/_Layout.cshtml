@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -17,6 +18,11 @@
     <div class="lb-main">
 
         <div class="lb-container" id="lb-area">
+            @if (Request.IsAuthenticated)
+            {
+                <b>@User.Identity.Name</b>
+            }
+
             <h2>@ViewBag.Title</h2>
             <b><a class="lb-area" href="@Url.Action("Index", "Home")">Moя страница</a></b>
             <b><a class="lb-area" href="">Кредиты</a></b>
