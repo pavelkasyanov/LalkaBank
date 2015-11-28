@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e1c2ac442718405bab9d7b8223c53ab4" Name="Diagram1" >
+      <Diagram DiagramId="e1c2ac442718405bab9d7b8223c53ab4" Name="Diagram1" ZoomLevel="100" >
         <EntityTypeShape EntityType="LalkaBankDabaseModel.BankBookSet" Width="1.5" PointX="5.25" PointY="10" />
         <EntityTypeShape EntityType="LalkaBankDabaseModel.CreditSet" Width="1.5" PointX="3" PointY="4.875" />
         <EntityTypeShape EntityType="LalkaBankDabaseModel.CreditTypesSet" Width="1.5" PointX="0.75" PointY="12.375" />
@@ -15,7 +15,7 @@
         <EntityTypeShape EntityType="LalkaBankDabaseModel.PaymentsSet" Width="1.5" PointX="5.25" PointY="12.625" />
         <EntityTypeShape EntityType="LalkaBankDabaseModel.PersonSet" Width="1.5" PointX="3.75" PointY="0.75" />
         <EntityTypeShape EntityType="LalkaBankDabaseModel.RequestSet" Width="1.5" PointX="6" PointY="6" />
-        <EntityTypeShape EntityType="LalkaBankDabaseModel.testSet" Width="1.5" PointX="8.75" PointY="1.125" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.sysdiagram" Width="1.5" PointX="8.75" PointY="1.125" />
         <AssociationConnector Association="LalkaBankDabaseModel.FK_BankBookCredit" />
         <AssociationConnector Association="LalkaBankDabaseModel.FK_CreditCreditTypes" />
         <AssociationConnector Association="LalkaBankDabaseModel.FK_CreditDebts" />

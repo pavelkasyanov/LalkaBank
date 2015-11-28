@@ -117,7 +117,7 @@
     <Compile Include="RequestSet.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="testSet.cs">
+    <Compile Include="sysdiagram.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
