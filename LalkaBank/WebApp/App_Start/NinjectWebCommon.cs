@@ -1,3 +1,6 @@
+using Services.Implemenations;
+using Services.Interfaces;
+
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WebApp.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(WebApp.App_Start.NinjectWebCommon), "Stop")]
 
@@ -13,7 +16,7 @@ namespace WebApp.App_Start
 
     public static class NinjectWebCommon 
     {
-        private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
@@ -22,7 +25,7 @@ namespace WebApp.App_Start
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            bootstrapper.Initialize(CreateKernel);
+            Bootstrapper.Initialize(CreateKernel);
         }
         
         /// <summary>
@@ -30,7 +33,7 @@ namespace WebApp.App_Start
         /// </summary>
         public static void Stop()
         {
-            bootstrapper.ShutDown();
+            Bootstrapper.ShutDown();
         }
         
         /// <summary>
@@ -61,6 +64,18 @@ namespace WebApp.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            #region ServicesInjection
+            kernel.Bind<IBankBookService>().To<BankBookService>();
+            kernel.Bind<ICreditService>().To<CreditService>();
+            kernel.Bind<ICreditTypesService>().To<CreditTypesService>();
+            kernel.Bind<IDebtService>().To<DebtService>();
+            kernel.Bind<IManagerService>().To<ManagerService>();
+            kernel.Bind<IMessageService>().To<MessageService>();
+            kernel.Bind<IPassportService>().To<PassportService>();
+            kernel.Bind<IPaymentService>().To<PaymentService>();
+            kernel.Bind<IPersonService>().To<PersonService>();
+            kernel.Bind<IRequestService>().To<RequestService>();
+            #endregion
         }        
     }
 }
