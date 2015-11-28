@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>969c3b2d-99a7-4fd6-9a25-0d506f9a193a</ProjectGuid>
+    <ProjectGuid>{969C3B2D-99A7-4FD6-9A25-0D506F9A193A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Services</RootNamespace>
@@ -30,25 +30,45 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Implemenations\BankBookService.cs" />
+    <Compile Include="Implemenations\CreditService.cs" />
+    <Compile Include="Implemenations\CreditTypesService.cs" />
+    <Compile Include="Implemenations\DebtService.cs" />
+    <Compile Include="Implemenations\ManagerService.cs" />
+    <Compile Include="Implemenations\MessageService.cs" />
+    <Compile Include="Implemenations\PassportService.cs" />
+    <Compile Include="Implemenations\PaymentService.cs" />
+    <Compile Include="Implemenations\PersonService.cs" />
+    <Compile Include="Implemenations\RequestService.cs" />
+    <Compile Include="Interfaces\IBankBookService.cs" />
+    <Compile Include="Interfaces\ICreditService.cs" />
+    <Compile Include="Interfaces\ICreditTypesService.cs" />
+    <Compile Include="Interfaces\IDebtService.cs" />
+    <Compile Include="Interfaces\IManagerService.cs" />
+    <Compile Include="Interfaces\IMessageService.cs" />
+    <Compile Include="Interfaces\IPassportService.cs" />
+    <Compile Include="Interfaces\IPaymentService.cs" />
+    <Compile Include="Interfaces\IPersonService.cs" />
+    <Compile Include="Interfaces\IRequestService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAO\DAO.csproj">
+      <Project>{BCA1EE76-D67B-44A4-9A30-035F5DB96D25}</Project>
+      <Name>DAO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -57,5 +77,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
- </Project>
+</Project>

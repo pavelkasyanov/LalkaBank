@@ -72,13 +72,14 @@
     <Compile Include="Implemenation\PassportDAO.cs" />
     <Compile Include="Implemenation\PaymentDAO.cs" />
     <Compile Include="Implemenation\PersonDAO.cs" />
+    <Compile Include="Implemenation\RequestDAO.cs" />
     <Compile Include="Interafaces\IBankBookDAO.cs" />
     <Compile Include="Interafaces\ICreditDAO.cs" />
     <Compile Include="Interafaces\ICreditTypesDAO.cs" />
     <Compile Include="Interafaces\IDebtsDAO.cs" />
     <Compile Include="Interafaces\IManagerDAO.cs" />
     <Compile Include="Interafaces\IMessageDAO.cs" />
-    <Compile Include="Interafaces\IPasportDAO.cs" />
+    <Compile Include="Interafaces\IPassportDAO.cs" />
     <Compile Include="Interafaces\IPaymentDAO.cs" />
     <Compile Include="Interafaces\IPersonDAO.cs" />
     <Compile Include="Interafaces\IRequestDAO.cs" />

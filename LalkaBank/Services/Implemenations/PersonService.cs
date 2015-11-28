@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DAO;
 using DAO.Implemenation;
 using DAO.Interafaces;
+using Services.Interfaces;
 
 namespace Services.Implemenations
 {
