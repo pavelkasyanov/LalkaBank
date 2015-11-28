@@ -46,3 +46,7 @@ LalkaBank/packages/*
 LalkaBank/WebApp/bin/*
 LalkaBank/WebApp/obj/*
 LalkaBank/WebApp/App_Data/logs/*
+#===========
+LalkaBank/Services/bin/*
+LalkaBank/Services/obj/*
+

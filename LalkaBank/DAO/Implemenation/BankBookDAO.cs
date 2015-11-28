@@ -6,7 +6,7 @@ using DAO.Interafaces;
 namespace DAO.Implemenation
 {
     // ReSharper disable once InconsistentNaming
-    class BankBookDAO : IBankBookDAO
+    public class BankBookDAO : IBankBookDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
@@ -18,7 +18,7 @@ namespace DAO.Implemenation
 
         public BankBookSet Get(Guid id)
         {
-            BankBookSet book = _db.BankBookSets.Find(id);
+            var book = _db.BankBookSets.Find(id);
             if (book == null)
                 throw new Exception("not found");
             else
@@ -27,7 +27,7 @@ namespace DAO.Implemenation
 
         public void Delete(Guid id)
         {
-            BankBookSet book = _db.BankBookSets.Find(id);
+            var book = _db.BankBookSets.Find(id);
             if (book == null)
                 throw new Exception("not found");
             else
@@ -47,7 +47,6 @@ namespace DAO.Implemenation
 
         public List<BankBookSet> GetList()
         {
-            
             return _db.BankBookSets.ToList();
         }
 

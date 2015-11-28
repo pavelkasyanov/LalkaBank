@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using DAO;
 
-namespace DAO.Interafaces
+namespace Services.Interfaces
 {
-    public interface IBankBookDAO
+    public interface IBankBookService
     {
         void Create(BankBookSet credit);
         BankBookSet Get(Guid id);
