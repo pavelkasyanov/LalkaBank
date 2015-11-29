@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/28/2015 21:31:19
--- Generated from EDMX file: D:\dev\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
+-- Date Created: 11/29/2015 01:43:07
+-- Generated from EDMX file: E:\pavlik\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -29,17 +29,17 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_ManagerCredit]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CreditSets] DROP CONSTRAINT [FK_ManagerCredit];
 GO
-IF OBJECT_ID(N'[dbo].[FK_PaymentsCredit]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PaymentsSets] DROP CONSTRAINT [FK_PaymentsCredit];
-GO
-IF OBJECT_ID(N'[dbo].[FK_PersonCredit]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CreditSets] DROP CONSTRAINT [FK_PersonCredit];
-GO
 IF OBJECT_ID(N'[dbo].[FK_ManagerMessage]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MessageSets] DROP CONSTRAINT [FK_ManagerMessage];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ManagerRequest]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RequestSets] DROP CONSTRAINT [FK_ManagerRequest];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PaymentsCredit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PaymentsSets] DROP CONSTRAINT [FK_PaymentsCredit];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PersonCredit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CreditSets] DROP CONSTRAINT [FK_PersonCredit];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PersonMessage]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MessageSets] DROP CONSTRAINT [FK_PersonMessage];
@@ -85,6 +85,9 @@ GO
 IF OBJECT_ID(N'[dbo].[RequestSets]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RequestSets];
 GO
+IF OBJECT_ID(N'[dbo].[sysdiagrams]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[sysdiagrams];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -113,7 +116,7 @@ CREATE TABLE [dbo].[CreditSets] (
     [PersonPersonId] uniqueidentifier  NOT NULL,
     [ManagerManagerId] uniqueidentifier  NOT NULL,
     [CreditTypes_CreditTypesId] uniqueidentifier  NOT NULL,
-    [Debts_DebtsId] uniqueidentifier  NOT NULL
+    [Debts_DebtsId] uniqueidentifier  NULL
 );
 GO
 
@@ -190,7 +193,17 @@ CREATE TABLE [dbo].[RequestSets] (
     [PassportImage] varbinary(max)  NOT NULL,
     [IncomeImage] varbinary(max)  NOT NULL,
     [PersonPersonId] uniqueidentifier  NOT NULL,
-    [ManagerManagerId] uniqueidentifier  NOT NULL
+    [ManagerManagerId] uniqueidentifier  NULL
+);
+GO
+
+-- Creating table 'sysdiagrams'
+CREATE TABLE [dbo].[sysdiagrams] (
+    [name] nvarchar(128)  NOT NULL,
+    [principal_id] int  NOT NULL,
+    [diagram_id] int IDENTITY(1,1) NOT NULL,
+    [version] int  NULL,
+    [definition] varbinary(max)  NULL
 );
 GO
 
@@ -256,6 +269,12 @@ GO
 ALTER TABLE [dbo].[RequestSets]
 ADD CONSTRAINT [PK_RequestSets]
     PRIMARY KEY CLUSTERED ([RequestId] ASC);
+GO
+
+-- Creating primary key on [diagram_id] in table 'sysdiagrams'
+ALTER TABLE [dbo].[sysdiagrams]
+ADD CONSTRAINT [PK_sysdiagrams]
+    PRIMARY KEY CLUSTERED ([diagram_id] ASC);
 GO
 
 -- --------------------------------------------------

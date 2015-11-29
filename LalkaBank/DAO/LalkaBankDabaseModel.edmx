@@ -4,311 +4,311 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LalkaBankDabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="BankBookSets">
-          <Key>
-            <PropertyRef Name="BankBookId" />
-          </Key>
-          <Property Name="BankBookId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="cache" Type="smallint" Nullable="false" />
-          <Property Name="Credit_CreditId" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="CreditSets">
-          <Key>
-            <PropertyRef Name="CreditId" />
-          </Key>
-          <Property Name="CreditId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="DateStart" Type="datetime" Nullable="false" />
-          <Property Name="DateEnd" Type="datetime" Nullable="false" />
-          <Property Name="Percent" Type="float" Nullable="false" />
-          <Property Name="StartSum" Type="smallint" Nullable="false" />
-          <Property Name="AllSum" Type="smallint" Nullable="false" />
-          <Property Name="PayCount" Type="smallint" Nullable="false" />
-          <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Penya" Type="float" Nullable="false" />
-          <Property Name="PayMounth" Type="smallint" Nullable="false" />
-          <Property Name="PersonPersonId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ManagerManagerId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreditTypes_CreditTypesId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Debts_DebtsId" Type="uniqueidentifier" />
-        </EntityType>
-        <EntityType Name="CreditTypesSets">
-          <Key>
-            <PropertyRef Name="CreditTypesId" />
-          </Key>
-          <Property Name="CreditTypesId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Percent" Type="float" Nullable="false" />
-          <Property Name="StartSumPercent" Type="float" Nullable="false" />
-          <Property Name="PayCount" Type="smallint" Nullable="false" />
-          <Property Name="Info" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <EntityType Name="DebtsSets">
-          <Key>
-            <PropertyRef Name="DebtsId" />
-          </Key>
-          <Property Name="DebtsId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Debt" Type="smallint" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ManagerSets">
-          <Key>
-            <PropertyRef Name="ManagerId" />
-          </Key>
-          <Property Name="ManagerId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Position" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <EntityType Name="MessageSets">
-          <Key>
-            <PropertyRef Name="MessageId" />
-          </Key>
-          <Property Name="MessageId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="PersonPersonId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ManagerManagerId" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PassportSets">
-          <Key>
-            <PropertyRef Name="PassportId" />
-          </Key>
-          <Property Name="PassportId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Number" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="RUVD" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Adress" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Validity" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PaymentsSets">
-          <Key>
-            <PropertyRef Name="PaymentsId" />
-          </Key>
-          <Property Name="PaymentsId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Time" Type="datetime" Nullable="false" />
-          <Property Name="Payment" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Credit_CreditId" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PersonSets">
-          <Key>
-            <PropertyRef Name="PersonId" />
-          </Key>
-          <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar(max)" />
-          <Property Name="SecondName" Type="nvarchar(max)" />
-          <Property Name="DateBirth" Type="datetime" />
-          <Property Name="Passport_PassportId" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="RequestSets">
-          <Key>
-            <PropertyRef Name="RequestId" />
-          </Key>
-          <Property Name="RequestId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreditInfo" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="PassportImage" Type="varbinary(max)" Nullable="false" />
-          <Property Name="IncomeImage" Type="varbinary(max)" Nullable="false" />
-          <Property Name="PersonPersonId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ManagerManagerId" Type="uniqueidentifier" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
-        <Association Name="FK_BankBookCredit">
-          <End Role="CreditSets" Type="Self.CreditSets" Multiplicity="1" />
-          <End Role="BankBookSets" Type="Self.BankBookSets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CreditSets">
-              <PropertyRef Name="CreditId" />
-            </Principal>
-            <Dependent Role="BankBookSets">
-              <PropertyRef Name="Credit_CreditId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CreditCreditTypes">
-          <End Role="CreditTypesSets" Type="Self.CreditTypesSets" Multiplicity="1" />
-          <End Role="CreditSets" Type="Self.CreditSets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CreditTypesSets">
-              <PropertyRef Name="CreditTypesId" />
-            </Principal>
-            <Dependent Role="CreditSets">
-              <PropertyRef Name="CreditTypes_CreditTypesId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CreditDebts">
-          <End Role="DebtsSets" Type="Self.DebtsSets" Multiplicity="0..1" />
-          <End Role="CreditSets" Type="Self.CreditSets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DebtsSets">
-              <PropertyRef Name="DebtsId" />
-            </Principal>
-            <Dependent Role="CreditSets">
-              <PropertyRef Name="Debts_DebtsId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ManagerCredit">
-          <End Role="ManagerSets" Type="Self.ManagerSets" Multiplicity="1" />
-          <End Role="CreditSets" Type="Self.CreditSets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ManagerSets">
-              <PropertyRef Name="ManagerId" />
-            </Principal>
-            <Dependent Role="CreditSets">
-              <PropertyRef Name="ManagerManagerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ManagerMessage">
-          <End Role="ManagerSets" Type="Self.ManagerSets" Multiplicity="1" />
-          <End Role="MessageSets" Type="Self.MessageSets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ManagerSets">
-              <PropertyRef Name="ManagerId" />
-            </Principal>
-            <Dependent Role="MessageSets">
-              <PropertyRef Name="ManagerManagerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ManagerRequest">
-          <End Role="ManagerSets" Type="Self.ManagerSets" Multiplicity="0..1" />
-          <End Role="RequestSets" Type="Self.RequestSets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ManagerSets">
-              <PropertyRef Name="ManagerId" />
-            </Principal>
-            <Dependent Role="RequestSets">
-              <PropertyRef Name="ManagerManagerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PaymentsCredit">
-          <End Role="CreditSets" Type="Self.CreditSets" Multiplicity="1" />
-          <End Role="PaymentsSets" Type="Self.PaymentsSets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CreditSets">
-              <PropertyRef Name="CreditId" />
-            </Principal>
-            <Dependent Role="PaymentsSets">
-              <PropertyRef Name="Credit_CreditId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PersonCredit">
-          <End Role="PersonSets" Type="Self.PersonSets" Multiplicity="1" />
-          <End Role="CreditSets" Type="Self.CreditSets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PersonSets">
-              <PropertyRef Name="PersonId" />
-            </Principal>
-            <Dependent Role="CreditSets">
-              <PropertyRef Name="PersonPersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PersonMessage">
-          <End Role="PersonSets" Type="Self.PersonSets" Multiplicity="1" />
-          <End Role="MessageSets" Type="Self.MessageSets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PersonSets">
-              <PropertyRef Name="PersonId" />
-            </Principal>
-            <Dependent Role="MessageSets">
-              <PropertyRef Name="PersonPersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PersonPassport">
-          <End Role="PassportSets" Type="Self.PassportSets" Multiplicity="1" />
-          <End Role="PersonSets" Type="Self.PersonSets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PassportSets">
-              <PropertyRef Name="PassportId" />
-            </Principal>
-            <Dependent Role="PersonSets">
-              <PropertyRef Name="Passport_PassportId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PersonRequest">
-          <End Role="PersonSets" Type="Self.PersonSets" Multiplicity="1" />
-          <End Role="RequestSets" Type="Self.RequestSets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PersonSets">
-              <PropertyRef Name="PersonId" />
-            </Principal>
-            <Dependent Role="RequestSets">
-              <PropertyRef Name="PersonPersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="LalkaBankDabaseModelStoreContainer">
-          <EntitySet Name="BankBookSets" EntityType="Self.BankBookSets" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CreditSets" EntityType="Self.CreditSets" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CreditTypesSets" EntityType="Self.CreditTypesSets" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DebtsSets" EntityType="Self.DebtsSets" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ManagerSets" EntityType="Self.ManagerSets" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MessageSets" EntityType="Self.MessageSets" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PassportSets" EntityType="Self.PassportSets" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PaymentsSets" EntityType="Self.PaymentsSets" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PersonSets" EntityType="Self.PersonSets" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RequestSets" EntityType="Self.RequestSets" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_BankBookCredit" Association="Self.FK_BankBookCredit">
-            <End Role="CreditSets" EntitySet="CreditSets" />
-            <End Role="BankBookSets" EntitySet="BankBookSets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CreditCreditTypes" Association="Self.FK_CreditCreditTypes">
-            <End Role="CreditTypesSets" EntitySet="CreditTypesSets" />
-            <End Role="CreditSets" EntitySet="CreditSets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CreditDebts" Association="Self.FK_CreditDebts">
-            <End Role="DebtsSets" EntitySet="DebtsSets" />
-            <End Role="CreditSets" EntitySet="CreditSets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ManagerCredit" Association="Self.FK_ManagerCredit">
-            <End Role="ManagerSets" EntitySet="ManagerSets" />
-            <End Role="CreditSets" EntitySet="CreditSets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ManagerMessage" Association="Self.FK_ManagerMessage">
-            <End Role="ManagerSets" EntitySet="ManagerSets" />
-            <End Role="MessageSets" EntitySet="MessageSets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ManagerRequest" Association="Self.FK_ManagerRequest">
-            <End Role="ManagerSets" EntitySet="ManagerSets" />
-            <End Role="RequestSets" EntitySet="RequestSets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PaymentsCredit" Association="Self.FK_PaymentsCredit">
-            <End Role="CreditSets" EntitySet="CreditSets" />
-            <End Role="PaymentsSets" EntitySet="PaymentsSets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PersonCredit" Association="Self.FK_PersonCredit">
-            <End Role="PersonSets" EntitySet="PersonSets" />
-            <End Role="CreditSets" EntitySet="CreditSets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PersonMessage" Association="Self.FK_PersonMessage">
-            <End Role="PersonSets" EntitySet="PersonSets" />
-            <End Role="MessageSets" EntitySet="MessageSets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PersonPassport" Association="Self.FK_PersonPassport">
-            <End Role="PassportSets" EntitySet="PassportSets" />
-            <End Role="PersonSets" EntitySet="PersonSets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PersonRequest" Association="Self.FK_PersonRequest">
-            <End Role="PersonSets" EntitySet="PersonSets" />
-            <End Role="RequestSets" EntitySet="RequestSets" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="LalkaBankDabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="LalkaBankDabaseModelStoreContainer">
+    <EntitySet Name="BankBookSets" EntityType="LalkaBankDabaseModel.Store.BankBookSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CreditSets" EntityType="LalkaBankDabaseModel.Store.CreditSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CreditTypesSets" EntityType="LalkaBankDabaseModel.Store.CreditTypesSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DebtsSets" EntityType="LalkaBankDabaseModel.Store.DebtsSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ManagerSets" EntityType="LalkaBankDabaseModel.Store.ManagerSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MessageSets" EntityType="LalkaBankDabaseModel.Store.MessageSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PassportSets" EntityType="LalkaBankDabaseModel.Store.PassportSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PaymentsSets" EntityType="LalkaBankDabaseModel.Store.PaymentsSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PersonSets" EntityType="LalkaBankDabaseModel.Store.PersonSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RequestSets" EntityType="LalkaBankDabaseModel.Store.RequestSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="sysdiagrams" EntityType="LalkaBankDabaseModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_BankBookCredit" Association="LalkaBankDabaseModel.Store.FK_BankBookCredit">
+      <End Role="CreditSet" EntitySet="CreditSets" />
+      <End Role="BankBookSet" EntitySet="BankBookSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CreditCreditTypes" Association="LalkaBankDabaseModel.Store.FK_CreditCreditTypes">
+      <End Role="CreditTypesSet" EntitySet="CreditTypesSets" />
+      <End Role="CreditSet" EntitySet="CreditSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CreditDebts" Association="LalkaBankDabaseModel.Store.FK_CreditDebts">
+      <End Role="DebtsSet" EntitySet="DebtsSets" />
+      <End Role="CreditSet" EntitySet="CreditSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ManagerCredit" Association="LalkaBankDabaseModel.Store.FK_ManagerCredit">
+      <End Role="ManagerSet" EntitySet="ManagerSets" />
+      <End Role="CreditSet" EntitySet="CreditSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PaymentsCredit" Association="LalkaBankDabaseModel.Store.FK_PaymentsCredit">
+      <End Role="CreditSet" EntitySet="CreditSets" />
+      <End Role="PaymentsSet" EntitySet="PaymentsSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonCredit" Association="LalkaBankDabaseModel.Store.FK_PersonCredit">
+      <End Role="PersonSet" EntitySet="PersonSets" />
+      <End Role="CreditSet" EntitySet="CreditSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ManagerMessage" Association="LalkaBankDabaseModel.Store.FK_ManagerMessage">
+      <End Role="ManagerSet" EntitySet="ManagerSets" />
+      <End Role="MessageSet" EntitySet="MessageSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ManagerRequest" Association="LalkaBankDabaseModel.Store.FK_ManagerRequest">
+      <End Role="ManagerSet" EntitySet="ManagerSets" />
+      <End Role="RequestSet" EntitySet="RequestSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonMessage" Association="LalkaBankDabaseModel.Store.FK_PersonMessage">
+      <End Role="PersonSet" EntitySet="PersonSets" />
+      <End Role="MessageSet" EntitySet="MessageSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonPassport" Association="LalkaBankDabaseModel.Store.FK_PersonPassport">
+      <End Role="PassportSet" EntitySet="PassportSets" />
+      <End Role="PersonSet" EntitySet="PersonSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonRequest" Association="LalkaBankDabaseModel.Store.FK_PersonRequest">
+      <End Role="PersonSet" EntitySet="PersonSets" />
+      <End Role="RequestSet" EntitySet="RequestSets" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="BankBookSets">
+    <Key>
+      <PropertyRef Name="BankBookId" />
+    </Key>
+    <Property Name="BankBookId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="cache" Type="smallint" Nullable="false" />
+    <Property Name="Credit_CreditId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CreditSets">
+    <Key>
+      <PropertyRef Name="CreditId" />
+    </Key>
+    <Property Name="CreditId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="DateStart" Type="datetime" Nullable="false" />
+    <Property Name="DateEnd" Type="datetime" Nullable="false" />
+    <Property Name="Percent" Type="float" Nullable="false" />
+    <Property Name="StartSum" Type="smallint" Nullable="false" />
+    <Property Name="AllSum" Type="smallint" Nullable="false" />
+    <Property Name="PayCount" Type="smallint" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Penya" Type="float" Nullable="false" />
+    <Property Name="PayMounth" Type="smallint" Nullable="false" />
+    <Property Name="PersonPersonId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ManagerManagerId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreditTypes_CreditTypesId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Debts_DebtsId" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="CreditTypesSets">
+    <Key>
+      <PropertyRef Name="CreditTypesId" />
+    </Key>
+    <Property Name="CreditTypesId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Percent" Type="float" Nullable="false" />
+    <Property Name="StartSumPercent" Type="float" Nullable="false" />
+    <Property Name="PayCount" Type="smallint" Nullable="false" />
+    <Property Name="Info" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DebtsSets">
+    <Key>
+      <PropertyRef Name="DebtsId" />
+    </Key>
+    <Property Name="DebtsId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Debt" Type="smallint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ManagerSets">
+    <Key>
+      <PropertyRef Name="ManagerId" />
+    </Key>
+    <Property Name="ManagerId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Position" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MessageSets">
+    <Key>
+      <PropertyRef Name="MessageId" />
+    </Key>
+    <Property Name="MessageId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PersonPersonId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ManagerManagerId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PassportSets">
+    <Key>
+      <PropertyRef Name="PassportId" />
+    </Key>
+    <Property Name="PassportId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Number" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RUVD" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Adress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Validity" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PaymentsSets">
+    <Key>
+      <PropertyRef Name="PaymentsId" />
+    </Key>
+    <Property Name="PaymentsId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Time" Type="datetime" Nullable="false" />
+    <Property Name="Payment" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Credit_CreditId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PersonSets">
+    <Key>
+      <PropertyRef Name="PersonId" />
+    </Key>
+    <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SecondName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DateBirth" Type="datetime" Nullable="true" />
+    <Property Name="Passport_PassportId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RequestSets">
+    <Key>
+      <PropertyRef Name="RequestId" />
+    </Key>
+    <Property Name="RequestId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreditInfo" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PassportImage" Type="varbinary(max)" Nullable="false" />
+    <Property Name="IncomeImage" Type="varbinary(max)" Nullable="false" />
+    <Property Name="PersonPersonId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ManagerManagerId" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" Nullable="true" />
+    <Property Name="definition" Type="varbinary(max)" Nullable="true" />
+  </EntityType>
+  <Association Name="FK_BankBookCredit">
+    <End Role="CreditSet" Type="LalkaBankDabaseModel.Store.CreditSets" Multiplicity="1" />
+    <End Role="BankBookSet" Type="LalkaBankDabaseModel.Store.BankBookSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CreditSet">
+        <PropertyRef Name="CreditId" />
+      </Principal>
+      <Dependent Role="BankBookSet">
+        <PropertyRef Name="Credit_CreditId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CreditCreditTypes">
+    <End Role="CreditTypesSet" Type="LalkaBankDabaseModel.Store.CreditTypesSets" Multiplicity="1" />
+    <End Role="CreditSet" Type="LalkaBankDabaseModel.Store.CreditSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CreditTypesSet">
+        <PropertyRef Name="CreditTypesId" />
+      </Principal>
+      <Dependent Role="CreditSet">
+        <PropertyRef Name="CreditTypes_CreditTypesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CreditDebts">
+    <End Role="DebtsSet" Type="LalkaBankDabaseModel.Store.DebtsSets" Multiplicity="0..1" />
+    <End Role="CreditSet" Type="LalkaBankDabaseModel.Store.CreditSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DebtsSet">
+        <PropertyRef Name="DebtsId" />
+      </Principal>
+      <Dependent Role="CreditSet">
+        <PropertyRef Name="Debts_DebtsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ManagerCredit">
+    <End Role="ManagerSet" Type="LalkaBankDabaseModel.Store.ManagerSets" Multiplicity="1" />
+    <End Role="CreditSet" Type="LalkaBankDabaseModel.Store.CreditSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ManagerSet">
+        <PropertyRef Name="ManagerId" />
+      </Principal>
+      <Dependent Role="CreditSet">
+        <PropertyRef Name="ManagerManagerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PaymentsCredit">
+    <End Role="CreditSet" Type="LalkaBankDabaseModel.Store.CreditSets" Multiplicity="1" />
+    <End Role="PaymentsSet" Type="LalkaBankDabaseModel.Store.PaymentsSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CreditSet">
+        <PropertyRef Name="CreditId" />
+      </Principal>
+      <Dependent Role="PaymentsSet">
+        <PropertyRef Name="Credit_CreditId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonCredit">
+    <End Role="PersonSet" Type="LalkaBankDabaseModel.Store.PersonSets" Multiplicity="1" />
+    <End Role="CreditSet" Type="LalkaBankDabaseModel.Store.CreditSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PersonSet">
+        <PropertyRef Name="PersonId" />
+      </Principal>
+      <Dependent Role="CreditSet">
+        <PropertyRef Name="PersonPersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ManagerMessage">
+    <End Role="ManagerSet" Type="LalkaBankDabaseModel.Store.ManagerSets" Multiplicity="1" />
+    <End Role="MessageSet" Type="LalkaBankDabaseModel.Store.MessageSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ManagerSet">
+        <PropertyRef Name="ManagerId" />
+      </Principal>
+      <Dependent Role="MessageSet">
+        <PropertyRef Name="ManagerManagerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ManagerRequest">
+    <End Role="ManagerSet" Type="LalkaBankDabaseModel.Store.ManagerSets" Multiplicity="0..1" />
+    <End Role="RequestSet" Type="LalkaBankDabaseModel.Store.RequestSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ManagerSet">
+        <PropertyRef Name="ManagerId" />
+      </Principal>
+      <Dependent Role="RequestSet">
+        <PropertyRef Name="ManagerManagerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonMessage">
+    <End Role="PersonSet" Type="LalkaBankDabaseModel.Store.PersonSets" Multiplicity="1" />
+    <End Role="MessageSet" Type="LalkaBankDabaseModel.Store.MessageSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PersonSet">
+        <PropertyRef Name="PersonId" />
+      </Principal>
+      <Dependent Role="MessageSet">
+        <PropertyRef Name="PersonPersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonPassport">
+    <End Role="PassportSet" Type="LalkaBankDabaseModel.Store.PassportSets" Multiplicity="1" />
+    <End Role="PersonSet" Type="LalkaBankDabaseModel.Store.PersonSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PassportSet">
+        <PropertyRef Name="PassportId" />
+      </Principal>
+      <Dependent Role="PersonSet">
+        <PropertyRef Name="Passport_PassportId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonRequest">
+    <End Role="PersonSet" Type="LalkaBankDabaseModel.Store.PersonSets" Multiplicity="1" />
+    <End Role="RequestSet" Type="LalkaBankDabaseModel.Store.RequestSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PersonSet">
+        <PropertyRef Name="PersonId" />
+      </Principal>
+      <Dependent Role="RequestSet">
+        <PropertyRef Name="PersonPersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="LalkaBankDabaseModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -643,132 +643,132 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="LalkaBankDabaseModelStoreContainer" CdmEntityContainer="LalkaBankDabaseModelContainer">
-          <EntitySetMapping Name="BankBookSets">
-            <EntityTypeMapping TypeName="LalkaBankDabaseModel.BankBookSet">
-              <MappingFragment StoreEntitySet="BankBookSets">
-                <ScalarProperty Name="Credit_CreditId" ColumnName="Credit_CreditId" />
-                <ScalarProperty Name="cache" ColumnName="cache" />
-                <ScalarProperty Name="BankBookId" ColumnName="BankBookId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CreditSets">
-            <EntityTypeMapping TypeName="LalkaBankDabaseModel.CreditSet">
-              <MappingFragment StoreEntitySet="CreditSets">
-                <ScalarProperty Name="Debts_DebtsId" ColumnName="Debts_DebtsId" />
-                <ScalarProperty Name="CreditTypes_CreditTypesId" ColumnName="CreditTypes_CreditTypesId" />
-                <ScalarProperty Name="ManagerManagerId" ColumnName="ManagerManagerId" />
-                <ScalarProperty Name="PersonPersonId" ColumnName="PersonPersonId" />
-                <ScalarProperty Name="PayMounth" ColumnName="PayMounth" />
-                <ScalarProperty Name="Penya" ColumnName="Penya" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="PayCount" ColumnName="PayCount" />
-                <ScalarProperty Name="AllSum" ColumnName="AllSum" />
-                <ScalarProperty Name="StartSum" ColumnName="StartSum" />
-                <ScalarProperty Name="Percent" ColumnName="Percent" />
-                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
-                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
-                <ScalarProperty Name="CreditId" ColumnName="CreditId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CreditTypesSets">
-            <EntityTypeMapping TypeName="LalkaBankDabaseModel.CreditTypesSet">
-              <MappingFragment StoreEntitySet="CreditTypesSets">
-                <ScalarProperty Name="Info" ColumnName="Info" />
-                <ScalarProperty Name="PayCount" ColumnName="PayCount" />
-                <ScalarProperty Name="StartSumPercent" ColumnName="StartSumPercent" />
-                <ScalarProperty Name="Percent" ColumnName="Percent" />
-                <ScalarProperty Name="CreditTypesId" ColumnName="CreditTypesId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DebtsSets">
-            <EntityTypeMapping TypeName="LalkaBankDabaseModel.DebtsSet">
-              <MappingFragment StoreEntitySet="DebtsSets">
-                <ScalarProperty Name="Debt" ColumnName="Debt" />
-                <ScalarProperty Name="DebtsId" ColumnName="DebtsId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ManagerSets">
-            <EntityTypeMapping TypeName="LalkaBankDabaseModel.ManagerSet">
-              <MappingFragment StoreEntitySet="ManagerSets">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MessageSets">
-            <EntityTypeMapping TypeName="LalkaBankDabaseModel.MessageSet">
-              <MappingFragment StoreEntitySet="MessageSets">
-                <ScalarProperty Name="ManagerManagerId" ColumnName="ManagerManagerId" />
-                <ScalarProperty Name="PersonPersonId" ColumnName="PersonPersonId" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
-                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PassportSets">
-            <EntityTypeMapping TypeName="LalkaBankDabaseModel.PassportSet">
-              <MappingFragment StoreEntitySet="PassportSets">
-                <ScalarProperty Name="Validity" ColumnName="Validity" />
-                <ScalarProperty Name="Adress" ColumnName="Adress" />
-                <ScalarProperty Name="RUVD" ColumnName="RUVD" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="PassportId" ColumnName="PassportId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentsSets">
-            <EntityTypeMapping TypeName="LalkaBankDabaseModel.PaymentsSet">
-              <MappingFragment StoreEntitySet="PaymentsSets">
-                <ScalarProperty Name="Credit_CreditId" ColumnName="Credit_CreditId" />
-                <ScalarProperty Name="Payment" ColumnName="Payment" />
-                <ScalarProperty Name="Time" ColumnName="Time" />
-                <ScalarProperty Name="PaymentsId" ColumnName="PaymentsId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PersonSets">
-            <EntityTypeMapping TypeName="LalkaBankDabaseModel.PersonSet">
-              <MappingFragment StoreEntitySet="PersonSets">
-                <ScalarProperty Name="Passport_PassportId" ColumnName="Passport_PassportId" />
-                <ScalarProperty Name="DateBirth" ColumnName="DateBirth" />
-                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RequestSets">
-            <EntityTypeMapping TypeName="LalkaBankDabaseModel.RequestSet">
-              <MappingFragment StoreEntitySet="RequestSets">
-                <ScalarProperty Name="ManagerManagerId" ColumnName="ManagerManagerId" />
-                <ScalarProperty Name="PersonPersonId" ColumnName="PersonPersonId" />
-                <ScalarProperty Name="IncomeImage" ColumnName="IncomeImage" />
-                <ScalarProperty Name="PassportImage" ColumnName="PassportImage" />
-                <ScalarProperty Name="CreditInfo" ColumnName="CreditInfo" />
-                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="LalkaBankDabaseModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
+    <EntitySetMapping Name="BankBookSets">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.BankBookSet)">
+        <MappingFragment StoreEntitySet="BankBookSets">
+          <ScalarProperty Name="BankBookId" ColumnName="BankBookId" />
+          <ScalarProperty Name="cache" ColumnName="cache" />
+          <ScalarProperty Name="Credit_CreditId" ColumnName="Credit_CreditId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CreditSets">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.CreditSet)">
+        <MappingFragment StoreEntitySet="CreditSets">
+          <ScalarProperty Name="CreditId" ColumnName="CreditId" />
+          <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+          <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+          <ScalarProperty Name="Percent" ColumnName="Percent" />
+          <ScalarProperty Name="StartSum" ColumnName="StartSum" />
+          <ScalarProperty Name="AllSum" ColumnName="AllSum" />
+          <ScalarProperty Name="PayCount" ColumnName="PayCount" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Penya" ColumnName="Penya" />
+          <ScalarProperty Name="PayMounth" ColumnName="PayMounth" />
+          <ScalarProperty Name="PersonPersonId" ColumnName="PersonPersonId" />
+          <ScalarProperty Name="ManagerManagerId" ColumnName="ManagerManagerId" />
+          <ScalarProperty Name="CreditTypes_CreditTypesId" ColumnName="CreditTypes_CreditTypesId" />
+          <ScalarProperty Name="Debts_DebtsId" ColumnName="Debts_DebtsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CreditTypesSets">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.CreditTypesSet)">
+        <MappingFragment StoreEntitySet="CreditTypesSets">
+          <ScalarProperty Name="CreditTypesId" ColumnName="CreditTypesId" />
+          <ScalarProperty Name="Percent" ColumnName="Percent" />
+          <ScalarProperty Name="StartSumPercent" ColumnName="StartSumPercent" />
+          <ScalarProperty Name="PayCount" ColumnName="PayCount" />
+          <ScalarProperty Name="Info" ColumnName="Info" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DebtsSets">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.DebtsSet)">
+        <MappingFragment StoreEntitySet="DebtsSets">
+          <ScalarProperty Name="DebtsId" ColumnName="DebtsId" />
+          <ScalarProperty Name="Debt" ColumnName="Debt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ManagerSets">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.ManagerSet)">
+        <MappingFragment StoreEntitySet="ManagerSets">
+          <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MessageSets">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.MessageSet)">
+        <MappingFragment StoreEntitySet="MessageSets">
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="PersonPersonId" ColumnName="PersonPersonId" />
+          <ScalarProperty Name="ManagerManagerId" ColumnName="ManagerManagerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PassportSets">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.PassportSet)">
+        <MappingFragment StoreEntitySet="PassportSets">
+          <ScalarProperty Name="PassportId" ColumnName="PassportId" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="RUVD" ColumnName="RUVD" />
+          <ScalarProperty Name="Adress" ColumnName="Adress" />
+          <ScalarProperty Name="Validity" ColumnName="Validity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaymentsSets">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.PaymentsSet)">
+        <MappingFragment StoreEntitySet="PaymentsSets">
+          <ScalarProperty Name="PaymentsId" ColumnName="PaymentsId" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="Payment" ColumnName="Payment" />
+          <ScalarProperty Name="Credit_CreditId" ColumnName="Credit_CreditId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PersonSets">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.PersonSet)">
+        <MappingFragment StoreEntitySet="PersonSets">
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+          <ScalarProperty Name="DateBirth" ColumnName="DateBirth" />
+          <ScalarProperty Name="Passport_PassportId" ColumnName="Passport_PassportId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RequestSets">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.RequestSet)">
+        <MappingFragment StoreEntitySet="RequestSets">
+          <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+          <ScalarProperty Name="CreditInfo" ColumnName="CreditInfo" />
+          <ScalarProperty Name="PassportImage" ColumnName="PassportImage" />
+          <ScalarProperty Name="IncomeImage" ColumnName="IncomeImage" />
+          <ScalarProperty Name="PersonPersonId" ColumnName="PersonPersonId" />
+          <ScalarProperty Name="ManagerManagerId" ColumnName="ManagerManagerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.sysdiagram)">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

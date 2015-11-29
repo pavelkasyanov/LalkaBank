@@ -44,12 +44,17 @@ Temporary Items
 *.nupkg
 LalkaBank/packages/*
 LalkaBank/WebApp/bin/*
-LalkaBank\WebApp\obj\*
+LalkaBank/WebApp/obj/*
 LalkaBank/WebApp/App_Data/*
 #===========
-LalkaBank\Services\bin\*
-LalkaBank\Services\obj\*
+LalkaBank/Services/bin/*
+LalkaBank/Services/obj/*
+LalkaBank/DAO/bin/*
 #=======
-LalkaBank\DAO\bin\*
-LalkaBank\DAO\obj\*
+LalkaBank/DAO/bin/*
+LalkaBank/DAO/obj/*
 
+*.dll
+*.dll
+LalkaBank/DAO/obj/Debug/TempPE/LalkaBankDabaseModel.cs.dll
+*.dll
