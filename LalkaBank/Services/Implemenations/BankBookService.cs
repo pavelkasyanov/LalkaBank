@@ -20,13 +20,13 @@ namespace Services.Implemenations
             _bankBookDao = bankBookDao;
         }
 
-        public void Create(BankBookSet book)
+        public void Create(BankBook book)
         {
             _bankBookDao.Create(book);
 
         }
 
-        public BankBookSet Get(Guid id)
+        public BankBook Get(Guid id)
         {
             return _bankBookDao.Get(id);
         }
@@ -36,13 +36,13 @@ namespace Services.Implemenations
             _bankBookDao.Delete(id);
         }
 
-        public List<BankBookSet> GetList()
+        public List<BankBook> GetList()
         {
             return _bankBookDao.GetList();
         }
 
 
-        public void Update(BankBookSet book)
+        public void Update(BankBook book)
         {
             _bankBookDao.Update(book);
         }

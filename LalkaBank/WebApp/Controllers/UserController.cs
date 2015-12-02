@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Services.Interfaces;
 using WebApp.Models;
 using WebApp.Models.Domains;
+using WebApp.Models.Domains.Users;
 
 namespace WebApp.Controllers
 {
@@ -44,10 +45,10 @@ namespace WebApp.Controllers
                 LastName = user?.LastName ?? "",
                 SecondName = user?.SecondName ?? "",
                 DateBirth = user?.DateBirth ?? DateTime.Now,
-                Number = user?.PassportSet.Number ?? "",
-                RUVD = user?.PassportSet.RUVD ?? "",
-                Adress = user?.PassportSet.Adress ?? "",
-                Validity = user?.PassportSet.Validity ?? DateTime.Now
+                Number = user?.Passports.Number ?? "",
+                RUVD = user?.Passports.RUVD ?? "",
+                Adress = user?.Passports.Adress ?? "",
+                Validity = user?.Passports.Validity ?? DateTime.Now
             };
 
             return View(model);
@@ -62,9 +63,9 @@ namespace WebApp.Controllers
             }
 
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var person = new PersonSet()
+            var person = new Person()
             {
-                PersonId = userId,
+                Id = userId,
                 Login = model.Email,
                 Name = model.Name,
                 LastName = model.LastName,
@@ -72,7 +73,7 @@ namespace WebApp.Controllers
                 DateBirth = model.DateBirth
             };
 
-            var pasport = new PassportSet()
+            var pasport = new Passport()
             {
                 Number = model.Number,
                 RUVD = model.RUVD,

@@ -1,4 +1,4 @@
-﻿@model WebApp.Models.Domains.UserInfoViewModel
+﻿@model WebApp.Models.Domains.Users.UserInfoViewModel
 @{
     ViewBag.Title = "title";
 }
@@ -29,15 +29,15 @@
                         </div>
                     </div>
                     <div class="row">
-                        <b>@Html.LabelFor(m => m.LastName)</b>
-                        <div class="row">
-                            @Html.TextBoxFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-                    <div class="row">
                         <b>@Html.LabelFor(m => m.SecondName)</b>
                         <div class="row">
                             @Html.TextBoxFor(m => m.SecondName, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <b>@Html.LabelFor(m => m.LastName)</b>
+                        <div class="row">
+                            @Html.TextBoxFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                     <div class="row">

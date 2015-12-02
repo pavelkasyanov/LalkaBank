@@ -6,14 +6,14 @@ namespace Services.Interfaces
 {
     public interface IPersonService
     {
-        void Create(PersonSet person);
+        void Create(Person person);
 
-        PersonSet Get(Guid id);
+        Person Get(Guid id);
 
         void Delete(Guid id);
 
-        List<PersonSet> GetList();
+        List<Person> GetList();
 
-        bool RegisterUser(PersonSet person, PassportSet passport);
+        bool RegisterUser(Person person, Passport passport);
     }
 }

@@ -26,7 +26,7 @@
             <h2>@ViewBag.Title</h2>
             <b><a class="lb-area" href="@Url.Action("Index", "Home")">Moя страница</a></b>
             <b><a class="lb-area" href="">Кредиты</a></b>
-            <b><a class="lb-area" href="#">Заявки</a></b>
+            <b><a class="lb-area" href="@Url.Action("Index", "Requests")">Заявки</a></b>
             <b><a class="lb-area" href="@Url.Action("Index", "Messages")">Сообщения</a></b>
             <b>@Html.Partial("_LoginPartial")</b>
         </div>

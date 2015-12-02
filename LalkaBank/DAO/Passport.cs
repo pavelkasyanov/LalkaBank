@@ -12,21 +12,21 @@ namespace DAO
     using System;
     using System.Collections.Generic;
     
-    public partial class CreditTypesSet
+    public partial class Passport
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CreditTypesSet()
+        public Passport()
         {
-            this.CreditSets = new HashSet<CreditSet>();
+            this.Persons = new HashSet<Person>();
         }
     
-        public System.Guid CreditTypesId { get; set; }
-        public double Percent { get; set; }
-        public double StartSumPercent { get; set; }
-        public short PayCount { get; set; }
-        public string Info { get; set; }
+        public System.Guid Id { get; set; }
+        public string Number { get; set; }
+        public string RUVD { get; set; }
+        public string Adress { get; set; }
+        public System.DateTime Validity { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CreditSet> CreditSets { get; set; }
+        public virtual ICollection<Person> Persons { get; set; }
     }
 }

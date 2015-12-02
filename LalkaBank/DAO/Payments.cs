@@ -12,12 +12,13 @@ namespace DAO
     using System;
     using System.Collections.Generic;
     
-    public partial class BankBookSet
+    public partial class Payments
     {
-        public System.Guid BankBookId { get; set; }
-        public short cache { get; set; }
-        public System.Guid Credit_CreditId { get; set; }
+        public System.Guid Id { get; set; }
+        public System.DateTime Time { get; set; }
+        public string Payment { get; set; }
+        public System.Guid CreditId { get; set; }
     
-        public virtual CreditSet CreditSet { get; set; }
+        public virtual Credit Credits { get; set; }
     }
 }

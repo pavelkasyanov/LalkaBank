@@ -22,13 +22,13 @@ namespace Services.Implemenations
             _passportDao = passportDao;
         }
 
-        public void Create(PersonSet person)
+        public void Create(Person person)
         {
             _personDao.Create(person);
 
         }
 
-        public PersonSet Get(Guid id)
+        public Person Get(Guid id)
         {
             return _personDao.Get(id);
         }
@@ -38,29 +38,29 @@ namespace Services.Implemenations
             _personDao.Delete(id);
         }
 
-        public List<PersonSet> GetList()
+        public List<Person> GetList()
         {
             return _personDao.GetList();
         }
 
-        public bool RegisterUser(PersonSet person, PassportSet passport)
+        public bool RegisterUser(Person person, Passport passport)
         {
-            var pers = _personDao.Get(person.PersonId);
+            var pers = _personDao.Get(person.Id);
             if (pers != null)
             {
-                person.Passport_PassportId = pers.Passport_PassportId;
+                person.PassportId = pers.PassportId;
                 _personDao.Update(person);
 
-                var pass = _passportDao.Get(pers.Passport_PassportId);
+                var pass = _passportDao.Get(pers.PassportId);
 
-                passport.PassportId = pass.PassportId;
+                passport.Id = pass.Id;
                 _passportDao.Create(passport);
 
                 return true;
             }
 
-            passport.PassportId = Guid.NewGuid();
-            person.Passport_PassportId = passport.PassportId;
+            passport.Id = Guid.NewGuid();
+            person.PassportId = passport.Id;
 
             _passportDao.Create(passport);
             _personDao.Create(person);

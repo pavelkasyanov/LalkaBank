@@ -12,30 +12,30 @@ namespace DAO
     using System;
     using System.Collections.Generic;
     
-    public partial class PersonSet
+    public partial class Person
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PersonSet()
+        public Person()
         {
-            this.CreditSets = new HashSet<CreditSet>();
-            this.MessageSets = new HashSet<MessageSet>();
-            this.RequestSets = new HashSet<RequestSet>();
+            this.Credits = new HashSet<Credit>();
+            this.Messages = new HashSet<Message>();
+            this.Requests = new HashSet<Request>();
         }
     
-        public System.Guid PersonId { get; set; }
+        public System.Guid Id { get; set; }
         public string Login { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string SecondName { get; set; }
         public Nullable<System.DateTime> DateBirth { get; set; }
-        public System.Guid Passport_PassportId { get; set; }
+        public System.Guid PassportId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CreditSet> CreditSets { get; set; }
+        public virtual ICollection<Credit> Credits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MessageSet> MessageSets { get; set; }
-        public virtual PassportSet PassportSet { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
+        public virtual Passport Passports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RequestSet> RequestSets { get; set; }
+        public virtual ICollection<Request> Requests { get; set; }
     }
 }

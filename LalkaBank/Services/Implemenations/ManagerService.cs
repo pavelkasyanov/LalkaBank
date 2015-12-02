@@ -19,12 +19,12 @@ namespace Services.Implemenations
             _managerDao = managerDao;
         }
 
-        public void Create(ManagerSet manager)
+        public void Create(Manager manager)
         {
             _managerDao.Create(manager);
         }
 
-        public ManagerSet Get(Guid id)
+        public Manager Get(Guid id)
         {
             return _managerDao.Get(id);
         }
@@ -34,7 +34,7 @@ namespace Services.Implemenations
             _managerDao.Delete(id);
         }
 
-        public List<ManagerSet> GetList()
+        public List<Manager> GetList()
         {
             return _managerDao.GetList();
         }

@@ -25,16 +25,16 @@ namespace DAO
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<BankBookSet> BankBookSets { get; set; }
-        public virtual DbSet<CreditSet> CreditSets { get; set; }
-        public virtual DbSet<CreditTypesSet> CreditTypesSets { get; set; }
-        public virtual DbSet<DebtsSet> DebtsSets { get; set; }
-        public virtual DbSet<ManagerSet> ManagerSets { get; set; }
-        public virtual DbSet<MessageSet> MessageSets { get; set; }
-        public virtual DbSet<PassportSet> PassportSets { get; set; }
-        public virtual DbSet<PaymentsSet> PaymentsSets { get; set; }
-        public virtual DbSet<PersonSet> PersonSets { get; set; }
-        public virtual DbSet<RequestSet> RequestSets { get; set; }
+        public virtual DbSet<BankBook> BankBooks { get; set; }
+        public virtual DbSet<Credit> Credits { get; set; }
+        public virtual DbSet<CreditType> CreditTypes { get; set; }
+        public virtual DbSet<Debts> Debts { get; set; }
+        public virtual DbSet<Manager> Managers { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<Passport> Passports { get; set; }
+        public virtual DbSet<Payments> Payments { get; set; }
+        public virtual DbSet<Person> Persons { get; set; }
+        public virtual DbSet<Request> Requests { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

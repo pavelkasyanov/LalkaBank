@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using System.Web.UI.WebControls;
 
-namespace WebApp.Models.Domains
+namespace WebApp.Models.Domains.Users
 {
     public class UserInfoViewModel
     {
@@ -17,47 +13,47 @@ namespace WebApp.Models.Domains
         [Required]
         [DataType(DataType.Text)]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [Display(Name = "Name")]
+        [Display(Name = "Имя")]
         public string Name { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [Display(Name = "Last Name")]
+        [Display(Name = "Отчество")]
         public string LastName { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [Display(Name = "Second Name")]
+        [Display(Name = "Фамилия")]
         public string SecondName { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
-        [Display(Name = "DateBirth")]
+        [Display(Name = "Дата рождения")]
         public DateTime DateBirth { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [Display(Name = "Passport Number")]
+        [Display(Name = "Номер паспорта")]
         public string Number { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [Display(Name = "RUVD")]
+        [Display(Name = "Кем выдан")]
         public string RUVD { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [Display(Name = "Adress")]
+        [Display(Name = "Место прописки")]
         public string Adress { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
-        [Display(Name = "Validity")]
+        [Display(Name = "Срок действия до")]
         public System.DateTime Validity { get; set; }
     }
 }

@@ -12,26 +12,24 @@ namespace DAO
     using System;
     using System.Collections.Generic;
     
-    public partial class ManagerSet
+    public partial class CreditType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ManagerSet()
+        public CreditType()
         {
-            this.CreditSets = new HashSet<CreditSet>();
-            this.MessageSets = new HashSet<MessageSet>();
-            this.RequestSets = new HashSet<RequestSet>();
+            this.Credits = new HashSet<Credit>();
+            this.Requests = new HashSet<Request>();
         }
     
-        public System.Guid ManagerId { get; set; }
-        public string Login { get; set; }
-        public string Position { get; set; }
-        public string Name { get; set; }
+        public System.Guid Id { get; set; }
+        public double Percent { get; set; }
+        public double StartSumPercent { get; set; }
+        public short PayCount { get; set; }
+        public string Info { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CreditSet> CreditSets { get; set; }
+        public virtual ICollection<Credit> Credits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MessageSet> MessageSets { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RequestSet> RequestSets { get; set; }
+        public virtual ICollection<Request> Requests { get; set; }
     }
 }

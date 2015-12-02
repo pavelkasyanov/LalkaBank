@@ -19,12 +19,12 @@ namespace Services.Implemenations
             _creditTypesDao = creditTypesDao;
         }
 
-        public void Create(CreditTypesSet creditTypes)
+        public void Create(CreditType creditTypes)
         {
             _creditTypesDao.Create(creditTypes);
         }
 
-        public CreditTypesSet Get(Guid id)
+        public CreditType Get(Guid id)
         {
             return _creditTypesDao.GetById(id);
         }
@@ -34,7 +34,7 @@ namespace Services.Implemenations
             _creditTypesDao.Delete(id);
         }
 
-        public List<CreditTypesSet> GetList()
+        public List<CreditType> GetList()
         {
             return _creditTypesDao.GetList();
         }

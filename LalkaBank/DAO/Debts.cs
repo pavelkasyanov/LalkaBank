@@ -12,18 +12,18 @@ namespace DAO
     using System;
     using System.Collections.Generic;
     
-    public partial class DebtsSet
+    public partial class Debts
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DebtsSet()
+        public Debts()
         {
-            this.CreditSets = new HashSet<CreditSet>();
+            this.Credits = new HashSet<Credit>();
         }
     
-        public System.Guid DebtsId { get; set; }
+        public System.Guid Id { get; set; }
         public short Debt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CreditSet> CreditSets { get; set; }
+        public virtual ICollection<Credit> Credits { get; set; }
     }
 }

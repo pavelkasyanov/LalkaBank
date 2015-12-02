@@ -6,12 +6,12 @@ namespace Services.Interfaces
 {
     public interface IPaymentService
     {
-        void Create(PaymentsSet payment);
+        void Create(Payments payment);
 
-        PaymentsSet Get(Guid id);
+        Payments Get(Guid id);
 
         void Delete(Guid id);
 
-        List<PaymentsSet> GetList();
+        List<Payments> GetList();
     }
 }

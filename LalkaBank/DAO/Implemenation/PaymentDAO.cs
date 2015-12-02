@@ -10,15 +10,15 @@ namespace DAO.Implemenation
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
-        public void Create(PaymentsSet payment)
+        public void Create(Payments payment)
         {
-            _db.PaymentsSets.Add(payment);
+            _db.Payments.Add(payment);
             _db.SaveChanges();
         }
 
-        public PaymentsSet Get(Guid id)
+        public Payments Get(Guid id)
         {
-            var payment = _db.PaymentsSets.Find(id);
+            var payment = _db.Payments.Find(id);
             if (payment == null) { throw new Exception("not found"); }
 
             return payment;
@@ -26,16 +26,16 @@ namespace DAO.Implemenation
 
         public void Delete(Guid id)
         {
-            var payment = _db.PaymentsSets.Find(id);
+            var payment = _db.Payments.Find(id);
             if (payment == null) { throw new Exception("not found"); }
 
-            _db.PaymentsSets.Remove(payment);
+            _db.Payments.Remove(payment);
             _db.SaveChanges();
         }
 
-        public List<PaymentsSet> GetList()
+        public List<Payments> GetList()
         {
-            return _db.PaymentsSets.ToList();
+            return _db.Payments.ToList();
         }
     }
 }

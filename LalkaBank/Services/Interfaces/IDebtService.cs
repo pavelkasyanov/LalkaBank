@@ -6,13 +6,13 @@ namespace Services.Interfaces
 {
     public interface IDebtService
     {
-        void Create(DebtsSet debts);
+        void Create(Debts debts);
 
 
-        DebtsSet Get(Guid id);
+        Debts Get(Guid id);
 
         void Delete(Guid id);
 
-        List<DebtsSet> GetList();
+        List<Debts> GetList();
     }
 }

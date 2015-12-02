@@ -20,12 +20,12 @@ namespace Services.Implemenations
             _passportDao = passportDao;
         }
 
-        public void Create(PassportSet passport)
+        public void Create(Passport passport)
         {
             _passportDao.Create(passport);
         }
 
-        public PassportSet Get(Guid id)
+        public Passport Get(Guid id)
         {
             return _passportDao.Get(id);
         }
@@ -35,7 +35,7 @@ namespace Services.Implemenations
             _passportDao.Delete(id);
         }
 
-        public List<PassportSet> GetList()
+        public List<Passport> GetList()
         {
             return _passportDao.GetList();
         }

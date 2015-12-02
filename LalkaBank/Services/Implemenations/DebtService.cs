@@ -20,12 +20,12 @@ namespace Services.Implemenations
             _debtDao = debtDao;
         }
 
-        public void Create(DebtsSet debt)
+        public void Create(Debts debt)
         {
             _debtDao.Create(debt);
         }
 
-        public DebtsSet Get(Guid id)
+        public Debts Get(Guid id)
         {
             return _debtDao.Get(id);
         }
@@ -35,7 +35,7 @@ namespace Services.Implemenations
             _debtDao.Delete(id);
         }
 
-        public List<DebtsSet> GetList()
+        public List<Debts> GetList()
         {
             return _debtDao.GetList();
         }

@@ -42,19 +42,24 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.nupkg
-LalkaBank/packages/*
-LalkaBank/WebApp/bin/*
-LalkaBank/WebApp/obj/*
-LalkaBank/WebApp/App_Data/*
+LalkaBank/packages/
+LalkaBank/WebApp/bin/
+LalkaBank/WebApp/obj/
+LalkaBank/WebApp/App_Data/
 #===========
-LalkaBank/Services/bin/*
-LalkaBank/Services/obj/*
-LalkaBank/DAO/bin/*
+LalkaBank/Services/bin/
+LalkaBank/Services/obj/
+LalkaBank/DAO/bin/
 #=======
-LalkaBank/DAO/bin/*
-LalkaBank/DAO/obj/*
+LalkaBank/DAO/bin/
+LalkaBank/DAO/obj/
 
 *.dll
+*.dll
+LalkaBank/DAO/obj/Debug/TempPE/LalkaBankDabaseModel.cs.dll
+*.dll
+*.dll
+LalkaBank/DAO/obj/Debug/TempPE/LalkaBankDabaseModel.Designer.cs.dll
 *.dll
 LalkaBank/DAO/obj/Debug/TempPE/LalkaBankDabaseModel.cs.dll
 *.dll

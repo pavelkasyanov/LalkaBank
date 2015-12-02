@@ -11,15 +11,15 @@ namespace DAO.Implemenation
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
-        public void Create(PassportSet passport)
+        public void Create(Passport passport)
         {
-            _db.PassportSets.AddOrUpdate(passport);
+            _db.Passports.AddOrUpdate(passport);
             _db.SaveChanges();
         }
 
-        public PassportSet Get(Guid id)
+        public Passport Get(Guid id)
         {
-            var passport = _db.PassportSets.Find(id);
+            var passport = _db.Passports.Find(id);
             if (passport == null) { throw new Exception("not found"); }
 
             return passport;
@@ -27,16 +27,16 @@ namespace DAO.Implemenation
 
         public void Delete(Guid id)
         {
-            var passport = _db.PassportSets.Find(id);
+            var passport = _db.Passports.Find(id);
             if (passport == null) { throw new Exception("not found"); }
 
-            _db.PassportSets.Remove(passport);
+            _db.Passports.Remove(passport);
             _db.SaveChanges();
         }
 
-        public List<PassportSet> GetList()
+        public List<Passport> GetList()
         {
-            return _db.PassportSets.ToList();
+            return _db.Passports.ToList();
         }
     }
 }

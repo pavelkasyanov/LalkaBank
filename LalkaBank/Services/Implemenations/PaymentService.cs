@@ -20,12 +20,12 @@ namespace Services.Implemenations
             _paymentDao = paymentDao;
         }
 
-        public void Create(PaymentsSet payment)
+        public void Create(Payments payment)
         {
             _paymentDao.Create(payment);
         }
 
-        public PaymentsSet Get(Guid id)
+        public Payments Get(Guid id)
         {
             return _paymentDao.Get(id);
         }
@@ -35,7 +35,7 @@ namespace Services.Implemenations
             _paymentDao.Delete(id);
         }
 
-        public List<PaymentsSet> GetList()
+        public List<Payments> GetList()
         {
             return _paymentDao.GetList();
         }

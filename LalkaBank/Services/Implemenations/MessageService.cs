@@ -20,12 +20,12 @@ namespace Services.Implemenations
             _messageDao = messageDao;
         }
 
-        public void Create(MessageSet message)
+        public void Create(Message message)
         {
             _messageDao.Create(message);
         }
 
-        public MessageSet Get(Guid id)
+        public Message Get(Guid id)
         {
             return _messageDao.Get(id);
         }
@@ -35,7 +35,7 @@ namespace Services.Implemenations
             _messageDao.Delete(id);
         }
 
-        public List<MessageSet> GetList()
+        public List<Message> GetList()
         {
             return _messageDao.GetList();
         }

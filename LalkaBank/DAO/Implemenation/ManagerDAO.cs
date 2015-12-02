@@ -10,15 +10,15 @@ namespace DAO.Implemenation
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
-        public void Create(ManagerSet manager)
+        public void Create(Manager manager)
         {
-            _db.ManagerSets.Add(manager);
+            _db.Managers.Add(manager);
             _db.SaveChanges();
         }
 
-        public ManagerSet Get(Guid id)
+        public Manager Get(Guid id)
         {
-            var manager = _db.ManagerSets.Find(id);
+            var manager = _db.Managers.Find(id);
             if (manager != null) { return manager; }
 
             throw new Exception("not found");
@@ -26,16 +26,16 @@ namespace DAO.Implemenation
 
         public void Delete(Guid id)
         {
-            var manager = _db.ManagerSets.Find(id);
+            var manager = _db.Managers.Find(id);
             if (manager == null) { throw new Exception("not found"); }
             
-            _db.ManagerSets.Remove(manager);
+            _db.Managers.Remove(manager);
             _db.SaveChanges();
         }
 
-        public List<ManagerSet> GetList()
+        public List<Manager> GetList()
         {
-            return _db.ManagerSets.ToList();
+            return _db.Managers.ToList();
         }
     }
 }

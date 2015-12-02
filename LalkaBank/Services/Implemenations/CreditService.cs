@@ -19,13 +19,13 @@ namespace Services.Implemenations
             _creditDao = creditDao;
         }
 
-        public void Create(DAO.CreditSet credit)
+        public void Create(DAO.Credit credit)
         {
             _creditDao.Create(credit);
 
         }
 
-        public DAO.CreditSet Get(Guid id)
+        public DAO.Credit Get(Guid id)
         {
 
             return _creditDao.Get(id);
@@ -36,7 +36,7 @@ namespace Services.Implemenations
             _creditDao.Delete(id);
         }
 
-        public List<DAO.CreditSet> GetList()
+        public List<DAO.Credit> GetList()
         {
             return _creditDao.GetList();
         }

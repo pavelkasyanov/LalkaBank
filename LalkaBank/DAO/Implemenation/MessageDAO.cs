@@ -10,15 +10,15 @@ namespace DAO.Implemenation
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
-        public void Create(MessageSet message)
+        public void Create(Message message)
         {
-            _db.MessageSets.Add(message);
+            _db.Messages.Add(message);
             _db.SaveChanges();
         }
 
-        public MessageSet Get(Guid id)
+        public Message Get(Guid id)
         {
-            var message = _db.MessageSets.Find(id);
+            var message = _db.Messages.Find(id);
             if (message == null) { throw new Exception("not found"); }
 
             return message;
@@ -26,16 +26,16 @@ namespace DAO.Implemenation
 
         public void Delete(Guid id)
         {
-            var message = _db.MessageSets.Find(id);
+            var message = _db.Messages.Find(id);
             if (message == null) { throw new Exception("not found"); }
             
-            _db.MessageSets.Remove(message);
+            _db.Messages.Remove(message);
             _db.SaveChanges();
         }
 
-        public List<MessageSet> GetList()
+        public List<Message> GetList()
         {
-            return _db.MessageSets.ToList();
+            return _db.Messages.ToList();
         }
     }
 }

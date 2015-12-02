@@ -12,16 +12,16 @@ namespace DAO
     using System;
     using System.Collections.Generic;
     
-    public partial class CreditSet
+    public partial class Credit
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CreditSet()
+        public Credit()
         {
-            this.BankBookSets = new HashSet<BankBookSet>();
-            this.PaymentsSets = new HashSet<PaymentsSet>();
+            this.BankBooks = new HashSet<BankBook>();
+            this.Payments = new HashSet<Payments>();
         }
     
-        public System.Guid CreditId { get; set; }
+        public System.Guid Id { get; set; }
         public System.DateTime DateStart { get; set; }
         public System.DateTime DateEnd { get; set; }
         public double Percent { get; set; }
@@ -31,18 +31,18 @@ namespace DAO
         public string Status { get; set; }
         public double Penya { get; set; }
         public short PayMounth { get; set; }
-        public System.Guid PersonPersonId { get; set; }
-        public System.Guid ManagerManagerId { get; set; }
-        public System.Guid CreditTypes_CreditTypesId { get; set; }
-        public Nullable<System.Guid> Debts_DebtsId { get; set; }
+        public System.Guid PersonId { get; set; }
+        public System.Guid ManagerId { get; set; }
+        public System.Guid CreditTypeId { get; set; }
+        public Nullable<System.Guid> DebtsId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BankBookSet> BankBookSets { get; set; }
-        public virtual CreditTypesSet CreditTypesSet { get; set; }
-        public virtual DebtsSet DebtsSet { get; set; }
-        public virtual ManagerSet ManagerSet { get; set; }
+        public virtual ICollection<BankBook> BankBooks { get; set; }
+        public virtual CreditType CreditTypes { get; set; }
+        public virtual Debts Debts { get; set; }
+        public virtual Manager Managers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PaymentsSet> PaymentsSets { get; set; }
-        public virtual PersonSet PersonSet { get; set; }
+        public virtual ICollection<Payments> Payments { get; set; }
+        public virtual Person Persons { get; set; }
     }
 }

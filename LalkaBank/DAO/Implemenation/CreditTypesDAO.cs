@@ -10,15 +10,15 @@ namespace DAO.Implemenation
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
-        public void Create(CreditTypesSet creditType)
+        public void Create(CreditType creditType)
         {
-            _db.CreditTypesSets.Add(creditType);
+            _db.CreditTypes.Add(creditType);
             _db.SaveChanges();
         }
 
-        public CreditTypesSet GetById(Guid id)
+        public CreditType GetById(Guid id)
         {
-            var creditType = _db.CreditTypesSets.Find(id);
+            var creditType = _db.CreditTypes.Find(id);
             if (creditType == null)
                 throw new Exception("not found");
             else
@@ -27,20 +27,20 @@ namespace DAO.Implemenation
 
         public void Delete(Guid id)
         {
-            var creditType = _db.CreditTypesSets.Find(id);
+            var creditType = _db.CreditTypes.Find(id);
             if (creditType == null)
                 throw new Exception("not found");
             else
             {
-                _db.CreditTypesSets.Remove(creditType);
+                _db.CreditTypes.Remove(creditType);
                 _db.SaveChanges();
             }
 
         }
 
-        public List<CreditTypesSet> GetList()
+        public List<CreditType> GetList()
         {
-            return _db.CreditTypesSets.ToList();
+            return _db.CreditTypes.ToList();
         }
     }
 }

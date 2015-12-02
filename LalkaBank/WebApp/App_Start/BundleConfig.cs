@@ -27,14 +27,17 @@ namespace WebApp
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/css/bootstrap.css",
-                      "~/Content/css/site.css",
-                      "~/Content/css/style.css"));
+                      "~/Content/bootstrap.css",
+                      "~/Content/jquery-ui.css",
+                      "~/Content/jquery-ui.structure.css",
+                      "~/Content/jquery-ui.theme.css",
+                      "~/Content/Site.css",
+                      "~/Content/style.css",
+                      "~/Content/theme.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                       "~/Content/themes/base/core.css",
                       "~/Content/themes/base/autocomplete.css",
-                      "~/Content/themes/base/theme.css",
                       "~/Content/themes/base/datepicker.css"));
         }
     }
