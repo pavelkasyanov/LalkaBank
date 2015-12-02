@@ -24,7 +24,7 @@ namespace Services.Implemenations
 
         public void Create(Person person)
         {
-            _personDao.Create(person);
+            _personDao.CreateOrUpdate(person);
 
         }
 
@@ -54,7 +54,7 @@ namespace Services.Implemenations
                 var pass = _passportDao.Get(pers.PassportId);
 
                 passport.Id = pass.Id;
-                _passportDao.Create(passport);
+                _passportDao.CreateOrUpdate(passport);
 
                 return true;
             }
@@ -62,8 +62,8 @@ namespace Services.Implemenations
             passport.Id = Guid.NewGuid();
             person.PassportId = passport.Id;
 
-            _passportDao.Create(passport);
-            _personDao.Create(person);
+            _passportDao.CreateOrUpdate(passport);
+            _personDao.CreateOrUpdate(person);
 
             return true;
         }

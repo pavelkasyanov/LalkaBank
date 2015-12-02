@@ -22,7 +22,7 @@ namespace Services.Implemenations
 
         public void Create(Debts debt)
         {
-            _debtDao.Create(debt);
+            _debtDao.CreateOrUpdate(debt);
         }
 
         public Debts Get(Guid id)

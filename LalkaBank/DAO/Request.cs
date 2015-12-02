@@ -17,7 +17,7 @@ namespace DAO
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Request()
         {
-            this.Confirm = false;
+            this.Messages = new HashSet<Message>();
         }
     
         public System.Guid Id { get; set; }
@@ -27,13 +27,13 @@ namespace DAO
         public System.Guid PersonId { get; set; }
         public Nullable<System.Guid> ManagerId { get; set; }
         public System.Guid CreditTypeId { get; set; }
-        public bool Confirm { get; set; }
-        public string Number { get; set; }
-        public System.Guid MessageId { get; set; }
+        public int Confirm { get; set; }
+        public int Number { get; set; }
     
         public virtual Manager Managers { get; set; }
         public virtual Person Persons { get; set; }
         public virtual CreditType CreditTypes { get; set; }
-        public virtual Message Messages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }

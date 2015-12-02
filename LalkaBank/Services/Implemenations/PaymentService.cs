@@ -22,7 +22,7 @@ namespace Services.Implemenations
 
         public void Create(Payments payment)
         {
-            _paymentDao.Create(payment);
+            _paymentDao.CreateOrUpdate(payment);
         }
 
         public Payments Get(Guid id)

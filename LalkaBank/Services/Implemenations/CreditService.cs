@@ -21,7 +21,7 @@ namespace Services.Implemenations
 
         public void Create(DAO.Credit credit)
         {
-            _creditDao.Create(credit);
+            _creditDao.CreateOrUpdate(credit);
 
         }
 

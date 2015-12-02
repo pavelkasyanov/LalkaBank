@@ -14,21 +14,14 @@ namespace DAO
     
     public partial class Message
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Message()
-        {
-            this.Requests = new HashSet<Request>();
-        }
-    
         public System.Guid Id { get; set; }
         public string Text { get; set; }
         public System.Guid PersonId { get; set; }
         public System.Guid ManagerId { get; set; }
-        public Nullable<System.Guid> RequestId { get; set; }
+        public System.Guid RequestId { get; set; }
     
         public virtual Manager Manager { get; set; }
         public virtual Person Persons { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Request> Requests { get; set; }
+        public virtual Request Request { get; set; }
     }
 }

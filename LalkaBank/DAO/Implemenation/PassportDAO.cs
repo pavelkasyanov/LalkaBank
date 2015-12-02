@@ -11,7 +11,7 @@ namespace DAO.Implemenation
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
-        public void Create(Passport passport)
+        public void CreateOrUpdate(Passport passport)
         {
             _db.Passports.AddOrUpdate(passport);
             _db.SaveChanges();

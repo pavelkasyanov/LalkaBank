@@ -6,7 +6,7 @@ namespace DAO.Interafaces
     // ReSharper disable once InconsistentNaming
     public interface IPaymentDAO
     {
-        void Create(Payments payment);
+        void CreateOrUpdate(Payments payment);
 
         Payments Get(Guid id);
 

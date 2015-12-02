@@ -21,7 +21,7 @@ namespace Services.Implemenations
 
         public void Create(Manager manager)
         {
-            _managerDao.Create(manager);
+            _managerDao.CreateOrUpdate(manager);
         }
 
         public Manager Get(Guid id)

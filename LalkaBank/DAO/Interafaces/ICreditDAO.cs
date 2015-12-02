@@ -6,7 +6,7 @@ namespace DAO.Interafaces
     // ReSharper disable once InconsistentNaming
     public interface ICreditDAO
     {
-        void Create(Credit credit);
+        void CreateOrUpdate(Credit credit);
 
         Credit Get(Guid id);
 

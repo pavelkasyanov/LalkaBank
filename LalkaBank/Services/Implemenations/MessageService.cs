@@ -22,7 +22,7 @@ namespace Services.Implemenations
 
         public void Create(Message message)
         {
-            _messageDao.Create(message);
+            _messageDao.CreateOrUpdate(message);
         }
 
         public Message Get(Guid id)

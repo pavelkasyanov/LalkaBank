@@ -17,5 +17,9 @@ namespace Services.Interfaces
         List<Request> GetListByPersonId(Guid personId);
 
         List<CreditType> GetCreditTypes();
+
+        bool ConfirmRequest(Guid requestId, string msg);
+
+        bool DiscartRequest(Guid requestId, string msg);
     }
 }

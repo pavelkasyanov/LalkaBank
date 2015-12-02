@@ -22,7 +22,7 @@ namespace Services.Implemenations
 
         public void Create(BankBook book)
         {
-            _bankBookDao.Create(book);
+            _bankBookDao.CreateOrUpdate(book);
 
         }
 

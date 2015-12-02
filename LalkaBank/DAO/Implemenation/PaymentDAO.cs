@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using DAO.Interafaces;
 
@@ -10,9 +11,9 @@ namespace DAO.Implemenation
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
-        public void Create(Payments payment)
+        public void CreateOrUpdate(Payments payment)
         {
-            _db.Payments.Add(payment);
+            _db.Payments.AddOrUpdate(payment);
             _db.SaveChanges();
         }
 

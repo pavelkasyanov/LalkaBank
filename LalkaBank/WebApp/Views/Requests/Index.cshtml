@@ -1,4 +1,5 @@
 ﻿@model WebApp.Models.Domains.Requests.RequestsViewModel
+@using Microsoft.Ajax.Utilities
 @using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "requests";
@@ -12,6 +13,12 @@
     <div class="lb-main">
         <div class="lb-central_pos">
             <div class="lb-container">
+                @if (!string.IsNullOrEmpty(ViewBag.Result))
+                {
+                    <div class="row">
+                        <div class="span">ViewBag.Result.ToString()</div>
+                    </div>
+                }
                 @if (User.IsInRole("User"))
                 {
                     <div class="row">

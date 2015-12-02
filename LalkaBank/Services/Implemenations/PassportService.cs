@@ -22,7 +22,7 @@ namespace Services.Implemenations
 
         public void Create(Passport passport)
         {
-            _passportDao.Create(passport);
+            _passportDao.CreateOrUpdate(passport);
         }
 
         public Passport Get(Guid id)

@@ -11,9 +11,9 @@ namespace DAO.Implemenation
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
 
-        public void Create(Person person)
+        public void CreateOrUpdate(Person person)
         {
-            _db.Persons.Add(person);
+            _db.Persons.AddOrUpdate(person);
             _db.SaveChanges();
         }
 

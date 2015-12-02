@@ -17,6 +17,7 @@ namespace WebApp.Controllers
     {
         private readonly IRequestService _requestService;
         private readonly ICreditTypesService _creditTypesService;
+
         public RequestsController(IRequestService requestService, 
             ICreditTypesService creditTypesService)
         {
@@ -83,6 +84,7 @@ namespace WebApp.Controllers
 
             var model = new RequestViewModel
             {
+                RequestId = request.Id,
                 CreditInfo = request.CreditInfo,
                 CreditType = new CreditTypeViewModel()
                 {
@@ -102,16 +104,16 @@ namespace WebApp.Controllers
         [HttpPost]
         public ActionResult ConfirmRequest(Guid id)
         {
-            var result = true;
-            return Json(result, JsonRequestBehavior.AllowGet);
+            ViewBag.Result = "Confirm suc!";
+            return RedirectToAction("Index");
         }
 
         //Отказать заявку
         [HttpPost]
         public ActionResult DiscartRequest(Guid id)
         {
-            var result = true;
-            return Json(result, JsonRequestBehavior.AllowGet);
+            ViewBag.Result = "Discart suc!";
+            return Index();
         }
 
         private IEnumerable<SelectListItem> GetCreditTypes()

@@ -21,7 +21,7 @@ namespace Services.Implemenations
 
         public void Create(CreditType creditTypes)
         {
-            _creditTypesDao.Create(creditTypes);
+            _creditTypesDao.CreateOrUpdate(creditTypes);
         }
 
         public CreditType Get(Guid id)
