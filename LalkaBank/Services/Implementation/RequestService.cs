@@ -62,6 +62,8 @@ namespace Services.Implemenations
             //create message
             var request = _requestDao.Get(requestId);
             request.Confirm = 1;
+            request.ManagerId = managerId;
+
             _requestDao.CreateOrUpdate(request);
 
             var message = new Message

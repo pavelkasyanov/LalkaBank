@@ -8,32 +8,26 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
-                @*@Html.Partial("_LoginPartial")*@
     <h1 class="lb-center">
         <p class="lb-main_text">Lalka Bank</p>
     </h1>
     <div class="lb-main">
-
-        <div class="lb-container" id="lb-area">
-            @if (Request.IsAuthenticated)
-            {
+        @if (Request.IsAuthenticated)
+        {
+            <div class="lb-container" id="lb-area">
                 <b>@User.Identity.Name</b>
-            }
-
-            <h2>@ViewBag.Title</h2>
-            <b><a class="lb-area" href="@Url.Action("Index", "Home")">Moя страница</a></b>
-            <b><a class="lb-area" href="">Кредиты</a></b>
-            <b><a class="lb-area" href="@Url.Action("Index", "Requests")">Заявки</a></b>
-            <b><a class="lb-area" href="@Url.Action("Index", "Messages")">Сообщения</a></b>
-            <b>@Html.Partial("_LoginPartial")</b>
-        </div>
+                <b><a class="lb-area" href="@Url.Action("Index", "Home")">Moя страница</a></b>
+                <b><a class="lb-area" href="">Кредиты</a></b>
+                <b><a class="lb-area" href="@Url.Action("Index", "Requests")">Заявки</a></b>
+                <b><a class="lb-area" href="@Url.Action("Index", "Messages")">Сообщения</a></b>
+                <b>@Html.Partial("_LoginPartial")</b>
+            </div>
+        }
         <div class="row">
             <div class="row">
                 <h1 class="lb-center">
-                    <h2>@ViewBag.Title</h2>
                 </h1>
                 <div class="lb-main">
                     <div class="lb-central_pos">

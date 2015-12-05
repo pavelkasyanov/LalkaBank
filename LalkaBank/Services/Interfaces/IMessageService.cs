@@ -15,5 +15,7 @@ namespace Services.Interfaces
         List<Message> GetList();
 
         List<Message> GetFromUser(Guid userId);
+
+        List<Message> GetFromManager(Guid managerId);
     }
 }

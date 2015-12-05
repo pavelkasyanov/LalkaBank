@@ -55,21 +55,30 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(CreateRequestViewModel model)
+        public ActionResult Create(CreateRequestViewModel viewModel)
         {
-            model.CreditTypes = GetCreditTypes();
+            viewModel.CreditTypes = GetCreditTypes();
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View(viewModel);
             }
 
+            byte[] incomeImage = null;
+            if (viewModel.IncomeImage != null)
+            {
+                var fileLen = viewModel.IncomeImage.ContentLength;
+                incomeImage = new byte[fileLen];
+                viewModel.IncomeImage.InputStream.Read(incomeImage, 0, fileLen);
+            }
 
             var request = new Request
             {
-                CreditTypeId = model.CreditTypeId,
-                CreditInfo = model.CreditInfo,
-                PersonId = Guid.Parse(User.Identity.GetUserId())
+                CreditTypeId = viewModel.CreditTypeId,
+                CreditInfo = viewModel.CreditInfo,
+                PersonId = Guid.Parse(User.Identity.GetUserId()),
+                IncomeImage = incomeImage,
+                StartSum = viewModel.StartSum
             };
 
             _requestService.Create(request);
@@ -77,7 +86,7 @@ namespace WebApp.Controllers
             ViewBag.Result = true;
             ViewBag.ResultMsg = "Done";
 
-            return View(model);
+            return View(viewModel);
         }
 
         public ActionResult Show(Guid id)
@@ -96,7 +105,7 @@ namespace WebApp.Controllers
             var msg = "Confirm suc!";
             _requestService.ConfirmRequest(id, Guid.Parse(User.Identity.GetUserId()), msg);
 
-            return RedirectToAction("Show", GetRequestViewModel(id));
+            return RedirectToAction("Create", "Credits", new {requestId = id});
         }
 
         //Отказать заявку
@@ -108,7 +117,7 @@ namespace WebApp.Controllers
             var msg = "Discart suc!";
             _requestService.DiscartRequest(id, Guid.Parse(User.Identity.GetUserId()), msg);
 
-            return RedirectToAction("Show", GetRequestViewModel(id));
+            return RedirectToAction("Show", id);
         }
 
         private IEnumerable<SelectListItem> GetCreditTypes()
@@ -127,6 +136,8 @@ namespace WebApp.Controllers
             {
                 RequestId = request.Id,
                 CreditInfo = request.CreditInfo,
+                Confirm = request.Confirm,
+                Number = request.Number,
                 CreditType = new CreditTypeViewModel()
                 {
                     CreditTypesId = creaditType.Id,

@@ -10,26 +10,42 @@
     </div>
 </div>
 <div class="row">
-    @Html.LabelFor(m => m.CreditInfo)
+    @Html.LabelFor(m => m.CreditType)
     <div class="panel-info">
-        @Model.CreditInfo
+        @Model.CreditType.Info
     </div>
 </div>
 <div class="row">
-    @using (Html.BeginForm("ConfirmRequest", "Requests", FormMethod.Post,
-                  new { id = Model.RequestId }))
-    {
-        @Html.AntiForgeryToken()
-        <input type="hidden" name="id" value="@Model.RequestId"/>
-        <button type="submit">Confirm</button>
-    }
+    @Html.LabelFor(m => m.DateStart)
+    <div class="panel-info">
+        @Model.DateStart
+    </div>
 </div>
 <div class="row">
-    @using (Html.BeginForm("DiscartRequest", "Requests", FormMethod.Post,
-                          new { id = Model.RequestId }))
-    {
-        @Html.AntiForgeryToken()
-        <button type="submit">Discart</button>
-    }
-
+    @Html.LabelFor(m => m.DateEnd)
+    <div class="panel-info">
+        @Model.DateEnd
+    </div>
 </div>
+@if (Model.Confirm == 0 && !User.IsInRole("User"))
+{
+    <div class="row">
+        @using (Html.BeginForm("ConfirmRequest", "Requests", FormMethod.Post,
+            new {id = Model.RequestId}))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.RequestId"/>
+            <button type="submit">Confirm</button>
+        }
+    </div>
+    <div class="row">
+        @using (Html.BeginForm("DiscartRequest", "Requests", FormMethod.Post,
+            new {id = Model.RequestId}))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.RequestId" />
+            <button type="submit">Discart</button>
+        }
+
+    </div>
+}

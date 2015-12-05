@@ -13,5 +13,7 @@ namespace Services.Interfaces
         void Delete(Guid id);
 
         List<Credit> GetList();
+
+        bool CreateCreditForRequest(Guid requestId);
     }
 }

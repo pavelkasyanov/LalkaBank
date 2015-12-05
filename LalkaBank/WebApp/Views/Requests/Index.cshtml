@@ -36,10 +36,10 @@
                         <td>@(requestCount++)</td>
                         <td>@request.Text</td>
                         <td>
-                            @*<a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Просмотреть</a>*@
-                            <button id="@request.Value" type="button" class="btn btn-primary btn-lg btn-modal">
+                            <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info" role="button">Просмотреть</a>
+                            @*<button id="@request.Value" type="button" class="btn btn-primary btn-lg btn-modal">
                                 Просмотреть
-                            </button>
+                            </button>*@
                         </td>
                     </tr>
                 }
@@ -57,7 +57,7 @@
     <script>
         jQuery(document).ready(function ($) {
 
-            $('.btn-modal').click(function () {
+            @*$('.btn-modal').click(function () {
                 var link = "@Url.Action("Show", "Requests", new { id ="-1" })";
                 link = link.replace("-1", this.id);
                 
@@ -82,7 +82,7 @@
 
                 $("#requestInfoModal").dialog('open');
                 return false;
-            });
+            });*@
         });
     </script>
 }

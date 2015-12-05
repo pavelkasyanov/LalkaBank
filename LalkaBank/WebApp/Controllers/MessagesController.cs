@@ -23,7 +23,10 @@ namespace WebApp.Controllers
         // GET: Messages
         public ActionResult Index()
         {
-            var messages = _messageService.GetFromUser( Guid.Parse(User.Identity.GetUserId()) );
+            var messages = User.IsInRole("User")
+                ? _messageService.GetFromUser(Guid.Parse(User.Identity.GetUserId()))
+                : _messageService.GetFromManager(Guid.Parse(User.Identity.GetUserId()));
+
             var viewModel = new MessagesViewModel()
             {
                 Messages = messages.Select(msg => new MessageViewModel()

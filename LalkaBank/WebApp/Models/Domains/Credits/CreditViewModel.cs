@@ -27,15 +27,15 @@ namespace WebApp.Models.Domains.Credits
 
         [DataType(DataType.Text)]
         [DisplayName("StartSum")]
-        public short StartSum { get; set; }
+        public int StartSum { get; set; }
 
         [DataType(DataType.Text)]
         [DisplayName("AllSum")]
-        public short AllSum { get; set; }
+        public int AllSum { get; set; }
 
         [DataType(DataType.Text)]
         [DisplayName("PayCount")]
-        public short PayCount { get; set; }
+        public int PayCount { get; set; }
 
         [DataType(DataType.Text)]
         [DisplayName("Status")]

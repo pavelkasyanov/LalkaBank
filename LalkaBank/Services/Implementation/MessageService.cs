@@ -46,6 +46,11 @@ namespace Services.Implemenations
             return _messageDao.GetList().Where(msg => msg.PersonId == userId).ToList();
         }
 
+        public List<Message> GetFromManager(Guid managerId)
+        {
+            return _messageDao.GetList().Where(msg => msg.ManagerId == managerId).ToList();
+        }
+
         private readonly IMessageDAO _messageDao;
     }
 }

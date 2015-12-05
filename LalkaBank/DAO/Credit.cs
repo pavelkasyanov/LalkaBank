@@ -25,16 +25,17 @@ namespace DAO
         public System.DateTime DateStart { get; set; }
         public System.DateTime DateEnd { get; set; }
         public double Percent { get; set; }
-        public short StartSum { get; set; }
-        public short AllSum { get; set; }
-        public short PayCount { get; set; }
+        public int StartSum { get; set; }
+        public int AllSum { get; set; }
+        public int PayCount { get; set; }
         public string Status { get; set; }
         public double Penya { get; set; }
-        public short PayMounth { get; set; }
+        public int PayMounth { get; set; }
         public System.Guid PersonId { get; set; }
         public System.Guid ManagerId { get; set; }
         public System.Guid CreditTypeId { get; set; }
         public Nullable<System.Guid> DebtsId { get; set; }
+        public int Number { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BankBook> BankBooks { get; set; }

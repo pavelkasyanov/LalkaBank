@@ -86,16 +86,17 @@
     <Property Name="DateStart" Type="datetime" Nullable="false" />
     <Property Name="DateEnd" Type="datetime" Nullable="false" />
     <Property Name="Percent" Type="float" Nullable="false" />
-    <Property Name="StartSum" Type="smallint" Nullable="false" />
-    <Property Name="AllSum" Type="smallint" Nullable="false" />
-    <Property Name="PayCount" Type="smallint" Nullable="false" />
+    <Property Name="StartSum" Type="int" Nullable="false" />
+    <Property Name="AllSum" Type="int" Nullable="false" />
+    <Property Name="PayCount" Type="int" Nullable="false" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Penya" Type="float" Nullable="false" />
-    <Property Name="PayMounth" Type="smallint" Nullable="false" />
+    <Property Name="PayMounth" Type="int" Nullable="false" />
     <Property Name="PersonId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="ManagerId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="CreditTypeId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="DebtsId" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="CreditTypes">
     <Key>
@@ -176,7 +177,8 @@
     <Property Name="ManagerId" Type="uniqueidentifier" Nullable="true" />
     <Property Name="CreditTypeId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Confirm" Type="int" Nullable="false" />
-    <Property Name="Number" Type="int" Nullable="false" />
+    <Property Name="Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartSum" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -430,12 +432,12 @@
           <Property Name="DateStart" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateEnd" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Percent" Type="Double" Nullable="false" />
-          <Property Name="StartSum" Type="Int16" Nullable="false" />
-          <Property Name="AllSum" Type="Int16" Nullable="false" />
-          <Property Name="PayCount" Type="Int16" Nullable="false" />
+          <Property Name="StartSum" Type="Int32" Nullable="false" />
+          <Property Name="AllSum" Type="Int32" Nullable="false" />
+          <Property Name="PayCount" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Penya" Type="Double" Nullable="false" />
-          <Property Name="PayMounth" Type="Int16" Nullable="false" />
+          <Property Name="PayMounth" Type="Int32" Nullable="false" />
           <Property Name="PersonId" Type="Guid" Nullable="false" />
           <Property Name="ManagerId" Type="Guid" Nullable="false" />
           <Property Name="CreditTypeId" Type="Guid" Nullable="false" />
@@ -446,6 +448,7 @@
           <NavigationProperty Name="Managers" Relationship="LalkaBankDabaseModel.FK_ManagerCredit" FromRole="CreditSet" ToRole="ManagerSet" />
           <NavigationProperty Name="Payments" Relationship="LalkaBankDabaseModel.FK_PaymentsCredit" FromRole="Credit" ToRole="Payments" />
           <NavigationProperty Name="Persons" Relationship="LalkaBankDabaseModel.FK_PersonCredit" FromRole="CreditSet" ToRole="PersonSet" />
+          <Property Name="Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="CreditType">
           <Key>
@@ -544,8 +547,9 @@
           <NavigationProperty Name="CreditTypes" Relationship="LalkaBankDabaseModel.CreditTypesSetRequestSet" FromRole="RequestSet" ToRole="CreditTypesSet" />
           <Property Name="CreditTypeId" Type="Guid" Nullable="false" />
           <Property Name="Confirm" Type="Int32" Nullable="false" />
-          <Property Name="Number" Type="Int32" Nullable="false" ConcurrencyMode="None" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Number" Type="Int32" Nullable="false" ConcurrencyMode="None" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Messages" Relationship="LalkaBankDabaseModel.RequestMessage" FromRole="Request" ToRole="Message" />
+          <Property Name="StartSum" Nullable="false" Type="Int32" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -745,6 +749,7 @@
           <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
           <ScalarProperty Name="CreditTypeId" ColumnName="CreditTypeId" />
           <ScalarProperty Name="DebtsId" ColumnName="DebtsId" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -834,6 +839,7 @@
           <ScalarProperty Name="CreditTypeId" ColumnName="CreditTypeId" />
           <ScalarProperty Name="Confirm" ColumnName="Confirm" />
           <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="StartSum" ColumnName="StartSum" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -16,7 +16,11 @@ namespace WebApp.Models.Domains.Requests
 
         [DisplayName("Размер кредита")]
         [Required]
-        public short StartSum { get; set; }
+        public int StartSum { get; set; }
+
+        //[DataType(DataType.Upload)]
+        [DisplayName("IncomeImage")]
+        public HttpPostedFileBase IncomeImage { get; set; }
 
         [DisplayName("Дополнительная информация")]
         public string CreditInfo { get; set; }

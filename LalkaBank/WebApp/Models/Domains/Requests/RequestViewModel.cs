@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using WebApp.Models.Domains.Credits;
 using WebApp.Models.Domains.Users;
 
@@ -9,6 +10,7 @@ namespace WebApp.Models.Domains.Requests
     {
         public Guid RequestId { get; set; }
 
+        [Required]
         [DisplayName("Размер кредита")]
         public string CreditInfo { get; set; }
 
@@ -17,6 +19,17 @@ namespace WebApp.Models.Domains.Requests
 
         [DisplayName("IncomeImage")]
         public byte[] IncomeImage { get; set; }
+
+        [DataType(DataType.DateTime)]
+        [DisplayName("DateStart")]
+        public System.DateTime DateStart { get; set; }
+
+        [DataType(DataType.DateTime)]
+        [DisplayName(" DateEnd")]
+        public System.DateTime DateEnd { get; set; }
+
+        public int Confirm { get; set; }
+        public int Number { get; set; }
 
         public virtual CreditTypeViewModel CreditType { get; set; }
 

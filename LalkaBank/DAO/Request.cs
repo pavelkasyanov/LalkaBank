@@ -29,6 +29,7 @@ namespace DAO
         public System.Guid CreditTypeId { get; set; }
         public int Confirm { get; set; }
         public int Number { get; set; }
+        public int StartSum { get; set; }
     
         public virtual Manager Managers { get; set; }
         public virtual Person Persons { get; set; }
