@@ -1,15 +1,38 @@
-﻿
+﻿@model WebApp.Models.Domains.Messages.MessagesViewModel
 @{
-    ViewBag.Title = "Messages";
+    ViewBag.Title = "messages";
+    var requestCount = 1;
 }
 
-<div class="lb-container" id="lb-message_area">
-
-    <div class="lb-center">
-        <b><p class="x">Имя Сообщения</p></b>
-        <textarea type="text" class="lb-multi_text" id="lb-message_text">
-            письмо о том, какой ты лопух
-        </textarea>
+<div class="row">
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Info</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var message in Model.Messages)
+                    {
+                        <tr>
+                            <td>@(requestCount++)</td>
+                            <td>@message.Text</td>
+                            <td>
+                                <button id="@message.Id" type="button" class="btn btn-primary btn-lg btn-modal">
+                                    Просмотреть
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
+
 

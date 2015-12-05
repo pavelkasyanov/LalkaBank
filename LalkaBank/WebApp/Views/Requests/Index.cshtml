@@ -7,53 +7,44 @@
 }
 
 <div class="row">
-    <h1 class="lb-center">
-        <h2>@ViewBag.Title</h2>
-    </h1>
-    <div class="lb-main">
-        <div class="lb-central_pos">
-            <div class="lb-container">
-                @if (!string.IsNullOrEmpty(ViewBag.Result))
+    @if (!string.IsNullOrEmpty(ViewBag.Result))
+    {
+        <div class="row">
+            <div class="span">ViewBag.Result.ToString()</div>
+        </div>
+    }
+    @if (User.IsInRole("User"))
+    {
+        <div class="row">
+            <a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Create request</a>
+        </div>
+    }
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Info</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var request in Model.Requests)
                 {
-                    <div class="row">
-                        <div class="span">ViewBag.Result.ToString()</div>
-                    </div>
+                    <tr>
+                        <td>@(requestCount++)</td>
+                        <td>@request.Text</td>
+                        <td>
+                            @*<a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Просмотреть</a>*@
+                            <button id="@request.Value" type="button" class="btn btn-primary btn-lg btn-modal">
+                                Просмотреть
+                            </button>
+                        </td>
+                    </tr>
                 }
-                @if (User.IsInRole("User"))
-                {
-                    <div class="row">
-                        <a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Create request</a>
-                    </div>
-                }
-                <div class="row">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Info</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach (var request in Model.Requests)
-                            {
-                                <tr>
-                                    <td>@(requestCount++)</td>
-                                    <td>@request.Text</td>
-                                    <td>
-                                        @*<a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Просмотреть</a>*@
-                                        <button id="@request.Value" type="button" class="btn btn-primary btn-lg btn-modal">
-                                            Просмотреть
-                                        </button>
-                                    </td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

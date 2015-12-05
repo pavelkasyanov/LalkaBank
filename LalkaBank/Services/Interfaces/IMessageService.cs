@@ -13,5 +13,7 @@ namespace Services.Interfaces
         void Delete(Guid id);
 
         List<Message> GetList();
+
+        List<Message> GetFromUser(Guid userId);
     }
 }

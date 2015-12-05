@@ -1,6 +1,6 @@
 ﻿@model WebApp.Models.Domains.Requests.RequestViewModel
 @{
-    Layout = null;
+    ViewBag.Title = "request page";
 }
 
 <div class="row">
@@ -23,7 +23,6 @@
         <input type="hidden" name="id" value="@Model.RequestId"/>
         <button type="submit">Confirm</button>
     }
-    @*<a href="@Url.Action("ConfirmRequest", "Requests", new {id = Model.RequestId})">Confirm</a>*@
 </div>
 <div class="row">
     @using (Html.BeginForm("DiscartRequest", "Requests", FormMethod.Post,
@@ -32,5 +31,5 @@
         @Html.AntiForgeryToken()
         <button type="submit">Discart</button>
     }
-    @*<a href="@Url.Action("DiscartRequest", "Requests", Model.RequestId)">Discart</a>*@
+
 </div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DAO;
 using DAO.Implemenation;
 using DAO.Interafaces;
@@ -38,6 +39,11 @@ namespace Services.Implemenations
         public List<Message> GetList()
         {
             return _messageDao.GetList();
+        }
+
+        public List<Message> GetFromUser(Guid userId)
+        {
+            return _messageDao.GetList().Where(msg => msg.PersonId == userId).ToList();
         }
 
         private readonly IMessageDAO _messageDao;

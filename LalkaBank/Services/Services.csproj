@@ -40,16 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implemenations\BankBookService.cs" />
-    <Compile Include="Implemenations\CreditService.cs" />
-    <Compile Include="Implemenations\CreditTypesService.cs" />
-    <Compile Include="Implemenations\DebtService.cs" />
-    <Compile Include="Implemenations\ManagerService.cs" />
-    <Compile Include="Implemenations\MessageService.cs" />
-    <Compile Include="Implemenations\PassportService.cs" />
-    <Compile Include="Implemenations\PaymentService.cs" />
-    <Compile Include="Implemenations\PersonService.cs" />
-    <Compile Include="Implemenations\RequestService.cs" />
+    <Compile Include="Implementation\BankBookService.cs" />
+    <Compile Include="Implementation\CreditService.cs" />
+    <Compile Include="Implementation\CreditTypesService.cs" />
+    <Compile Include="Implementation\DebtService.cs" />
+    <Compile Include="Implementation\ManagerService.cs" />
+    <Compile Include="Implementation\MessageService.cs" />
+    <Compile Include="Implementation\PassportService.cs" />
+    <Compile Include="Implementation\PaymentService.cs" />
+    <Compile Include="Implementation\PersonService.cs" />
+    <Compile Include="Implementation\RequestService.cs" />
     <Compile Include="Interfaces\IBankBookService.cs" />
     <Compile Include="Interfaces\ICreditService.cs" />
     <Compile Include="Interfaces\ICreditTypesService.cs" />

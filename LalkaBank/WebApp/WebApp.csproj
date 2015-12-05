@@ -185,6 +185,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CreditsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManagersController.cs" />
@@ -196,6 +197,10 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Domains\Credits\CreditTypeViewModel.cs" />
+    <Compile Include="Models\Domains\Credits\CreditViewModel.cs" />
+    <Compile Include="Models\Domains\Managers\ManagerViewModel.cs" />
+    <Compile Include="Models\Domains\Messages\MessagesViewModel.cs" />
+    <Compile Include="Models\Domains\Messages\MessageViewModel.cs" />
     <Compile Include="Models\Domains\Requests\CreateRequestViewModel.cs" />
     <Compile Include="Models\Domains\Requests\RequestsViewModel.cs" />
     <Compile Include="Models\Domains\Requests\RequestViewModel.cs" />
@@ -314,6 +319,8 @@
     <Content Include="Views\Requests\Index.cshtml" />
     <Content Include="Views\Requests\Create.cshtml" />
     <Content Include="Views\Requests\Show.cshtml" />
+    <Content Include="Views\Credits\Index.cshtml" />
+    <Content Include="Views\Messages\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

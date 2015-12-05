@@ -57,8 +57,9 @@ namespace Services.Implemenations
             return _creditTypesDao.GetList();
         }
 
-        public bool ConfirmRequest(Guid requestId, string msg)
+        public bool ConfirmRequest(Guid requestId, Guid managerId, string msg)
         {
+            //create message
             var request = _requestDao.Get(requestId);
             request.Confirm = 1;
             _requestDao.CreateOrUpdate(request);
@@ -68,7 +69,9 @@ namespace Services.Implemenations
                 Id = Guid.NewGuid(),
                 PersonId = request.PersonId,
                 RequestId = requestId,
-                Text = msg
+                Text = msg,
+                ManagerId = managerId,
+                
             };
 
             _messageDao.CreateOrUpdate(message);
@@ -76,11 +79,27 @@ namespace Services.Implemenations
             return true;
         }
 
-        public bool DiscartRequest(Guid requestId, string msg)
+        public bool DiscartRequest(Guid requestId, Guid managerId, string msg)
         {
+            //create message
             var request = _requestDao.Get(requestId);
             request.Confirm = 2;
-            return false;
+
+            _requestDao.CreateOrUpdate(request);
+
+            var message = new Message
+            {
+                Id = Guid.NewGuid(),
+                PersonId = request.PersonId,
+                RequestId = requestId,
+                Text = msg,
+                ManagerId = managerId,
+
+            };
+
+            _messageDao.CreateOrUpdate(message);
+
+            return true;
         }
 
         private readonly IRequestDAO _requestDao;

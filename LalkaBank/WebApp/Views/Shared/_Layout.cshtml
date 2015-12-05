@@ -31,7 +31,18 @@
             <b>@Html.Partial("_LoginPartial")</b>
         </div>
         <div class="row">
-            @RenderBody()
+            <div class="row">
+                <h1 class="lb-center">
+                    <h2>@ViewBag.Title</h2>
+                </h1>
+                <div class="lb-main">
+                    <div class="lb-central_pos">
+                        <div class="lb-container">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
             <hr />
             <footer>
                 <p class="panel-footer" style="text-align: center;">
@@ -39,11 +50,11 @@
                 </p>
             </footer>
         </div>
-       </div>
+    </div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryui")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

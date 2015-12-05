@@ -18,8 +18,8 @@ namespace Services.Interfaces
 
         List<CreditType> GetCreditTypes();
 
-        bool ConfirmRequest(Guid requestId, string msg);
+        bool ConfirmRequest(Guid requestId, Guid managerId, string msg);
 
-        bool DiscartRequest(Guid requestId, string msg);
+        bool DiscartRequest(Guid requestId, Guid managerId, string msg);
     }
 }

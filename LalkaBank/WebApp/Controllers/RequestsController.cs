@@ -13,6 +13,7 @@ using WebApp.Models.Domains.Requests;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class RequestsController : Controller
     {
         private readonly IRequestService _requestService;
@@ -35,8 +36,10 @@ namespace WebApp.Controllers
             var model = new RequestsViewModel()
             {
                 Requests = list.Select(
-                request => new SelectListItem() { Text = request.CreditInfo, Value = request.Id.ToString() })
-                .ToList()
+                request => new SelectListItem()
+                {
+                    Text = request.CreditInfo, Value = request.Id.ToString()
+                }).ToList()
         };
 
             return View(model);
@@ -77,7 +80,45 @@ namespace WebApp.Controllers
             return View(model);
         }
 
-        public PartialViewResult Show(Guid id)
+        public ActionResult Show(Guid id)
+        {
+            var model = GetRequestViewModel(id);
+
+            return View(model);
+        }
+
+        //Подтвердить заявку
+        [Authorize(Roles = "Manager")]
+        [HttpPost]
+        public ActionResult ConfirmRequest(Guid id)
+        {
+            ViewBag.Result = "Confirm suc!";
+            var msg = "Confirm suc!";
+            _requestService.ConfirmRequest(id, Guid.Parse(User.Identity.GetUserId()), msg);
+
+            return RedirectToAction("Show", GetRequestViewModel(id));
+        }
+
+        //Отказать заявку
+        [Authorize(Roles = "Manager")]
+        public ActionResult DiscartRequest(Guid id)
+        {
+            ViewBag.Result = "Discart suc!";
+
+            var msg = "Discart suc!";
+            _requestService.DiscartRequest(id, Guid.Parse(User.Identity.GetUserId()), msg);
+
+            return RedirectToAction("Show", GetRequestViewModel(id));
+        }
+
+        private IEnumerable<SelectListItem> GetCreditTypes()
+        {
+            return _requestService.GetCreditTypes().Select(
+                role => new SelectListItem() { Text = role.Info, Value = role.Id.ToString() })
+                .ToList();
+        }
+
+        private RequestViewModel GetRequestViewModel(Guid id)
         {
             var request = _requestService.Get(id);
             var creaditType = _creditTypesService.Get(request.CreditTypeId);
@@ -94,33 +135,10 @@ namespace WebApp.Controllers
                     Percent = creaditType.PayCount,
                     StartSumPercent = creaditType.StartSumPercent
                 }
-                
+
             };
 
-            return PartialView(model);
-        }
-
-        //Подтвердить заявку
-        [HttpPost]
-        public ActionResult ConfirmRequest(Guid id)
-        {
-            ViewBag.Result = "Confirm suc!";
-            return RedirectToAction("Index");
-        }
-
-        //Отказать заявку
-        [HttpPost]
-        public ActionResult DiscartRequest(Guid id)
-        {
-            ViewBag.Result = "Discart suc!";
-            return Index();
-        }
-
-        private IEnumerable<SelectListItem> GetCreditTypes()
-        {
-            return _requestService.GetCreditTypes().Select(
-                role => new SelectListItem() { Text = role.Info, Value = role.Id.ToString() })
-                .ToList();
+            return model;
         }
     }
 }

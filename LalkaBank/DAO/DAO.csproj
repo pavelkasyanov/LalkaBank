@@ -63,16 +63,16 @@
     <Compile Include="Debts.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Implemenation\BankBookDAO.cs" />
-    <Compile Include="Implemenation\CreditDAO.cs" />
-    <Compile Include="Implemenation\CreditTypesDAO.cs" />
-    <Compile Include="Implemenation\DebtDAO.cs" />
-    <Compile Include="Implemenation\ManagerDAO.cs" />
-    <Compile Include="Implemenation\MessageDAO.cs" />
-    <Compile Include="Implemenation\PassportDAO.cs" />
-    <Compile Include="Implemenation\PaymentDAO.cs" />
-    <Compile Include="Implemenation\PersonDAO.cs" />
-    <Compile Include="Implemenation\RequestDAO.cs" />
+    <Compile Include="Implementation\BankBookDAO.cs" />
+    <Compile Include="Implementation\CreditDAO.cs" />
+    <Compile Include="Implementation\CreditTypesDAO.cs" />
+    <Compile Include="Implementation\DebtDAO.cs" />
+    <Compile Include="Implementation\ManagerDAO.cs" />
+    <Compile Include="Implementation\MessageDAO.cs" />
+    <Compile Include="Implementation\PassportDAO.cs" />
+    <Compile Include="Implementation\PaymentDAO.cs" />
+    <Compile Include="Implementation\PersonDAO.cs" />
+    <Compile Include="Implementation\RequestDAO.cs" />
     <Compile Include="Interafaces\IBankBookDAO.cs" />
     <Compile Include="Interafaces\ICreditDAO.cs" />
     <Compile Include="Interafaces\ICreditTypesDAO.cs" />

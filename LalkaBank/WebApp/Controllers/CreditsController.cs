@@ -7,12 +7,18 @@ using System.Web.Mvc;
 namespace WebApp.Controllers
 {
     [Authorize]
-    public class ManagersController : Controller
+    public class CreditsController : Controller
     {
-        // GET: Managers
+        // GET: Credits
         public ActionResult Index()
         {
             return View();
+        }
+
+        [Authorize(Roles = "Admin, Manager")]
+        public ActionResult Create(Guid requestId)
+        {
+            return View("Index");
         }
     }
 }
