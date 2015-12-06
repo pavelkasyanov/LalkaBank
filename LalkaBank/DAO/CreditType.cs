@@ -24,7 +24,7 @@ namespace DAO
         public System.Guid Id { get; set; }
         public double Percent { get; set; }
         public double StartSumPercent { get; set; }
-        public short PayCount { get; set; }
+        public int PayCount { get; set; }
         public string Info { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

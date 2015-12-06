@@ -21,7 +21,7 @@ namespace DAO
         }
     
         public System.Guid Id { get; set; }
-        public short Debt { get; set; }
+        public int Debt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Credit> Credits { get; set; }

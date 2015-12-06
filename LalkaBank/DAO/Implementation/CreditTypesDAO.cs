@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Threading;
 using DAO.Interafaces;
 
 namespace DAO.Implemenation
@@ -10,38 +11,55 @@ namespace DAO.Implemenation
     public class CreditTypesDAO : ICreditTypesDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
+        //private static readonly Mutex Mutex = new Mutex();
+        private static readonly Object Look = new object();
 
         public void CreateOrUpdate(CreditType creditType)
         {
-            _db.CreditTypes.AddOrUpdate(creditType);
-            _db.SaveChanges();
+            lock (Look)
+            {
+                _db.CreditTypes.AddOrUpdate(creditType);
+                _db.SaveChanges();
+            }
         }
 
         public CreditType GetById(Guid id)
         {
-            var creditType = _db.CreditTypes.Find(id);
-            if (creditType == null)
-                throw new Exception("not found");
-            else
+            lock (Look)
+            {
+                var creditType = _db.CreditTypes.Find(id);
+                if (creditType == null)
+                {
+                    throw new Exception("not found");
+                }
+
                 return creditType;
+            }
         }
 
         public void Delete(Guid id)
         {
-            var creditType = _db.CreditTypes.Find(id);
-            if (creditType == null)
-                throw new Exception("not found");
-            else
+            lock (Look)
             {
-                _db.CreditTypes.Remove(creditType);
-                _db.SaveChanges();
+                var creditType = _db.CreditTypes.Find(id);
+                if (creditType != null)
+                {
+                    _db.CreditTypes.Remove(creditType);
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("not found");
+                }
             }
-
         }
 
         public List<CreditType> GetList()
         {
-            return _db.CreditTypes.ToList();
+            lock (Look)
+            {
+                return _db.CreditTypes.ToList();
+            }
         }
     }
 }

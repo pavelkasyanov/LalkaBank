@@ -75,7 +75,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="cache" Type="smallint" Nullable="false" />
+    <Property Name="cache" Type="int" Nullable="false" />
     <Property Name="CreditId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Credits">
@@ -105,7 +105,7 @@
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Percent" Type="float" Nullable="false" />
     <Property Name="StartSumPercent" Type="float" Nullable="false" />
-    <Property Name="PayCount" Type="smallint" Nullable="false" />
+    <Property Name="PayCount" Type="int" Nullable="false" />
     <Property Name="Info" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Debts">
@@ -113,7 +113,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Debt" Type="smallint" Nullable="false" />
+    <Property Name="Debt" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Managers">
     <Key>
@@ -420,7 +420,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="cache" Type="Int16" Nullable="false" />
+          <Property Name="cache" Type="Int32" Nullable="false" />
           <Property Name="CreditId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Credits" Relationship="LalkaBankDabaseModel.FK_BankBookCredit" FromRole="BankBookSet" ToRole="CreditSet" />
         </EntityType>
@@ -457,7 +457,7 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Percent" Type="Double" Nullable="false" />
           <Property Name="StartSumPercent" Type="Double" Nullable="false" />
-          <Property Name="PayCount" Type="Int16" Nullable="false" />
+          <Property Name="PayCount" Type="Int32" Nullable="false" />
           <Property Name="Info" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Credits" Relationship="LalkaBankDabaseModel.FK_CreditCreditTypes" FromRole="CreditTypesSet" ToRole="CreditSet" />
           <NavigationProperty Name="Requests" Relationship="LalkaBankDabaseModel.CreditTypesSetRequestSet" FromRole="CreditTypesSet" ToRole="RequestSet" />
@@ -467,7 +467,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="Debt" Type="Int16" Nullable="false" />
+          <Property Name="Debt" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Credits" Relationship="LalkaBankDabaseModel.FK_CreditDebts" FromRole="DebtsSet" ToRole="CreditSet" />
         </EntityType>
         <EntityType Name="Manager">

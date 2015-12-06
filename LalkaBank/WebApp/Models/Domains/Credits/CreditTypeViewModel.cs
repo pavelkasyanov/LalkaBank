@@ -17,7 +17,7 @@ namespace WebApp.Models.Domains.Credits
         public double StartSumPercent { get; set; }
 
         [DisplayName("Размер кредита")]
-        public short PayCount { get; set; }
+        public int PayCount { get; set; }
 
 
         [DisplayName("Размер кредита")]

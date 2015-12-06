@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Threading;
 using DAO.Interafaces;
 
 namespace DAO.Implemenation
@@ -10,33 +11,47 @@ namespace DAO.Implemenation
     public class RequestDAO : IRequestDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
+        //private static readonly Mutex Mutex = new Mutex();
+        private static readonly Object Look = new object();
 
         public void CreateOrUpdate(Request request)
         {
-            _db.Requests.AddOrUpdate(request);
-            _db.SaveChanges();
+            lock (Look)
+            {
+                _db.Requests.AddOrUpdate(request);
+                _db.SaveChanges();
+            }
         }
 
         public Request Get(Guid id)
         {
-            var request = _db.Requests.Find(id);
-            if (request == null) { throw new Exception("not found"); }
+            lock (Look)
+            {
+                var request = _db.Requests.Find(id);
+                if (request == null) { throw new Exception("not found"); }
 
-            return request;
+                return request;
+            }
         }
 
         public void Delete(Guid id)
         {
-            var request = _db.Requests.Find(id);
-            if (request == null) { throw new Exception("not found"); }
+            lock (Look)
+            {
+                var request = _db.Requests.Find(id);
+                if (request == null) { throw new Exception("not found"); }
 
-            _db.Requests.Remove(request);
-            _db.SaveChanges();
+                _db.Requests.Remove(request);
+                _db.SaveChanges();
+            }
         }
 
         public List<Request> GetList()
         {
-            return _db.Requests.ToList();
+            lock (Look)
+            {
+                return _db.Requests.ToList();
+            }
         }
     }
 }

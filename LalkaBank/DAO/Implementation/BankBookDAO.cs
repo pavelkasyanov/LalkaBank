@@ -1,38 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Threading;
 using DAO.Interafaces;
 
-namespace DAO.Implemenation
+namespace DAO.Implementation
 {
     // ReSharper disable once InconsistentNaming
     public class BankBookDAO : IBankBookDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
+        //private static readonly Mutex Mutex = new Mutex();
+        private static readonly Object Look = new object();
 
         public void CreateOrUpdate(BankBook book)
         {
-            _db.BankBooks.AddOrUpdate(book);
-            _db.SaveChanges();
+            lock (Look)
+            {
+                _db.BankBooks.AddOrUpdate(book);
+                _db.SaveChanges();
+            }
         }
 
         public BankBook Get(Guid id)
         {
-            var book = _db.BankBooks.Find(id);
-            if (book == null)
-                throw new Exception("not found");
-            else
-                return book;
+            lock (Look)
+            {
+                return _db.BankBooks.Find(id);
+            }
         }
 
         public void Delete(Guid id)
         {
-            var book = _db.BankBooks.Find(id);
-            if (book == null)
-                throw new Exception("not found");
-            else
+            lock (Look)
             {
+                var book = _db.BankBooks.FindAsync(id).Result;
+                if (book == null) return;
+
                 _db.BankBooks.Remove(book);
                 _db.SaveChanges();
             }
@@ -40,15 +46,21 @@ namespace DAO.Implemenation
         }
         public void  Update(BankBook book)
         {
-            var old = book;
-            _db.BankBooks.Add(old);
-            _db.SaveChanges();
+            lock (Look)
+            {
+                var old = book;
+                _db.BankBooks.Add(old);
+                _db.SaveChanges();
+            }
 
         }
 
         public List<BankBook> GetList()
         {
-            return _db.BankBooks.ToList();
+            lock (Look)
+            {
+                return _db.BankBooks.ToList();
+            }
         }
 
     }

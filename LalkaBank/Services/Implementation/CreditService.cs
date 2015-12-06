@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DAO;
 using DAO.Implemenation;
+using DAO.Implementation;
 using DAO.Interafaces;
 using Services.Interfaces;
 
@@ -10,15 +11,19 @@ namespace Services.Implemenations
     public class CreditService: ICreditService
     {
         [Obsolete("use other constructor")]
-        public CreditService()
+        public CreditService(IBankBookDAO bankBookDao, IDebtDAO debtDao)
         {
+            _bankBookDao = bankBookDao;
+            _debtDao = debtDao;
             _creditDao = new CreditDAO();
         }
 
-        public CreditService(ICreditDAO creditDao, IRequestDAO requestDao)
+        public CreditService(ICreditDAO creditDao, IRequestDAO requestDao, IBankBookDAO bankBookDao, IDebtDAO debtDao)
         {
             _creditDao = creditDao;
             _requestDao = requestDao;
+            _bankBookDao = bankBookDao;
+            _debtDao = debtDao;
         }
 
         public void Create(DAO.Credit credit)
@@ -50,10 +55,18 @@ namespace Services.Implemenations
             {
                 return false;
             }
+
+            Debts debts = new Debts()
+            {
+                Id = Guid.NewGuid(),
+                Debt = 0
+            };
+            _debtDao.CreateOrUpdate(debts);
+
             //startSum - cумма запрошеная пользователем
             int allSum = 0;
             //TODO
-            var payMounth = (int) (request.StartSum * request.CreditTypes.Percent / request.CreditTypes.PayCount);
+            var payMounth = (int)((request.StartSum + (request.StartSum * request.CreditTypes.Percent)) / request.CreditTypes.PayCount);
 
             var credit = new Credit()
             {
@@ -69,15 +82,26 @@ namespace Services.Implemenations
                 PersonId = request.PersonId,
                 ManagerId = request.ManagerId.Value,
                 CreditTypeId = request.CreditTypeId,
-                Status = "open"
+                DebtsId = debts.Id,
+                Status = "0"
             };
 
             _creditDao.CreateOrUpdate(credit);
+
+            BankBook bankBook = new BankBook()
+            {
+                Id = Guid.NewGuid(),
+                CreditId = credit.Id,
+                cache = 0
+            };
+            _bankBookDao.CreateOrUpdate(bankBook);
 
             return true;
         }
 
         private readonly ICreditDAO _creditDao;
         private readonly IRequestDAO _requestDao;
+        private readonly IBankBookDAO _bankBookDao;
+        private readonly IDebtDAO _debtDao;
     }
 }

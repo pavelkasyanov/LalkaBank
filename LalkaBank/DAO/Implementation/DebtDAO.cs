@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Threading;
 using DAO.Interafaces;
 
 namespace DAO.Implemenation
@@ -10,38 +11,59 @@ namespace DAO.Implemenation
     public class DebtDAO : IDebtDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
+        //private static readonly Mutex Mutex = new Mutex();
+        private static readonly Object Look = new object();
 
         public void CreateOrUpdate(Debts debt)
         {
-            _db.Debts.AddOrUpdate(debt);
-            _db.SaveChanges();
+            lock (Look)
+            {
+                _db.Debts.AddOrUpdate(debt);
+                _db.SaveChanges();
+            }
         }
 
         public Debts Get(Guid id)
         {
-            //var debt = _db.DebtsSets.ToList().FirstOrDefault(x => x.DebtsId == id);
-            var debt = _db.Debts.Find(id);
-            if (debt != null)
+            lock (Look)
             {
+                Debts debt = null;
+                    debt = _db.Debts.Find(id);
+                    if (debt == null)
+                    {
+                        throw new Exception("not found");
+                    }
                 return debt;
             }
-
-            throw new Exception("not found");
+            
         }
 
         public void Delete(Guid id)
         {
-            var debt = _db.Debts.Find(id);
+            lock (Look)
+            {
+                var debt = _db.Debts.Find(id);
 
-            if (debt == null) { throw new Exception("not found"); }
+                if (debt == null)
+                {
+                    throw new Exception("not found");
+                }
 
-            _db.Debts.Remove(debt);
-            _db.SaveChanges();
+                _db.Debts.Remove(debt);
+                _db.SaveChanges();
+            }
         }
 
         public List<Debts> GetList()
         {
-            return _db.Debts.ToList();
+            lock (Look)
+            {
+                List<Debts> result = null;
+                    result = _db.Debts.ToList();
+
+                return result;
+            }
+           
         }
     }
 }
