@@ -75,7 +75,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="cache" Type="int" Nullable="false" />
+    <Property Name="cache" Type="bigint" Nullable="false" />
     <Property Name="CreditId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Credits">
@@ -113,7 +113,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Debt" Type="int" Nullable="false" />
+    <Property Name="Debt" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Managers">
     <Key>
@@ -164,6 +164,7 @@
     <Property Name="SecondName" Type="nvarchar(max)" Nullable="true" />
     <Property Name="DateBirth" Type="datetime" Nullable="true" />
     <Property Name="PassportId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreditHistoryIndex" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Requests">
     <Key>
@@ -420,7 +421,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="cache" Type="Int32" Nullable="false" />
+          <Property Name="cache" Type="Int64" Nullable="false" />
           <Property Name="CreditId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Credits" Relationship="LalkaBankDabaseModel.FK_BankBookCredit" FromRole="BankBookSet" ToRole="CreditSet" />
         </EntityType>
@@ -467,7 +468,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="Debt" Type="Int32" Nullable="false" />
+          <Property Name="Debt" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Credits" Relationship="LalkaBankDabaseModel.FK_CreditDebts" FromRole="DebtsSet" ToRole="CreditSet" />
         </EntityType>
         <EntityType Name="Manager">
@@ -531,6 +532,7 @@
           <NavigationProperty Name="Messages" Relationship="LalkaBankDabaseModel.FK_PersonMessage" FromRole="Person" ToRole="Message" />
           <NavigationProperty Name="Passports" Relationship="LalkaBankDabaseModel.FK_PersonPassport" FromRole="Person" ToRole="Passport" />
           <NavigationProperty Name="Requests" Relationship="LalkaBankDabaseModel.FK_PersonRequest" FromRole="Person" ToRole="Request" />
+          <Property Name="CreditHistoryIndex" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Request">
           <Key>
@@ -824,6 +826,7 @@
           <ScalarProperty Name="SecondName" ColumnName="SecondName" />
           <ScalarProperty Name="DateBirth" ColumnName="DateBirth" />
           <ScalarProperty Name="PassportId" ColumnName="PassportId" />
+          <ScalarProperty Name="CreditHistoryIndex" ColumnName="CreditHistoryIndex" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

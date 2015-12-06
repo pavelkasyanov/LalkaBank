@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using WebApp.Models.Domains.Credits;
 using WebApp.Models.Domains.Requests;
+using WebApp.Models.Domains.Users;
 
 namespace WebApp.Controllers
 {
@@ -145,8 +146,16 @@ namespace WebApp.Controllers
                     PayCount = creaditType.PayCount,
                     Percent = creaditType.PayCount,
                     StartSumPercent = creaditType.StartSumPercent
+                },
+                UserInfo = new UserInfoPartialViewModel()
+                {
+                    Name = request.Persons.Name,
+                    SecondName = request.Persons.SecondName,
+                    LastName = request.Persons.LastName,
+                    Email = request.Persons.Login,
+                    DateBirth = request.Persons.DateBirth ?? new DateTime(),
                 }
-
+                
             };
 
             return model;

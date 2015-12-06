@@ -29,6 +29,7 @@ namespace DAO
         public string SecondName { get; set; }
         public Nullable<System.DateTime> DateBirth { get; set; }
         public System.Guid PassportId { get; set; }
+        public int CreditHistoryIndex { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Credit> Credits { get; set; }

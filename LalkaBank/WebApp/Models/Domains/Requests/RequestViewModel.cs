@@ -14,12 +14,6 @@ namespace WebApp.Models.Domains.Requests
         [DisplayName("Размер кредита")]
         public string CreditInfo { get; set; }
 
-        [DisplayName("PassportImage")]
-        public byte[] PassportImage { get; set; }
-
-        [DisplayName("IncomeImage")]
-        public byte[] IncomeImage { get; set; }
-
         [DataType(DataType.DateTime)]
         [DisplayName("DateStart")]
         public System.DateTime DateStart { get; set; }
@@ -28,13 +22,25 @@ namespace WebApp.Models.Domains.Requests
         [DisplayName(" DateEnd")]
         public System.DateTime DateEnd { get; set; }
 
-        public int Confirm { get; set; }
+        [DisplayName(" DateEnd")]
         public int Number { get; set; }
 
+        [DisplayName("PassportImage")]
+        public byte[] PassportImage { get; set; }
+
+        [DisplayName("IncomeImage")]
+        public byte[] IncomeImage { get; set; }
+
+        [DisplayName("Status")]
+        public int Confirm { get; set; }
+
+        [DisplayName("CreditType")]
         public virtual CreditTypeViewModel CreditType { get; set; }
 
+        [DisplayName(" UserInfo")]
         public virtual UserInfoPartialViewModel UserInfo { get; set; }
 
+        [DisplayName("Passport")]
         public virtual PassportViewModel PersonPassport { get; set; }
 
     }

@@ -16,15 +16,55 @@
     </div>
 </div>
 <div class="row">
-    @Html.LabelFor(m => m.DateStart)
+    @Html.LabelFor(m => m.Confirm)
     <div class="panel-info">
-        @Model.DateStart
+        @if (Model.Confirm == 0)
+        {
+            <div class="row">
+                Открыта
+            </div>
+        }
+        @if (Model.Confirm == 1)
+        {
+            <div class="row">
+                Рассмотрена
+            </div>
+        }
     </div>
 </div>
 <div class="row">
-    @Html.LabelFor(m => m.DateEnd)
-    <div class="panel-info">
-        @Model.DateEnd
+    @Html.LabelFor(m => m.UserInfo)
+    <div class="row">
+        <div class="row">
+            @Html.LabelFor(m => m.UserInfo.Name)
+        </div>
+        <div class="row">
+            @Model.UserInfo.Name
+        </div>
+    </div>
+    <div class="row">
+        <div class="row">
+            @Html.LabelFor(m => m.UserInfo.SecondName)
+        </div>
+        <div class="row">
+            @Model.UserInfo.SecondName
+        </div>
+    </div>
+    <div class="row">
+        <div class="row">
+            @Html.LabelFor(m => m.UserInfo.LastName)
+        </div>
+        <div class="row">
+            @Model.UserInfo.LastName
+        </div>
+    </div>
+    <div class="row">
+        <div class="row">
+            @Html.LabelFor(m => m.UserInfo.Email)
+        </div>
+        <div class="row">
+            @Model.UserInfo.Email
+        </div>
     </div>
 </div>
 @if (Model.Confirm == 0 && !User.IsInRole("User"))

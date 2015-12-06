@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/06/2015 14:46:33
+-- Date Created: 12/06/2015 16:01:25
 -- Generated from EDMX file: E:\pavlik\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
 -- --------------------------------------------------
 
@@ -102,7 +102,7 @@ GO
 -- Creating table 'BankBooks'
 CREATE TABLE [dbo].[BankBooks] (
     [Id] uniqueidentifier  NOT NULL,
-    [cache] int  NOT NULL,
+    [cache] bigint  NOT NULL,
     [CreditId] uniqueidentifier  NOT NULL
 );
 GO
@@ -140,7 +140,7 @@ GO
 -- Creating table 'Debts'
 CREATE TABLE [dbo].[Debts] (
     [Id] uniqueidentifier  NOT NULL,
-    [Debt] int  NOT NULL
+    [Debt] bigint  NOT NULL
 );
 GO
 
@@ -190,7 +190,8 @@ CREATE TABLE [dbo].[Persons] (
     [LastName] nvarchar(max)  NULL,
     [SecondName] nvarchar(max)  NULL,
     [DateBirth] datetime  NULL,
-    [PassportId] uniqueidentifier  NOT NULL
+    [PassportId] uniqueidentifier  NOT NULL,
+    [CreditHistoryIndex] int  NOT NULL
 );
 GO
 

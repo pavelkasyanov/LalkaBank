@@ -15,7 +15,7 @@ namespace DAO
     public partial class BankBook
     {
         public System.Guid Id { get; set; }
-        public int cache { get; set; }
+        public long cache { get; set; }
         public System.Guid CreditId { get; set; }
     
         public virtual Credit Credits { get; set; }
