@@ -4,7 +4,7 @@
     ViewBag.Title = "Log in";
 }
 
-<div class="row">
+<div class="row lb-margin">
     <section id="loginForm">
         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
@@ -34,11 +34,11 @@
                     @Html.CheckBoxFor(m => m.RememberMe)
                     @Html.LabelFor(m => m.RememberMe)
                 </div>
+                <div class="row" id="login">
+                    <input type="submit" value="Log in" class="btn btn btn-primary" />
+                </div>
+                <b><a id="registration" href="@Url.Action("Register", "Account")">Регистрация</a></b>
             </div>
-            <div class="row" id="login">
-                <input type="submit" value="Log in" class="btn btn-default" />
-            </div>
-            <b><a id="registration" href="@Url.Action("Register", "Account")">Регистрация</a></b>
         }
     </section>
 </div>

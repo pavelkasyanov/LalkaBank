@@ -8,7 +8,7 @@ using DAO.Interafaces;
 
 namespace Cron
 {
-    internal class CerditThread
+    internal class CerditType1_Thread
     {
         private readonly int _number;
 
@@ -18,7 +18,7 @@ namespace Cron
 
         private static readonly Mutex _mut = new Mutex();
 
-        public CerditThread(int i, Object el)
+        public CerditType1_Thread(int i, Object el)
         {
             _number = i;
             var thread = new Thread(Process);
@@ -31,7 +31,7 @@ namespace Cron
             {
                 var bankBook = (BankBook) obj;
 
-                Console.WriteLine("поток CerditThread {0} работает", this._number);
+                Console.WriteLine("поток CerditType1_Thread {0} работает", this._number);
 
                 var credit = _creditDao.Get(bankBook.CreditId);
                 Console.WriteLine("{0}", credit.AllSum);

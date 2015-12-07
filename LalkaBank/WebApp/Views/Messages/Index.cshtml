@@ -1,11 +1,11 @@
 ﻿@model WebApp.Models.Domains.Messages.MessagesViewModel
 @{
     ViewBag.Title = "messages";
-    var requestCount = 1;
+    var messageCount = 1;
 }
 
 <div class="row">
-    <div class="row">
+    <div class="row lb-margin">
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -19,7 +19,7 @@
                     @foreach (var message in Model.Messages)
                     {
                         <tr>
-                            <td>@(requestCount++)</td>
+                            <td>@(messageCount++)</td>
                             <td>@message.Text</td>
                             <td>
                                 <button id="@message.Id" type="button" class="btn btn-primary btn-lg btn-modal">

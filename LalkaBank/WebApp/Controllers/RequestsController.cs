@@ -139,6 +139,7 @@ namespace WebApp.Controllers
                 CreditInfo = request.CreditInfo,
                 Confirm = request.Confirm,
                 Number = request.Number,
+                IncomeImage = request.IncomeImage,
                 CreditType = new CreditTypeViewModel()
                 {
                     CreditTypesId = creaditType.Id,
@@ -154,6 +155,7 @@ namespace WebApp.Controllers
                     LastName = request.Persons.LastName,
                     Email = request.Persons.Login,
                     DateBirth = request.Persons.DateBirth ?? new DateTime(),
+                    CreditHistoryIndex = request.Persons.CreditHistoryIndex
                 }
                 
             };

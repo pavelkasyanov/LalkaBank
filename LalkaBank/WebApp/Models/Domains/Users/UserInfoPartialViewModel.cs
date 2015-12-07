@@ -32,5 +32,9 @@ namespace WebApp.Models.Domains.Users
         [DataType(DataType.Date)]
         [Display(Name = "Дата рождения")]
         public DateTime DateBirth { get; set; }
+
+        [DataType(DataType.Text)]
+        [Display(Name = "Кредитная история")]
+        public int CreditHistoryIndex { get; set; }
     }
 }

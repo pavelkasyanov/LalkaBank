@@ -54,7 +54,6 @@ namespace Cron
         }
         private void
         timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-
         {
             List<Credit> openCredits = new List<Credit>(), 
                 credits = _creditDao.GetList();
@@ -66,20 +65,24 @@ namespace Cron
                 list = _bookDao.GetList();
             // отсеиваются счета, где кридиты закрыты
             openList.AddRange(list.Where(bankBook => openCredits.Contains(_creditDao.Get(bankBook.CreditId))));
-            //openCredits = openCredits.Where(x => x.Debts.Debt != 0).ToList();
 
             int i = 1;
             if (openList.Count > 0)
             {
                 foreach (var el in openList)
                 {
-                    new CerditThread(i, el);
+                    StartThreadForCreditType(i, el);
                     i++;
                 }
 
-                openCredits.Clear();
-                //openList.Clear();
+                openCredits = null;
+                openList = null;
             }
+        }
+
+        private void StartThreadForCreditType(int i, BankBook el)
+        {
+            new CerditType1_Thread(i, el);
         }
     }
 }

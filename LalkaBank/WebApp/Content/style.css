@@ -2,8 +2,8 @@
 	margin: 30px auto;
 	display: block;
 	background: #999;
-	width: 350px;
-	height: 220px;
+	width: 600pt;
+	height: 500pt;
 	box-shadow: 15px 15px 15px 15px rgba(0,0,0,.3);
 	border-radius: 10px 25px 25px;
 	font-family: Arial;
@@ -45,9 +45,13 @@
 	margin-left: 500px ;
 }
 
-.lb-center {;
+.lb-center {
 	margin: 0px auto;
  	text-align: center;
+}
+
+.lb-margin {
+    margin: 30px 30px 30px 30px;
 }
 
 .lb-frame{

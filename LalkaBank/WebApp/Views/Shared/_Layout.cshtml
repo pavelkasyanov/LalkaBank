@@ -22,7 +22,11 @@
                 <b><a class="lb-area" href="">Кредиты</a></b>
                 <b><a class="lb-area" href="@Url.Action("Index", "Requests")">Заявки</a></b>
                 <b><a class="lb-area" href="@Url.Action("Index", "Messages")">Сообщения</a></b>
-                <b>@Html.Partial("_LoginPartial")</b>
+                <div class="lb-margin">
+                    <b>
+                        @Html.Partial("_LoginPartial")
+                    </b>
+                </div>
             </div>
         }
         <div class="row">
@@ -39,9 +43,11 @@
             </div>
             <hr />
             <footer>
-                <p class="panel-footer" style="text-align: center;">
-                    &copy; @DateTime.Now.Year - Lalka Bank
-                </p>
+                <div style="margin: auto 30% auto 45%; text-align: center">
+                    <div class="panel-footer" style="margin: 0px auto;">
+                        &copy; @DateTime.Now.Year - Lalka Bank
+                    </div>
+                </div>
             </footer>
         </div>
     </div>

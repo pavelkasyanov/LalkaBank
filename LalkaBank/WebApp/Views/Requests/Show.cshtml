@@ -3,89 +3,104 @@
     ViewBag.Title = "request page";
 }
 
-<div class="row">
-    @Html.LabelFor(m => m.CreditInfo)
-    <div class="panel-info">
-        @Model.CreditInfo
-    </div>
-</div>
-<div class="row">
-    @Html.LabelFor(m => m.CreditType)
-    <div class="panel-info">
-        @Model.CreditType.Info
-    </div>
-</div>
-<div class="row">
-    @Html.LabelFor(m => m.Confirm)
-    <div class="panel-info">
-        @if (Model.Confirm == 0)
-        {
-            <div class="row">
-                Открыта
-            </div>
-        }
-        @if (Model.Confirm == 1)
-        {
-            <div class="row">
-                Рассмотрена
-            </div>
-        }
-    </div>
-</div>
-<div class="row">
-    @Html.LabelFor(m => m.UserInfo)
+<div class="row lb-margin">
     <div class="row">
         <div class="row">
-            @Html.LabelFor(m => m.UserInfo.Name)
-        </div>
-        <div class="row">
-            @Model.UserInfo.Name
         </div>
     </div>
-    <div class="row">
-        <div class="row">
-            @Html.LabelFor(m => m.UserInfo.SecondName)
-        </div>
-        <div class="row">
-            @Model.UserInfo.SecondName
-        </div>
+    <div class="table-responsive">
+        <table class="table .table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.LabelFor(m => m.Number)</td>
+                    <td>@Model.Number</td>
+                </tr>
+                <tr>
+<tr>
+                <td>@Html.LabelFor(m => m.CreditInfo)</td>
+                <td>@Model.CreditInfo</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.CreditType)</td>
+                <td>@Model.CreditInfo</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Confirm)</td>
+                <td>
+                    @if (Model.Confirm == 0)
+                    {
+                        <div>
+                            Открыта
+                        </div>
+                    }
+                    @if (Model.Confirm == 1)
+                    {
+                        <div>
+                            Рассмотрена
+                        </div>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.UserInfo)</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.UserInfo.Name)</td>
+                <td>@Model.UserInfo.Name</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.UserInfo.SecondName)</td>
+                <td>@Model.UserInfo.SecondName</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.UserInfo.LastName)</td>
+                <td>@Model.UserInfo.LastName</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.UserInfo.Email)</td>
+                <td>@Model.UserInfo.Email</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.UserInfo.CreditHistoryIndex)</td>
+                <td>@Model.UserInfo.CreditHistoryIndex</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.IncomeImage)</td>
+                <td>
+                    <img src="data:image;base64,@Convert.ToBase64String(Model.IncomeImage)" alt="" width="100px" height="100px"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <div class="row">
-        <div class="row">
-            @Html.LabelFor(m => m.UserInfo.LastName)
+    @if (Model.Confirm == 0 && !User.IsInRole("User"))
+    {
+        <div class="col-md-1"></div>
+        <div class="row col-md-2">
+            @using (Html.BeginForm("ConfirmRequest", "Requests", FormMethod.Post,
+                new {id = Model.RequestId}))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.RequestId"/>
+                <button type="submit" class="btn btn-success">Confirm</button>
+            }
         </div>
-        <div class="row">
-            @Model.UserInfo.LastName
-        </div>
-    </div>
-    <div class="row">
-        <div class="row">
-            @Html.LabelFor(m => m.UserInfo.Email)
-        </div>
-        <div class="row">
-            @Model.UserInfo.Email
-        </div>
-    </div>
-</div>
-@if (Model.Confirm == 0 && !User.IsInRole("User"))
-{
-    <div class="row">
-        @using (Html.BeginForm("ConfirmRequest", "Requests", FormMethod.Post,
-            new {id = Model.RequestId}))
-        {
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="id" value="@Model.RequestId"/>
-            <button type="submit">Confirm</button>
-        }
-    </div>
-    <div class="row">
-        @using (Html.BeginForm("DiscartRequest", "Requests", FormMethod.Post,
-            new {id = Model.RequestId}))
-        {
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="id" value="@Model.RequestId" />
-            <button type="submit">Discart</button>
-        }
+        <div class="row col-md-1">
+            @using (Html.BeginForm("DiscartRequest", "Requests", FormMethod.Post,
+                new {id = Model.RequestId}))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.RequestId"/>
+                <button type="submit" class="btn btn-danger">Discart</button>
+            }
 
-    </div>
-}
+        </div>
+    }
+</div>
