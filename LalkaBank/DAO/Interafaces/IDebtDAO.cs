@@ -6,12 +6,12 @@ namespace DAO.Interafaces
     // ReSharper disable once InconsistentNaming
     public interface IDebtDAO
     {
-        void Create(DebtsSet debts);
+        void CreateOrUpdate(Debts debts);
 
-        DebtsSet Get(Guid id);
+        Debts Get(Guid id);
 
         void Delete(Guid id);
 
-        List<DebtsSet> GetList();
+        List<Debts> GetList();
     }
 }

@@ -8,42 +8,53 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
-                @*@Html.Partial("_LoginPartial")*@
     <h1 class="lb-center">
         <p class="lb-main_text">Lalka Bank</p>
     </h1>
     <div class="lb-main">
-
-        <div class="lb-container" id="lb-area">
-            @if (Request.IsAuthenticated)
-            {
+        @if (Request.IsAuthenticated)
+        {
+            <div class="lb-container" id="lb-area">
                 <b>@User.Identity.Name</b>
-            }
-
-            <h2>@ViewBag.Title</h2>
-            <b><a class="lb-area" href="@Url.Action("Index", "Home")">Moя страница</a></b>
-            <b><a class="lb-area" href="">Кредиты</a></b>
-            <b><a class="lb-area" href="#">Заявки</a></b>
-            <b><a class="lb-area" href="@Url.Action("Index", "Messages")">Сообщения</a></b>
-            <b>@Html.Partial("_LoginPartial")</b>
-        </div>
+                <b><a class="lb-area" href="@Url.Action("Index", "Home")">Moя страница</a></b>
+                <b><a class="lb-area" href="">Кредиты</a></b>
+                <b><a class="lb-area" href="@Url.Action("Index", "Requests")">Заявки</a></b>
+                <b><a class="lb-area" href="@Url.Action("Index", "Messages")">Сообщения</a></b>
+                <div class="lb-margin">
+                    <b>
+                        @Html.Partial("_LoginPartial")
+                    </b>
+                </div>
+            </div>
+        }
         <div class="row">
-            @RenderBody()
+            <div class="row">
+                <h1 class="lb-center">
+                </h1>
+                <div class="lb-main">
+                    <div class="lb-central_pos">
+                        <div class="lb-container">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
             <hr />
             <footer>
-                <p class="panel-footer" style="text-align: center;">
-                    &copy; @DateTime.Now.Year - Lalka Bank
-                </p>
+                <div style="margin: auto 30% auto 45%; text-align: center">
+                    <div class="panel-footer" style="margin: 0px auto;">
+                        &copy; @DateTime.Now.Year - Lalka Bank
+                    </div>
+                </div>
             </footer>
         </div>
-       </div>
+    </div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryui")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

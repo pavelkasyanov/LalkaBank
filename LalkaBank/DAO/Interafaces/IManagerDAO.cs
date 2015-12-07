@@ -6,12 +6,12 @@ namespace DAO.Interafaces
     // ReSharper disable once InconsistentNaming
     public interface IManagerDAO
     {
-        void Create(ManagerSet manager);
+        void CreateOrUpdate(Manager manager);
 
-        ManagerSet Get(Guid id);
+        Manager Get(Guid id);
 
         void Delete(Guid id);
 
-        List<ManagerSet> GetList();
+        List<Manager> GetList();
     }
 }

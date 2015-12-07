@@ -6,12 +6,20 @@ namespace Services.Interfaces
 {
     public interface IRequestService
     {
-        void Create(RequestSet request);
+        void Create(Request request);
 
-        RequestSet Get(Guid id);
+        Request Get(Guid id);
 
         void Delete(Guid id);
 
-        List<RequestSet> GetList();
+        List<Request> GetList();
+
+        List<Request> GetListByPersonId(Guid personId);
+
+        List<CreditType> GetCreditTypes();
+
+        bool ConfirmRequest(Guid requestId, Guid managerId, string msg);
+
+        bool DiscartRequest(Guid requestId, Guid managerId, string msg);
     }
 }

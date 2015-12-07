@@ -6,10 +6,10 @@ namespace DAO.Interafaces
     // ReSharper disable once InconsistentNaming
     public interface IBankBookDAO
     {
-        void Create(BankBookSet credit);
-        BankBookSet Get(Guid id);
+        void CreateOrUpdate(BankBook credit);
+        BankBook Get(Guid id);
         void Delete(Guid id);
-        void Update(BankBookSet id);
-        List<BankBookSet> GetList();
+        void Update(BankBook id);
+        List<BankBook> GetList();
     }
 }

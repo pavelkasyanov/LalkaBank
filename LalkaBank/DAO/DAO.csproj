@@ -51,28 +51,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BankBookSet.cs">
+    <Compile Include="BankBook.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="CreditSet.cs">
+    <Compile Include="Credit.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="CreditTypesSet.cs">
+    <Compile Include="CreditType.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DebtsSet.cs">
+    <Compile Include="Debts.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Implemenation\BankBookDAO.cs" />
-    <Compile Include="Implemenation\CreditDAO.cs" />
-    <Compile Include="Implemenation\CreditTypesDAO.cs" />
-    <Compile Include="Implemenation\DebtDAO.cs" />
-    <Compile Include="Implemenation\ManagerDAO.cs" />
-    <Compile Include="Implemenation\MessageDAO.cs" />
-    <Compile Include="Implemenation\PassportDAO.cs" />
-    <Compile Include="Implemenation\PaymentDAO.cs" />
-    <Compile Include="Implemenation\PersonDAO.cs" />
-    <Compile Include="Implemenation\RequestDAO.cs" />
+    <Compile Include="Implementation\BankBookDAO.cs" />
+    <Compile Include="Implementation\CreditDAO.cs" />
+    <Compile Include="Implementation\CreditTypesDAO.cs" />
+    <Compile Include="Implementation\DebtDAO.cs" />
+    <Compile Include="Implementation\ManagerDAO.cs" />
+    <Compile Include="Implementation\MessageDAO.cs" />
+    <Compile Include="Implementation\PassportDAO.cs" />
+    <Compile Include="Implementation\PaymentDAO.cs" />
+    <Compile Include="Implementation\PersonDAO.cs" />
+    <Compile Include="Implementation\RequestDAO.cs" />
     <Compile Include="Interafaces\IBankBookDAO.cs" />
     <Compile Include="Interafaces\ICreditDAO.cs" />
     <Compile Include="Interafaces\ICreditTypesDAO.cs" />
@@ -98,23 +98,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LalkaBankDabaseModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="ManagerSet.cs">
+    <Compile Include="Manager.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MessageSet.cs">
+    <Compile Include="Message.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PassportSet.cs">
+    <Compile Include="Passport.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PaymentsSet.cs">
+    <Compile Include="Payments.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PersonSet.cs">
+    <Compile Include="Person.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestSet.cs">
+    <Compile Include="Request.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagram.cs">

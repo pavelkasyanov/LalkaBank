@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAO", "DAO\DAO.csproj", "{B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{969C3B2D-99A7-4FD6-9A25-0D506F9A193A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cron", "Cron\Cron.csproj", "{DDE39283-04D0-41F6-95D6-D651B28402C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treminal", "Treminal\Treminal.csproj", "{B8C7748D-769A-40B8-AFAD-8FDDAF0EA8AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{969C3B2D-99A7-4FD6-9A25-0D506F9A193A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{969C3B2D-99A7-4FD6-9A25-0D506F9A193A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{969C3B2D-99A7-4FD6-9A25-0D506F9A193A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDE39283-04D0-41F6-95D6-D651B28402C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDE39283-04D0-41F6-95D6-D651B28402C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDE39283-04D0-41F6-95D6-D651B28402C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDE39283-04D0-41F6-95D6-D651B28402C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8C7748D-769A-40B8-AFAD-8FDDAF0EA8AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8C7748D-769A-40B8-AFAD-8FDDAF0EA8AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8C7748D-769A-40B8-AFAD-8FDDAF0EA8AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8C7748D-769A-40B8-AFAD-8FDDAF0EA8AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
