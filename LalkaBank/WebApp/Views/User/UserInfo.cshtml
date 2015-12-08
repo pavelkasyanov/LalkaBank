@@ -3,70 +3,95 @@
     ViewBag.Title = "title";
 }
 
-<div class="row">
-    @using (Html.BeginForm("UserInfo", "User", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
-    {
-        <div class="row">
-            @Html.ValidationSummary("", new {@class = "text-danger"})
-        </div>
-        <div class="row">
-            <b>@Html.LabelFor(m => m.Email)</b>
+<div class="row lb-margin">
+    <div class="row lb-margin">
+        @if (ViewBag.Result != null)
+        {
             <div class="row">
-                @Html.TextBoxFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @if (ViewBag.Result)
+                {
+                    <div class="span" style="color: green">@ViewBag.ResultMsg.ToString()</div>
+                }
+                else
+                {
+                    <div class="span" style="color: red">@ViewBag.ResultMsg.ToString()</div>
+                }
             </div>
-        </div>
-        <div class="row">
-            <b>@Html.LabelFor(m => m.Name)</b>
+        }
+
+        @using (Html.BeginForm("UserInfo", "User", FormMethod.Post, new {@class = "form-horizontal",
+            role = "form",
+            enctype = "multipart/form-data"}))
+        {
             <div class="row">
-                @Html.TextBoxFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationSummary("", new {@class = "text-danger"})
             </div>
-        </div>
-        <div class="row">
-            <b>@Html.LabelFor(m => m.SecondName)</b>
             <div class="row">
-                @Html.TextBoxFor(m => m.SecondName, new { htmlAttributes = new { @class = "form-control" } })
+                <b>@Html.LabelFor(m => m.Email)</b>
+                <div class="row">
+                    @Html.TextBoxFor(m => m.Email, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <b>@Html.LabelFor(m => m.LastName)</b>
             <div class="row">
-                @Html.TextBoxFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                <b>@Html.LabelFor(m => m.Name)</b>
+                <div class="row">
+                    @Html.TextBoxFor(m => m.Name, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <b>@Html.LabelFor(m => m.DateBirth)</b>
             <div class="row">
-                @Html.EditorFor(m => m.DateBirth, new { htmlAttributes = new { @class = "form-control" } })
+                <b>@Html.LabelFor(m => m.SecondName)</b>
+                <div class="row">
+                    @Html.TextBoxFor(m => m.SecondName, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <b>@Html.LabelFor(m => m.Number)</b>
             <div class="row">
-                @Html.TextBoxFor(m => m.Number, new { htmlAttributes = new { @class = "form-control" } })
+                <b>@Html.LabelFor(m => m.LastName)</b>
+                <div class="row">
+                    @Html.TextBoxFor(m => m.LastName, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <b>@Html.LabelFor(m => m.RUVD)</b>
             <div class="row">
-                @Html.TextBoxFor(m => m.RUVD, new { htmlAttributes = new { @class = "form-control" } })
+                <b>@Html.LabelFor(m => m.DateBirth)</b>
+                <div class="row">
+                    @Html.EditorFor(m => m.DateBirth, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <b>@Html.LabelFor(m => m.Adress)</b>
             <div class="row">
-                @Html.TextBoxFor(m => m.Adress, new { htmlAttributes = new { @class = "form-control" } })
+                <b>@Html.LabelFor(m => m.Number)</b>
+                <div class="row">
+                    @Html.TextBoxFor(m => m.Number, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <b>@Html.LabelFor(m => m.Validity)</b>
             <div class="row">
-                @Html.EditorFor(m => m.Validity, new { htmlAttributes = new { @class = "form-control" } })
+                <b>@Html.LabelFor(m => m.RUVD)</b>
+                <div class="row">
+                    @Html.TextBoxFor(m => m.RUVD, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <input type="submit" class="btn btn-default" value="Register"/>
-        </div>
-    }
+            <div class="row">
+                <b>@Html.LabelFor(m => m.Adress)</b>
+                <div class="row">
+                    @Html.TextBoxFor(m => m.Adress, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
+            </div>
+            <div class="row">
+                <b>@Html.LabelFor(m => m.Validity)</b>
+                <div class="row">
+                    @Html.EditorFor(m => m.Validity, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
+            </div>
+            <div class="row">
+                @Html.LabelFor(m => m.PassportImg)
+                <div class="row">
+                    @Html.TextBoxFor(m => m.PassportImg, new {type = "file"})
+                </div>
+            </div>
+            <Br/>
+            <div class="row">
+                <input type="submit" class="btn btn-primary" value="Edit"/>
+            </div>
+        }
+    </div>
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

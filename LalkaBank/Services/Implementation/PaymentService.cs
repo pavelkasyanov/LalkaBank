@@ -21,24 +21,57 @@ namespace Services.Implemenations
             _paymentDao = paymentDao;
         }
 
-        public void Create(Payments payment)
+        public bool Create(Payments payment)
         {
-            _paymentDao.CreateOrUpdate(payment);
+            try
+            {
+                _paymentDao.CreateOrUpdate(payment);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public Payments Get(Guid id)
         {
-            return _paymentDao.Get(id);
+            try
+            {
+                return _paymentDao.Get(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _paymentDao.Delete(id);
+            try
+            {
+                _paymentDao.Delete(id);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<Payments> GetList()
         {
-            return _paymentDao.GetList();
+            try
+            {
+                return _paymentDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private readonly IPaymentDAO _paymentDao;

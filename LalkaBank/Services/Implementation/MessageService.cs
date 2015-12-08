@@ -21,34 +21,79 @@ namespace Services.Implemenations
             _messageDao = messageDao;
         }
 
-        public void Create(Message message)
+        public bool Create(Message message)
         {
-            _messageDao.CreateOrUpdate(message);
+            try
+            {
+                _messageDao.CreateOrUpdate(message);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public Message Get(Guid id)
         {
-            return _messageDao.Get(id);
+            try
+            {
+                return _messageDao.Get(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _messageDao.Delete(id);
+            try
+            {
+                _messageDao.Delete(id);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<Message> GetList()
         {
-            return _messageDao.GetList();
+            try
+            {
+                return _messageDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public List<Message> GetFromUser(Guid userId)
         {
-            return _messageDao.GetList().Where(msg => msg.PersonId == userId).ToList();
+            try
+            {
+                return _messageDao.GetList().Where(msg => msg.PersonId == userId).ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public List<Message> GetFromManager(Guid managerId)
         {
-            return _messageDao.GetList().Where(msg => msg.ManagerId == managerId).ToList();
+            try
+            {
+                return _messageDao.GetList().Where(msg => msg.ManagerId == managerId).ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private readonly IMessageDAO _messageDao;

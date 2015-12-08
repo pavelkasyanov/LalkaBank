@@ -1,10 +1,78 @@
-﻿@{
+﻿@model WebApp.Models.Domains.Users.UserInfoViewModel
+@{
     ViewBag.Title = "Home Page";
 }
 
-<div class="row">
+<div class="row lb-margin">
+    @if (ViewBag.Result != null && !ViewBag.Result)
+    {
+        <div class="row">
+            <div class="span" style="color: red">@ViewBag.ResultMsg.ToString()</div>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Email)</td>
+                        <td>@Model.Email</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.SecondName)</td>
+                        <td>@Model.SecondName</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Name)</td>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.LastName)</td>
+                        <td>@Model.LastName</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.DateBirth)</td>
+                        <td>@Model.DateBirth</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Number)</td>
+                        <td>@Model.Number</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.RUVD)</td>
+                        <td>@Model.RUVD</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Adress)</td>
+                        <td>@Model.Adress</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Validity)</td>
+                        <td>@Model.Validity</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.CreditHistoryIndex)</td>
+                        <td>@Model.CreditHistoryIndex</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.PassportImage)</td>
+                        <td>
+                            <img src="data:image;base64,@Convert.ToBase64String(Model.PassportImage)" alt="" width="100px" height="100px" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
     
-</div>
-
-<div class="row">
+    <div class="row">
+        <a href="@Url.Action("UserInfo", "User")" class="btn btn-primary">edit user info</a>
+    </div>
 </div>

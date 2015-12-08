@@ -19,24 +19,55 @@ namespace Services.Implemenations
             _managerDao = managerDao;
         }
 
-        public void Create(Manager manager)
+        public bool Create(Manager manager)
         {
-            _managerDao.CreateOrUpdate(manager);
+            try
+            {
+                _managerDao.CreateOrUpdate(manager);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public Manager Get(Guid id)
         {
-            return _managerDao.Get(id);
+            try
+            {
+                return _managerDao.Get(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _managerDao.Delete(id);
+            try
+            {
+                _managerDao.Delete(id);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<Manager> GetList()
         {
-            return _managerDao.GetList();
+            try
+            {
+                return _managerDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private readonly IManagerDAO _managerDao;

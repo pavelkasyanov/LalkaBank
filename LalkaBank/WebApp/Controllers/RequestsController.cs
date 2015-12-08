@@ -28,22 +28,16 @@ namespace WebApp.Controllers
         }
 
         // GET: Requests
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            List<Request> list = null;
-            list = User.IsInRole("User") ? 
-                _requestService.GetListByPersonId( Guid.Parse(User.Identity.GetUserId()) ) : _requestService.GetList();
-
-            var model = new RequestsViewModel()
+            var viewModel = GetRequestsViewModelFromPage(page ?? 1);
+            if (viewModel == null)
             {
-                Requests = list.Select(
-                request => new SelectListItem()
-                {
-                    Text = request.CreditInfo, Value = request.Id.ToString()
-                }).ToList()
-        };
+                ViewBag.Result = false;
+                ViewBag.ResultMsg = "error load requests";
+            }
 
-            return View(model);
+            return View(viewModel);
         }
 
         public ActionResult Create()
@@ -158,6 +152,42 @@ namespace WebApp.Controllers
                     CreditHistoryIndex = request.Persons.CreditHistoryIndex
                 }
                 
+            };
+
+            return model;
+        }
+
+        private RequestsViewModel GetRequestsViewModelFromPage(int pageNumber)
+        {
+            int itemsInPage = 10;
+
+            List<Request> list = null;
+            list = User.IsInRole("User") ?
+                _requestService.GetListByPersonId(Guid.Parse(User.Identity.GetUserId())) : _requestService.GetList();
+            if (list == null)
+            {
+                return null;
+            }
+
+            int startRange = pageNumber * 10 - itemsInPage;
+            int allPageCount = list.Count/itemsInPage;
+            //int endRange = pageNumber + 9;
+
+            list = list.OrderBy(x => x.Number).ToList();
+            list = list.GetRange(startRange, itemsInPage);
+
+            var model = new RequestsViewModel()
+            {
+                Requests = list.Select(
+                request => new SelectListItem()
+                {
+                    Text = request.CreditInfo,
+                    Value = request.Id.ToString()
+                }).ToList(),
+
+                CurrentPageNumber = pageNumber,
+                AllPageCount = allPageCount,
+                ItemsPerPage = itemsInPage
             };
 
             return model;

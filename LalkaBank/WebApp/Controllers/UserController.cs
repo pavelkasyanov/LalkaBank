@@ -62,6 +62,8 @@ namespace WebApp.Controllers
                 return View(model);
             }
 
+
+
             var userId = Guid.Parse(User.Identity.GetUserId());
             var person = new Person()
             {
@@ -73,17 +75,36 @@ namespace WebApp.Controllers
                 DateBirth = model.DateBirth
             };
 
+            byte[] passportImage = null;
+            if (model.PassportImg != null)
+            {
+                var fileLen = model.PassportImg.ContentLength;
+                passportImage = new byte[fileLen];
+                model.PassportImg.InputStream.Read(passportImage, 0, fileLen);
+            }
+
             var pasport = new Passport()
             {
                 Number = model.Number,
                 RUVD = model.RUVD,
                 Adress = model.Adress,
-                Validity = model.Validity
+                Validity = model.Validity,
+                Image = passportImage
             };
 
-            _personService.RegisterUser(person, pasport);
+             var result = _personService.RegisterUser(person, pasport);
+            if (!result)
+            {
+                ViewBag.Result = false;
+                ViewBag.ResultMsg = "Error added user info";
+            }
+            else
+            {
+                ViewBag.Result = true;
+                ViewBag.ResultMsg = "user info suc update";
+            }
+            
 
-            ViewBag.Result = true;
 
             return View(model);
         }

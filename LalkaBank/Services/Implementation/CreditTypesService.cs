@@ -19,24 +19,55 @@ namespace Services.Implemenations
             _creditTypesDao = creditTypesDao;
         }
 
-        public void Create(CreditType creditTypes)
+        public bool Create(CreditType creditTypes)
         {
-            _creditTypesDao.CreateOrUpdate(creditTypes);
+            try
+            {
+                _creditTypesDao.CreateOrUpdate(creditTypes);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public CreditType Get(Guid id)
         {
-            return _creditTypesDao.GetById(id);
+            try
+            {
+                return _creditTypesDao.GetById(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _creditTypesDao.Delete(id);
+            try
+            {
+                _creditTypesDao.Delete(id);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<CreditType> GetList()
         {
-            return _creditTypesDao.GetList();
+            try
+            {
+                return _creditTypesDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private readonly CreditTypesDAO _creditTypesDao;

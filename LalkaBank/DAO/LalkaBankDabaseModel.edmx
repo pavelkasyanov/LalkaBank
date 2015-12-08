@@ -143,6 +143,7 @@
     <Property Name="RUVD" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Adress" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Validity" Type="datetime" Nullable="false" />
+    <Property Name="Image" Type="varbinary(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Payments">
     <Key>
@@ -506,6 +507,7 @@
           <Property Name="Adress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Validity" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Persons" Relationship="LalkaBankDabaseModel.FK_PersonPassport" FromRole="Passport" ToRole="Person" />
+          <Property Name="Image" Type="Binary" Nullable="false" />
         </EntityType>
         <EntityType Name="Payments">
           <Key>
@@ -803,6 +805,7 @@
           <ScalarProperty Name="RUVD" ColumnName="RUVD" />
           <ScalarProperty Name="Adress" ColumnName="Adress" />
           <ScalarProperty Name="Validity" ColumnName="Validity" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/06/2015 16:01:25
+-- Date Created: 12/09/2015 00:03:57
 -- Generated from EDMX file: E:\pavlik\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
 -- --------------------------------------------------
 
@@ -169,7 +169,8 @@ CREATE TABLE [dbo].[Passports] (
     [Number] nvarchar(max)  NOT NULL,
     [RUVD] nvarchar(max)  NOT NULL,
     [Adress] nvarchar(max)  NOT NULL,
-    [Validity] datetime  NOT NULL
+    [Validity] datetime  NOT NULL,
+    [Image] varbinary(max)  NOT NULL
 );
 GO
 

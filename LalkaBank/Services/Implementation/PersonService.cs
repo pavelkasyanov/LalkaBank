@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using DAO;
 using DAO.Implemenation;
 using DAO.Interafaces;
@@ -22,50 +23,103 @@ namespace Services.Implemenations
             _passportDao = passportDao;
         }
 
-        public void Create(Person person)
+        public bool Create(Person person)
         {
-            _personDao.CreateOrUpdate(person);
+            try
+            {
+                _personDao.CreateOrUpdate(person);
 
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public Person Get(Guid id)
         {
-            return _personDao.Get(id);
+            try
+            {
+                return _personDao.Get(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _personDao.Delete(id);
+            try
+            {
+                _personDao.Delete(id);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<Person> GetList()
         {
-            return _personDao.GetList();
+            try
+            {
+                return _personDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public bool RegisterUser(Person person, Passport passport)
         {
-            var pers = _personDao.Get(person.Id);
-            if (pers != null)
+            try
             {
-                person.PassportId = pers.PassportId;
-                _personDao.Update(person);
+                var pers = _personDao.Get(person.Id);
+                if (pers != null)
+                {
+                    person.PassportId = pers.PassportId;
+                    _personDao.Update(person);
 
-                var pass = _passportDao.Get(pers.PassportId);
+                    var pass = _passportDao.Get(pers.PassportId);
 
-                passport.Id = pass.Id;
+                    passport.Id = pass.Id;
+                    _passportDao.CreateOrUpdate(passport);
+
+                    return true;
+                }
+
+                passport.Id = Guid.NewGuid();
+                person.PassportId = passport.Id;
+
                 _passportDao.CreateOrUpdate(passport);
+                _personDao.CreateOrUpdate(person);
 
                 return true;
             }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
 
-            passport.Id = Guid.NewGuid();
-            person.PassportId = passport.Id;
-
-            _passportDao.CreateOrUpdate(passport);
-            _personDao.CreateOrUpdate(person);
-
-            return true;
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private readonly IPersonDAO _personDao;

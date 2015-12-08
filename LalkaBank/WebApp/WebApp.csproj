@@ -323,6 +323,7 @@
     <Content Include="Views\Credits\Index.cshtml" />
     <Content Include="Views\Messages\Show.cshtml" />
     <Content Include="Views\Credits\Show.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

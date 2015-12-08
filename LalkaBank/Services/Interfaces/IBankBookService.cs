@@ -6,13 +6,13 @@ namespace Services.Interfaces
 {
     public interface IBankBookService
     {
-        void Create(BankBook credit);
+        bool Create(BankBook credit);
 
         BankBook Get(Guid id);
 
-        void Delete(Guid id);
+        bool Delete(Guid id);
 
-        void Update(BankBook id);
+        bool Update(BankBook id);
 
         List<BankBook> GetList();
     }

@@ -4,49 +4,76 @@
 @{
     ViewBag.Title = "requests";
     int requestCount = 1;
+    int scalar = 0;
+    if (Model.CurrentPageNumber != 1)
+    {
+        scalar = Model.CurrentPageNumber * Model.ItemsPerPage - Model.ItemsPerPage;
+    }
 }
 
-<div class="row">
-    @if (!string.IsNullOrEmpty(ViewBag.Result))
+<div class="row lb-margin">
+    @if (ViewBag.Result != null && !ViewBag.Result)
     {
         <div class="row">
-            <div class="span">ViewBag.Result.ToString()</div>
+            <div class="span">ViewBag.ResultMsg.ToString()</div>
         </div>
     }
-    @if (User.IsInRole("User"))
+    else
     {
-        <div class="row">
-            <a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Create request</a>
-        </div>
-    }
-    <div class="row lb-margin">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Info</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var request in Model.Requests)
+        if (User.IsInRole("User"))
+        {
+            <div class="row">
+                <a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Create request</a>
+            </div>
+        }
+        <div class="rows lb-margin">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Info</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var request in Model.Requests)
                 {
-                    <tr>
-                        <td>@(requestCount++)</td>
-                        <td>@request.Text</td>
-                        <td>
-                            <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info" role="button">Просмотреть</a>
-                            @*<button id="@request.Value" type="button" class="btn btn-primary btn-lg btn-modal">
-                                Просмотреть
-                            </button>*@
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
+                            <tr>
+                                <td>@(requestCount++ + scalar)</td>
+                                <td>@request.Text</td>
+                                <td>
+                                    <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info" role="button">Просмотреть</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <nav>
+                    <ul class="pager">
+                        @if (Model.CurrentPageNumber == 1)
+                        {
+                            <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        }
+                        else
+                        {
+                            <li class="previous"><a href="@Url.Action("Index", "Requests", new {page = @Model.CurrentPageNumber - 1})"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        }
+                        @if (Model.CurrentPageNumber == Model.AllPageCount)
+                        {
+                            <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        }
+                        else
+                        {
+                            <li class="next"><a href="@Url.Action("Index", "Requests", new {page = @Model.CurrentPageNumber + 1})">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        }
+                    </ul>
+                </nav>
+            </div>
         </div>
-    </div>
+    }
 </div>
 
 <div id="requestInfoModal" title="Create Album" style="overflow: hidden;">

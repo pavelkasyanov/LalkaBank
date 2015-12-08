@@ -6,11 +6,11 @@ namespace Services.Interfaces
 {
     public interface IPersonService
     {
-        void Create(Person person);
+        bool Create(Person person);
 
         Person Get(Guid id);
 
-        void Delete(Guid id);
+        bool Delete(Guid id);
 
         List<Person> GetList();
 

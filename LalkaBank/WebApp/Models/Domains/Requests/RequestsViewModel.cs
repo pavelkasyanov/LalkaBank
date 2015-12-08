@@ -12,5 +12,11 @@ namespace WebApp.Models.Domains.Requests
 
         public Guid RequestId { get; set; }
         public IEnumerable<SelectListItem> Requests { get; set; }
+
+        public int CurrentPageNumber { get; set; }
+
+        public int AllPageCount { get; set; }
+
+        public int ItemsPerPage { get; set; }
     }
 }

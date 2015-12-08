@@ -25,83 +25,144 @@ namespace Services.Implemenations
             _messageDao = messageDao;
         }
 
-        public void Create(Request request)
+        public bool Create(Request request)
         {
-            request.Id = Guid.NewGuid();
+            try
+            {
+                request.Id = Guid.NewGuid();
 
-            _requestDao.CreateOrUpdate(request);
+                _requestDao.CreateOrUpdate(request);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public Request Get(Guid id)
         {
-            return _requestDao.Get(id);
+            try
+            {
+                return _requestDao.Get(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _requestDao.Delete(id);
+            try
+            {
+                _requestDao.Delete(id);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<Request> GetList()
         {
-            return _requestDao.GetList();
+            try
+            {
+                return _requestDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
 
         public List<Request> GetListByPersonId(Guid personId)
         {
-            return  GetList().Where(x => x.PersonId.Equals(personId)).ToList();
+            try
+            {
+                return GetList().Where(x => x.PersonId.Equals(personId)).ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public List<CreditType> GetCreditTypes()
         {
-            return _creditTypesDao.GetList();
+            try
+            {
+                return _creditTypesDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public bool ConfirmRequest(Guid requestId, Guid managerId, string msg)
         {
-            //create message
-            var request = _requestDao.Get(requestId);
-            request.Confirm = 1;
-            request.ManagerId = managerId;
-
-            _requestDao.CreateOrUpdate(request);
-
-            var message = new Message
+            try
             {
-                Id = Guid.NewGuid(),
-                PersonId = request.PersonId,
-                RequestId = requestId,
-                Text = msg,
-                ManagerId = managerId,
-                
-            };
+                //create message
+                var request = _requestDao.Get(requestId);
+                request.Confirm = 1;
+                request.ManagerId = managerId;
 
-            _messageDao.CreateOrUpdate(message);
+                _requestDao.CreateOrUpdate(request);
+
+                var message = new Message
+                {
+                    Id = Guid.NewGuid(),
+                    PersonId = request.PersonId,
+                    RequestId = requestId,
+                    Text = msg,
+                    ManagerId = managerId,
+
+                };
+
+                _messageDao.CreateOrUpdate(message);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
             return true;
         }
 
         public bool DiscartRequest(Guid requestId, Guid managerId, string msg)
         {
-            //create message
-            var request = _requestDao.Get(requestId);
-            request.Confirm = 2;
-
-            _requestDao.CreateOrUpdate(request);
-
-            var message = new Message
+            try
             {
-                Id = Guid.NewGuid(),
-                PersonId = request.PersonId,
-                RequestId = requestId,
-                Text = msg,
-                ManagerId = managerId,
+                //create message
+                var request = _requestDao.Get(requestId);
+                request.Confirm = 2;
 
-            };
+                _requestDao.CreateOrUpdate(request);
 
-            _messageDao.CreateOrUpdate(message);
+                var message = new Message
+                {
+                    Id = Guid.NewGuid(),
+                    PersonId = request.PersonId,
+                    RequestId = requestId,
+                    Text = msg,
+                    ManagerId = managerId,
 
-            return true;
+                };
+
+                _messageDao.CreateOrUpdate(message);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private readonly IRequestDAO _requestDao;

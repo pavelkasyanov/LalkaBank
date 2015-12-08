@@ -55,6 +55,5 @@ namespace WebApp.Models.Domains.Credits
 
         public virtual CreditTypeViewModel CreditType { get; set; }
 
-        //public Nullable<System.Guid> DebtsId { get; set; }
     }
 }

@@ -6,12 +6,12 @@ namespace Services.Interfaces
 {
     public interface IDebtService
     {
-        void Create(Debts debts);
+        bool Create(Debts debts);
 
 
         Debts Get(Guid id);
 
-        void Delete(Guid id);
+        bool Delete(Guid id);
 
         List<Debts> GetList();
     }

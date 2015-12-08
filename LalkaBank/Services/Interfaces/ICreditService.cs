@@ -6,11 +6,11 @@ namespace Services.Interfaces
 {
     public interface ICreditService
     {
-        void Create(Credit credit);
+        bool Create(Credit credit);
 
         Credit Get(Guid id);
 
-        void Delete(Guid id);
+        bool Delete(Guid id);
 
         List<Credit> GetList();
 
