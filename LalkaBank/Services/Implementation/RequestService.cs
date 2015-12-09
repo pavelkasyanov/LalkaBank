@@ -33,6 +33,8 @@ namespace Services.Implemenations
 
                 _requestDao.CreateOrUpdate(request);
 
+                _requestDao.SaveToBase();
+
                 return true;
             }
             catch (Exception)
@@ -58,6 +60,8 @@ namespace Services.Implemenations
             try
             {
                 _requestDao.Delete(id);
+
+                _requestDao.SaveToBase();
 
                 return true;
             }
@@ -126,6 +130,8 @@ namespace Services.Implemenations
                 };
 
                 _messageDao.CreateOrUpdate(message);
+
+                _requestDao.SaveToBase();
             }
             catch (Exception)
             {
@@ -157,10 +163,13 @@ namespace Services.Implemenations
 
                 _messageDao.CreateOrUpdate(message);
 
+                _requestDao.SaveToBase();
+
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                throw;
                 return false;
             }
         }

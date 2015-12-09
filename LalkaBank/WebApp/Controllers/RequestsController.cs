@@ -112,7 +112,7 @@ namespace WebApp.Controllers
             var msg = "Discart suc!";
             _requestService.DiscartRequest(id, Guid.Parse(User.Identity.GetUserId()), msg);
 
-            return RedirectToAction("Show", id);
+            return RedirectToAction("Show", new { id = id});
         }
 
         private IEnumerable<SelectListItem> GetCreditTypes()
@@ -171,10 +171,16 @@ namespace WebApp.Controllers
 
             int startRange = pageNumber * 10 - itemsInPage;
             int allPageCount = list.Count/itemsInPage;
-            //int endRange = pageNumber + 9;
+            int ost = list.Count % itemsInPage;
+            if (ost != 0)
+            {
+                allPageCount++;
+            }
+
+            int selectCount = ( (pageNumber >= allPageCount && ost != 0) ?  ost : itemsInPage);
 
             list = list.OrderBy(x => x.Number).ToList();
-            list = list.GetRange(startRange, itemsInPage);
+            list = list.GetRange(startRange, selectCount);
 
             var model = new RequestsViewModel()
             {

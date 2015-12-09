@@ -26,6 +26,8 @@ namespace Services.Implemenations
             {
                 _passportDao.CreateOrUpdate(passport);
 
+                _passportDao.SaveToBase();
+
                 return true;
             }
             catch (Exception)
@@ -52,6 +54,8 @@ namespace Services.Implemenations
             try
             {
                 _passportDao.Delete(id);
+
+                _passportDao.SaveToBase();
 
                 return true;
             }

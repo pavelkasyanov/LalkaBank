@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\BankAccountService.cs" />
     <Compile Include="Implementation\BankBookService.cs" />
     <Compile Include="Implementation\CreditService.cs" />
     <Compile Include="Implementation\CreditTypesService.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Implementation\PaymentService.cs" />
     <Compile Include="Implementation\PersonService.cs" />
     <Compile Include="Implementation\RequestService.cs" />
+    <Compile Include="Interfaces\IBankAccountService.cs" />
     <Compile Include="Interfaces\IBankBookService.cs" />
     <Compile Include="Interfaces\ICreditService.cs" />
     <Compile Include="Interfaces\ICreditTypesService.cs" />

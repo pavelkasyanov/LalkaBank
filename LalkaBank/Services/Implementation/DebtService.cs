@@ -25,6 +25,9 @@ namespace Services.Implemenations
             try
             {
                 _debtDao.CreateOrUpdate(debt);
+                
+                _debtDao.SaveToBase();
+
                 return true;
             }
             catch (Exception)
@@ -50,6 +53,7 @@ namespace Services.Implemenations
             try
             {
                 _debtDao.Delete(id);
+                _debtDao.SaveToBase();
                 return true;
             }
             catch (Exception)

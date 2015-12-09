@@ -61,5 +61,13 @@ namespace DAO.Implemenation
                 return _db.CreditTypes.ToList();
             }
         }
+
+        public void SaveToBase()
+        {
+            lock (Look)
+            {
+                _db.SaveChanges();
+            }
+        }
     }
 }

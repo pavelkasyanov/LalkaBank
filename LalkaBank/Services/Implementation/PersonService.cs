@@ -29,6 +29,8 @@ namespace Services.Implemenations
             {
                 _personDao.CreateOrUpdate(person);
 
+                _personDao.SaveToBase();
+
                 return true;
             }
             catch (Exception)
@@ -54,6 +56,8 @@ namespace Services.Implemenations
             try
             {
                 _personDao.Delete(id);
+
+                _personDao.SaveToBase();
 
                 return true;
             }
@@ -99,20 +103,22 @@ namespace Services.Implemenations
                 _passportDao.CreateOrUpdate(passport);
                 _personDao.CreateOrUpdate(person);
 
+                _personDao.SaveToBase();
+
                 return true;
             }
             catch (DbEntityValidationException e)
             {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
+                //foreach (var eve in e.EntityValidationErrors)
+                //{
+                //    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                //        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                //    foreach (var ve in eve.ValidationErrors)
+                //    {
+                //        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                //            ve.PropertyName, ve.ErrorMessage);
+                //    }
+                //}
 
                 return false;
             }

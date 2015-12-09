@@ -26,6 +26,7 @@ namespace Services.Implemenations
             try
             {
                 _bankBookDao.CreateOrUpdate(book);
+                _bankBookDao.SaveToBase();
                 return true;
             }
             catch (Exception)
@@ -51,6 +52,7 @@ namespace Services.Implemenations
             try
             {
                 _bankBookDao.Delete(id);
+                _bankBookDao.SaveToBase();
 
                 return true;
             }
@@ -79,6 +81,7 @@ namespace Services.Implemenations
             try
             {
                 _bankBookDao.Update(book);
+                _bankBookDao.SaveToBase();
 
                 return true;
             }

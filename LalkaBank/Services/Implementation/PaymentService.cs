@@ -27,6 +27,8 @@ namespace Services.Implemenations
             {
                 _paymentDao.CreateOrUpdate(payment);
 
+                _paymentDao.SaveToBase();
+
                 return true;
             }
             catch (Exception)
@@ -53,6 +55,8 @@ namespace Services.Implemenations
             try
             {
                 _paymentDao.Delete(id);
+
+                _paymentDao.SaveToBase();
 
                 return true;
             }

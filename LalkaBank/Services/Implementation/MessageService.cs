@@ -26,6 +26,9 @@ namespace Services.Implemenations
             try
             {
                 _messageDao.CreateOrUpdate(message);
+
+                _messageDao.SaveToBase();
+
                 return true;
             }
             catch (Exception)
@@ -51,6 +54,8 @@ namespace Services.Implemenations
             try
             {
                 _messageDao.Delete(id);
+
+                _messageDao.SaveToBase();
 
                 return true;
             }

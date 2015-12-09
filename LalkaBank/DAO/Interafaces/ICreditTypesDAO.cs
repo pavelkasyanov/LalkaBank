@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace DAO.Interafaces
 {
     // ReSharper disable once InconsistentNaming
-    public interface ICreditTypesDAO
+    public interface ICreditTypesDAO : IContexstSave
     {
         void CreateOrUpdate(CreditType creditTypes);
 

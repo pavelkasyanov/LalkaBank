@@ -24,6 +24,7 @@ namespace Services.Implemenations
             try
             {
                 _creditTypesDao.CreateOrUpdate(creditTypes);
+                _creditTypesDao.SaveToBase();
                 return true;
             }
             catch (Exception)
@@ -50,6 +51,7 @@ namespace Services.Implemenations
             try
             {
                 _creditTypesDao.Delete(id);
+                _creditTypesDao.SaveToBase();
                 return true;
             }
             catch (Exception)

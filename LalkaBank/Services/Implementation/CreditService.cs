@@ -31,6 +31,7 @@ namespace Services.Implemenations
             try
             {
                 _creditDao.CreateOrUpdate(credit);
+                _debtDao.SaveToBase();
 
                 return true;
             }
@@ -40,7 +41,7 @@ namespace Services.Implemenations
             }
         }
 
-        public DAO.Credit Get(Guid id)
+        public Credit Get(Guid id)
         {
             try
             {
@@ -57,6 +58,7 @@ namespace Services.Implemenations
             try
             {
                 _creditDao.Delete(id);
+                _debtDao.SaveToBase();
 
                 return true;
             }
@@ -127,6 +129,8 @@ namespace Services.Implemenations
                     cache = 0
                 };
                 _bankBookDao.CreateOrUpdate(bankBook);
+
+                _debtDao.SaveToBase();
 
                 return true;
             }

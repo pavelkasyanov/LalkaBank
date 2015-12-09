@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace DAO.Interafaces
 {
     // ReSharper disable once InconsistentNaming
-    public interface IPersonDAO
+    public interface IPersonDAO : IContexstSave
     {
         void CreateOrUpdate(Person person);
 

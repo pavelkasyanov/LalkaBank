@@ -51,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BankAaccount.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="BankBook.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
@@ -73,6 +76,9 @@
     <Compile Include="Implementation\PaymentDAO.cs" />
     <Compile Include="Implementation\PersonDAO.cs" />
     <Compile Include="Implementation\RequestDAO.cs" />
+    <Compile Include="Implementation\BankAccountDAO.cs" />
+    <Compile Include="Interafaces\IBankAccountDAO.cs" />
+    <Compile Include="Interafaces\IContextSave.cs" />
     <Compile Include="Interafaces\IBankBookDAO.cs" />
     <Compile Include="Interafaces\ICreditDAO.cs" />
     <Compile Include="Interafaces\ICreditTypesDAO.cs" />

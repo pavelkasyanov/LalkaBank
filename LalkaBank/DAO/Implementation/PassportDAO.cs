@@ -59,5 +59,13 @@ namespace DAO.Implemenation
                 return _db.Passports.ToList();
             }
         }
+
+        public void SaveToBase()
+        {
+            lock (Look)
+            {
+                _db.SaveChanges();
+            }
+        }
     }
 }

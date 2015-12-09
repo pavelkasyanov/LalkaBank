@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/09/2015 00:03:57
+-- Date Created: 12/10/2015 01:31:02
 -- Generated from EDMX file: E:\pavlik\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
 -- --------------------------------------------------
 
@@ -93,6 +93,9 @@ IF OBJECT_ID(N'[dbo].[Requests]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[sysdiagrams]', 'U') IS NOT NULL
     DROP TABLE [dbo].[sysdiagrams];
+GO
+IF OBJECT_ID(N'[dbo].[BankAaccount]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BankAaccount];
 GO
 
 -- --------------------------------------------------
@@ -221,6 +224,13 @@ CREATE TABLE [dbo].[sysdiagrams] (
 );
 GO
 
+-- Creating table 'BankAaccount'
+CREATE TABLE [dbo].[BankAaccount] (
+    [Id] uniqueidentifier  NOT NULL,
+    [Amount] decimal(18,0)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -289,6 +299,12 @@ GO
 ALTER TABLE [dbo].[sysdiagrams]
 ADD CONSTRAINT [PK_sysdiagrams]
     PRIMARY KEY CLUSTERED ([diagram_id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'BankAaccount'
+ALTER TABLE [dbo].[BankAaccount]
+ADD CONSTRAINT [PK_BankAaccount]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------

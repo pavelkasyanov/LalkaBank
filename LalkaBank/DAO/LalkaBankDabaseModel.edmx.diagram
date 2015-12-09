@@ -30,6 +30,7 @@
         <AssociationConnector Association="LalkaBankDabaseModel.CreditTypesSetRequestSet" />
         <AssociationConnector Association="LalkaBankDabaseModel.RequestMessage" ManuallyRouted="false" >
         </AssociationConnector>
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.BankAaccount" Width="1.5" PointX="8.625" PointY="5.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

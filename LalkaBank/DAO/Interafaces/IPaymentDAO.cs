@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace DAO.Interafaces
 {
     // ReSharper disable once InconsistentNaming
-    public interface IPaymentDAO
+    public interface IPaymentDAO : IContexstSave
     {
         void CreateOrUpdate(Payments payment);
 
