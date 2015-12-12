@@ -1,4 +1,5 @@
-﻿@model WebApp.Models.Domains.Users.UserInfoViewModel
+﻿@using Microsoft.AspNet.Identity
+@model WebApp.Models.Domains.Users.UserInfoViewModel
 @{
     ViewBag.Title = "title";
 }
@@ -14,94 +15,171 @@
                 }
                 else
                 {
-                    <div class="span" style="color: red">@ViewBag.ResultMsg.ToString()</div>
+                    <div class="span" style="color: red">@ViewBag.Result Msg.ToString()</div>
                 }
             </div>
         }
 
-        @using (Html.BeginForm("UserInfo", "User", FormMethod.Post, new {@class = "form-horizontal",
-            role = "form",
-            enctype = "multipart/form-data"}))
-        {
-            <div class="row">
-                @Html.ValidationSummary("", new {@class = "text-danger"})
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>@Html.LabelFor(m => Model.Email)</td>
+                        <td>@Model.Email</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => Model.Name)</td>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => Model.SecondName)</td>
+                        <td>@Model.SecondName</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => Model.LastName)</td>
+                        <td>@Model.LastName</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => Model.DateBirth)</td>
+                        <td>@Model.DateBirth</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => Model.RUVD)</td>
+                        <td>@Model.RUVD</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => Model.Adress)</td>
+                        <td>@Model.Adress</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => Model.Validity)</td>
+                        <td>@Model.Validity</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => Model.PassportImage)</td>
+                        <td>
+                            @if (Model.PassportImage != null)
+                            {
+                                <img src="data:image;base64,@Convert.ToBase64String(Model.PassportImage)" alt="" width="100px" height="100px" />
+                            }
+                            else
+                            {
+                                <img src="" alt="" width="100px" height="100px" />
+                            }
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
+        </div>
+        <div class="row">
+            @if (User.IsInRole("User"))
+            {
             <div class="row">
-                <b>@Html.LabelFor(m => m.Email)</b>
+                <a href="@Url.Action("EditUserInfo", "User", new {id=Model.Id})" class="btn btn-primary">Edit info</a>
+            </div>
+            }
+            else
+            {
+                if (User.IsInRole("Admin"))
+                {
                 <div class="row">
-                    @Html.TextBoxFor(m => m.Email, new {htmlAttributes = new {@class = "form-control"}})
+                    @if (Model.IsBanned)
+                    {
+                        <input type="button" id="ban_user_btn" data-value="false" class="btn btn-primary user-banned" data-bind="false" data-loading-text="Processing..." value="Unban user account" autocomplete="off" />
+                                <input type="hidden" id="userBanValue" value="false" />
+                    }
+                    else
+                    {
+                        <input type="button" id="ban_user_btn" data-value="false" class="btn btn-primary user-unban" data-bind="true" data-loading-text="Processing..." value="Ban user account" autocomplete="off" />
+                                <input type="hidden" id="userBanValue" value="true" />
+                    }
+                    <div class="row">
+                        <div id="ban_result" class="alert alert-dismissable fade-in" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <b>@Html.LabelFor(m => m.Name)</b>
-                <div class="row">
-                    @Html.TextBoxFor(m => m.Name, new {htmlAttributes = new {@class = "form-control"}})
-                </div>
-            </div>
-            <div class="row">
-                <b>@Html.LabelFor(m => m.SecondName)</b>
-                <div class="row">
-                    @Html.TextBoxFor(m => m.SecondName, new {htmlAttributes = new {@class = "form-control"}})
-                </div>
-            </div>
-            <div class="row">
-                <b>@Html.LabelFor(m => m.LastName)</b>
-                <div class="row">
-                    @Html.TextBoxFor(m => m.LastName, new {htmlAttributes = new {@class = "form-control"}})
-                </div>
-            </div>
-            <div class="row">
-                <b>@Html.LabelFor(m => m.DateBirth)</b>
-                <div class="row">
-                    @Html.EditorFor(m => m.DateBirth, new {htmlAttributes = new {@class = "form-control"}})
-                </div>
-            </div>
-            <div class="row">
-                <b>@Html.LabelFor(m => m.Number)</b>
-                <div class="row">
-                    @Html.TextBoxFor(m => m.Number, new {htmlAttributes = new {@class = "form-control"}})
-                </div>
-            </div>
-            <div class="row">
-                <b>@Html.LabelFor(m => m.RUVD)</b>
-                <div class="row">
-                    @Html.TextBoxFor(m => m.RUVD, new {htmlAttributes = new {@class = "form-control"}})
-                </div>
-            </div>
-            <div class="row">
-                <b>@Html.LabelFor(m => m.Adress)</b>
-                <div class="row">
-                    @Html.TextBoxFor(m => m.Adress, new {htmlAttributes = new {@class = "form-control"}})
-                </div>
-            </div>
-            <div class="row">
-                <b>@Html.LabelFor(m => m.Validity)</b>
-                <div class="row">
-                    @Html.EditorFor(m => m.Validity, new {htmlAttributes = new {@class = "form-control"}})
-                </div>
-            </div>
-            <div class="row">
-                @Html.LabelFor(m => m.PassportImg)
-                <div class="row">
-                    @Html.TextBoxFor(m => m.PassportImg, new {type = "file"})
-                </div>
-            </div>
-            <Br/>
-            <div class="row">
-                <input type="submit" class="btn btn-primary" value="Edit"/>
-            </div>
-        }
+                }
+            }
+        </div>
+
     </div>
 </div>
+
+<div id="userInfoModal" class="modal fade" title="Create Album">
+    <div id="dialogContent" class="modal-dialog">
+    </div>
+</div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-        jQuery(function ($) {
+
+        var isBan = $('#userBanValue').val();
+
+        function processData(data) {
+            alert(data);
+        }
+
+        jQuery(function($) {
             if ($('[type="date"]').prop('type') != 'date') {
                 $('[type="date"]').datepicker();
             }
-        })
+
+            $('#ban_user_btn').click(function() {
+                var databind = isBan;
+
+                $.ajax({
+                    url: '@Url.Action("BanUser", "Admin")',
+                    type: 'POST',
+                    data: { userId: '@Model.Id', isBan: databind},
+                    success: function (data) {
+                        var banResultLabel = $('#ban_result');
+                        var btn = $('#ban_user_btn');
+
+                        banResultLabel.text(data.msg);
+                        banResultLabel.fadeTo(10, 1);
+                        if (data.result) {
+                            banResultLabel.addClass('alert-success');
+                            banResultLabel.removeClass('alert-danger');
+                          
+                            if (data.banned) {
+                                btn.addClass('user-banned');
+                                btn.removeClass('user-unban');
+                                btn.prop('value', 'Unban user account');
+                                $('#userBanValue').html("false");
+                                isBan = false;
+                            } else {
+                                btn.addClass('user-unban');
+                                btn.removeClass('user-banned');
+                                btn.prop('value', 'Ban user account');
+                                $('#userBanValue').html("true");
+                                isBan = true;
+                            }
+
+                        } else {
+                            banResultLabel.addClass('alert-danger');
+                            banResultLabel.removeClass('alert-success');
+                        }
+
+                        //btn.button('reset');
+                        //banResultLabel.animate({ opacity: 0 }, 3000);
+                        banResultLabel.fadeTo(5000, 0);
+                    }
+                });
+            });
+        });
     </script>
 }
 

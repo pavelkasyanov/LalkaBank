@@ -19,8 +19,10 @@
             <div class="lb-container" id="lb-area">
                 <b>@User.Identity.Name</b>
                 <b><a class="lb-area" href="@Url.Action("Index", "Home")">Moя страница</a></b>
-                <b><a class="lb-area" href="">Кредиты</a></b>
+                <b><a class="lb-area" href="@Url.Action("Index", "Credits")">Кредиты</a></b>
+                    <b><a class="lb-area" style="margin-left: 20px;" href="@Url.Action("Index", "CreditTypes")">Типы кредитов</a></b>
                 <b><a class="lb-area" href="@Url.Action("Index", "Requests")">Заявки</a></b>
+                    <b><a class="lb-area" style="margin-left: 20px;" href="@Url.Action("Find", "Requests")">Поиск</a></b>
                 <b><a class="lb-area" href="@Url.Action("Index", "Messages")">Сообщения</a></b>
                 <div class="lb-margin">
                     <b>

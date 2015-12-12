@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -33,29 +34,58 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult UserInfo()
+        public ActionResult UserInfo(Guid? id)
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
+            var userId = id ?? Guid.Parse(User.Identity.GetUserId());
+
             var user = _personService.Get(userId);
 
             var model = new UserInfoViewModel
             {
+                Id = (user?.Id ?? id ?? Guid.NewGuid()),
                 Email = user?.Login ?? User.Identity.Name,
                 Name = user?.Name ?? "",
                 LastName = user?.LastName ?? "",
                 SecondName = user?.SecondName ?? "",
-                DateBirth = user?.DateBirth ?? DateTime.Now,
+                DateBirth = user?.DateBirth ?? new DateTime(),
                 Number = user?.Passports.Number ?? "",
                 RUVD = user?.Passports.RUVD ?? "",
                 Adress = user?.Passports.Adress ?? "",
-                Validity = user?.Passports.Validity ?? DateTime.Now
+                Validity = user?.Passports.Validity ?? new DateTime(),
+                IsBanned =  user?.IsBanned ?? false,
+                PassportImage = user?.Passports.Image ?? null
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult EditUserInfo(Guid? id)
+        {
+            var userId = id ?? Guid.Parse(User.Identity.GetUserId());
+
+            var user = _personService.Get(userId);
+
+            var model = new UserInfoViewModel
+            {
+                Id = (user?.Id ?? id ?? Guid.NewGuid()),
+                Email = user?.Login ?? User.Identity.Name,
+                Name = user?.Name ?? "",
+                LastName = user?.LastName ?? "",
+                SecondName = user?.SecondName ?? "",
+                DateBirth = user?.DateBirth ?? new DateTime(),
+                Number = user?.Passports.Number ?? "",
+                RUVD = user?.Passports.RUVD ?? "",
+                Adress = user?.Passports.Adress ?? "",
+                Validity = user?.Passports.Validity ?? new DateTime(),
+                IsBanned = user?.IsBanned ?? false
             };
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult UserInfo(UserInfoViewModel model)
+        public ActionResult EditUserInfo(UserInfoViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -108,12 +138,60 @@ namespace WebApp.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        public JsonResult UserInfoAjax(UserInfoViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(false);
+            }
+
+
+
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var person = new Person()
+            {
+                Id = userId,
+                Login = model.Email,
+                Name = model.Name,
+                LastName = model.LastName,
+                SecondName = model.SecondName,
+                DateBirth = model.DateBirth
+            };
+
+            byte[] passportImage = null;
+            if (model.PassportImg != null)
+            {
+                var fileLen = model.PassportImg.ContentLength;
+                passportImage = new byte[fileLen];
+                model.PassportImg.InputStream.Read(passportImage, 0, fileLen);
+            }
+
+            var pasport = new Passport()
+            {
+                Number = model.Number,
+                RUVD = model.RUVD,
+                Adress = model.Adress,
+                Validity = model.Validity,
+                Image = passportImage
+            };
+
+            var result = _personService.RegisterUser(person, pasport);
+            if (!result)
+            {
+                ViewBag.Result = false;
+                ViewBag.ResultMsg = "Error added user info";
+            }
+            else
+            {
+                ViewBag.Result = true;
+                ViewBag.ResultMsg = "user info suc update";
+            }
+
+
+
+            return Json(true);
+        }
     }
-
-    //var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
-    //var userManager = new UserManager<ApplicationUser>(store);
-    //var test = User.Identity;
-    //ApplicationUser logginedUser = userManager.FindById(User.Identity.GetUserId());
-
-    //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
 }

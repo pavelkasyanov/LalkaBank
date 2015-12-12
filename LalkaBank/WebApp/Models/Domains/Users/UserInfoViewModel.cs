@@ -7,6 +7,8 @@ namespace WebApp.Models.Domains.Users
 {
     public class UserInfoViewModel
     {
+        public Guid Id { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -64,5 +66,7 @@ namespace WebApp.Models.Domains.Users
 
         [DisplayName("IncomeImage")]
         public HttpPostedFileBase PassportImg { get; set; }
+
+        public bool IsBanned { get; set; }
     }
 }

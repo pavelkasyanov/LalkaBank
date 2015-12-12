@@ -26,6 +26,9 @@ namespace DAO
         public double StartSumPercent { get; set; }
         public int PayCount { get; set; }
         public string Info { get; set; }
+        public string Name { get; set; }
+        public System.DateTime Created { get; set; }
+        public bool Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Credit> Credits { get; set; }

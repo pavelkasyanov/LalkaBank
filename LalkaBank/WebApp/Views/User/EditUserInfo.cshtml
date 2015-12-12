@@ -1,0 +1,75 @@
+﻿@model WebApp.Models.Domains.Users.UserInfoViewModel
+
+<div class="row lb-margin">
+        @if (ViewBag.Result != null)
+        {
+            <div class="row">
+                @if (ViewBag.Result)
+                {
+                    <div class="span" style="color: green">@ViewBag.ResultMsg.ToString()</div>
+                }
+                else
+                {
+                    <div class="span" style="color: red">@ViewBag.ResultMsg.ToString()</div>
+                }
+            </div>
+        }
+
+        @using (Html.BeginForm("EditUserInfo", "User", FormMethod.Post, new
+        {
+            @class = "form-horizontal",
+            role = "form",
+            enctype = "multipart/form-data"
+        }))
+        {
+            <div class="form-group">
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <b>@Html.LabelFor(m => m.Email)</b>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <b>@Html.LabelFor(m => m.Name)</b>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <b>@Html.LabelFor(m => m.SecondName)</b>
+                @Html.TextBoxFor(m => m.SecondName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <b>@Html.LabelFor(m => m.LastName)</b>
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <b>@Html.LabelFor(m => m.DateBirth)</b>
+                @Html.EditorFor(m => m.DateBirth, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="form-group">
+                <b>@Html.LabelFor(m => m.Number)</b>
+                @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <b>@Html.LabelFor(m => m.RUVD)</b>
+                @Html.TextBoxFor(m => m.RUVD, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <b>@Html.LabelFor(m => m.Adress)</b>
+                <div class="row">
+                    @Html.TextBoxFor(m => m.Adress, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <b>@Html.LabelFor(m => m.Validity)</b>
+                @Html.EditorFor(m => m.Validity, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.PassportImg)
+                @Html.TextBoxFor(m => m.PassportImg, new { type = "file", @style = "form-control" })
+            </div>
+            <Br />
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Edit" />
+            </div>
+        }
+</div>

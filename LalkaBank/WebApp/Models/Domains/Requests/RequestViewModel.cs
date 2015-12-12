@@ -8,21 +8,17 @@ namespace WebApp.Models.Domains.Requests
 {
     public class RequestViewModel
     {
-        public Guid RequestId { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
-        [DisplayName("Размер кредита")]
+        [DisplayName("CreditInfo")]
         public string CreditInfo { get; set; }
 
         [DataType(DataType.DateTime)]
-        [DisplayName("DateStart")]
-        public System.DateTime DateStart { get; set; }
+        [DisplayName("Date")]
+        public System.DateTime Date { get; set; }
 
-        [DataType(DataType.DateTime)]
-        [DisplayName(" DateEnd")]
-        public System.DateTime DateEnd { get; set; }
-
-        [DisplayName(" DateEnd")]
+        [DisplayName("Number")]
         public int Number { get; set; }
 
         [DisplayName("PassportImage")]
@@ -37,7 +33,7 @@ namespace WebApp.Models.Domains.Requests
         [DisplayName("CreditType")]
         public virtual CreditTypeViewModel CreditType { get; set; }
 
-        [DisplayName(" UserInfo")]
+        [DisplayName("UserInfo")]
         public virtual UserInfoPartialViewModel UserInfo { get; set; }
 
         [DisplayName("Passport")]

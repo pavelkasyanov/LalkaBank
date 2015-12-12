@@ -108,6 +108,9 @@
     <Property Name="StartSumPercent" Type="float" Nullable="false" />
     <Property Name="PayCount" Type="int" Nullable="false" />
     <Property Name="Info" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Debts">
     <Key>
@@ -167,6 +170,7 @@
     <Property Name="DateBirth" Type="datetime" Nullable="true" />
     <Property Name="PassportId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="CreditHistoryIndex" Type="int" Nullable="false" />
+    <Property Name="IsBanned" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Requests">
     <Key>
@@ -182,6 +186,8 @@
     <Property Name="Confirm" Type="int" Nullable="false" />
     <Property Name="Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="StartSum" Type="int" Nullable="false" />
+    <Property Name="GuarantorImage" Type="varbinary(max)" Nullable="true" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -472,6 +478,9 @@
           <Property Name="Info" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Credits" Relationship="LalkaBankDabaseModel.FK_CreditCreditTypes" FromRole="CreditTypesSet" ToRole="CreditSet" />
           <NavigationProperty Name="Requests" Relationship="LalkaBankDabaseModel.CreditTypesSetRequestSet" FromRole="CreditTypesSet" ToRole="RequestSet" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Debts">
           <Key>
@@ -544,6 +553,7 @@
           <NavigationProperty Name="Passports" Relationship="LalkaBankDabaseModel.FK_PersonPassport" FromRole="Person" ToRole="Passport" />
           <NavigationProperty Name="Requests" Relationship="LalkaBankDabaseModel.FK_PersonRequest" FromRole="Person" ToRole="Request" />
           <Property Name="CreditHistoryIndex" Type="Int32" Nullable="false" />
+          <Property Name="IsBanned" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Request">
           <Key>
@@ -563,6 +573,8 @@
           <Property Name="Number" Type="Int32" Nullable="false" ConcurrencyMode="None" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Messages" Relationship="LalkaBankDabaseModel.RequestMessage" FromRole="Request" ToRole="Message" />
           <Property Name="StartSum" Nullable="false" Type="Int32" />
+          <Property Name="GuarantorImage" Type="Binary" Nullable="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -781,6 +793,9 @@
           <ScalarProperty Name="StartSumPercent" ColumnName="StartSumPercent" />
           <ScalarProperty Name="PayCount" ColumnName="PayCount" />
           <ScalarProperty Name="Info" ColumnName="Info" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -846,6 +861,7 @@
           <ScalarProperty Name="DateBirth" ColumnName="DateBirth" />
           <ScalarProperty Name="PassportId" ColumnName="PassportId" />
           <ScalarProperty Name="CreditHistoryIndex" ColumnName="CreditHistoryIndex" />
+          <ScalarProperty Name="IsBanned" ColumnName="IsBanned" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -862,6 +878,8 @@
           <ScalarProperty Name="Confirm" ColumnName="Confirm" />
           <ScalarProperty Name="Number" ColumnName="Number" />
           <ScalarProperty Name="StartSum" ColumnName="StartSum" />
+          <ScalarProperty Name="GuarantorImage" ColumnName="GuarantorImage" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

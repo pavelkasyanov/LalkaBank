@@ -1,0 +1,111 @@
+﻿@model WebApp.Models.Domains.Credits.CreditTypeViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">&times;</button>
+        <h4>User Info</h4>
+    </div>
+    <div class="modal-body">
+        @using (Html.BeginForm("Create", "CreditTypes", FormMethod.Post, new
+        {
+            role = "form"
+        }))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)
+                @Model.Name
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.PayCount)
+                @Model.PayCount
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Percent)
+                @Model.Percent
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.StartSumPercent)
+                @Model.StartSumPercent
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Info)
+                @Model.Info
+            </div>
+            <Br/>
+            <div class="form-group">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @if (Model.IsActive)
+                {
+                    <button type="button" id="ban_user_btn" class="btn btn-primary ban">set active</button>
+                    <input type="hidden" id="userBanValue" value="false" />
+                }
+                else
+                {
+                    <button type="button" id="ban_user_btn" class="btn btn-primary ban">set not active</button>
+                    <input type="hidden" id="userBanValue" value="true" />
+                }
+            </div>
+            <div class="row">
+                <div id="ban_result" class="alert alert-dismissable fade-in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+    <script type="text/javascript">
+        jQuery(function ($) {
+            $('#ban_user_btn').click(function () {
+                var banResultLabel = $('#ban_result');
+                var isBan = $('#userBanValue').val();
+
+                var databind = isBan;
+
+                $.ajax({
+                    url: '@Url.Action("Freeze", "CreditTypes")',
+                    type: 'POST',
+                    data: { creditTypeId: '@Model.Id', isActive: databind },
+                    success: function (data) {
+                        var btn = $('#ban_user_btn');
+
+                        banResultLabel.text(data.msg);
+                        banResultLabel.fadeTo(10, 1);
+                        if (data.result) {
+                            banResultLabel.addClass('alert-success');
+                            banResultLabel.removeClass('alert-danger');
+
+                            if (data.active) {
+                                btn.addClass('user-banned');
+                                btn.removeClass('user-unban');
+                                btn.prop('value', 'set active');
+                                $('#userBanValue').html("false");
+                                isBan = false;
+                            } else {
+                                btn.addClass('user-unban');
+                                btn.removeClass('user-banned');
+                                btn.prop('value', 'set not active');
+                                $('#userBanValue').html("true");
+                                isBan = true;
+                            }
+
+                        } else {
+                            banResultLabel.addClass('alert-danger');
+                            banResultLabel.removeClass('alert-success');
+                        }
+
+                        banResultLabel.fadeTo(5000, 0);
+                    },
+                    error: function(xhr, textStatus, errorThrown){
+                        alert('request failed');
+
+                        banResultLabel.text('error connect to server');
+                        banResultLabel.fadeTo(10, 1);
+                        banResultLabel.addClass('alert-danger');
+                        banResultLabel.removeClass('alert-success');
+                    }
+                });
+            });
+        });
+    </script>
+</div>

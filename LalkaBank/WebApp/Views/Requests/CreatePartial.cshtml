@@ -1,0 +1,50 @@
+﻿@model WebApp.Models.Domains.Requests.CreateRequestViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">&times;</button>
+        <h4>User Info</h4>
+    </div>
+    <div class="modal-body">
+            @using (Html.BeginForm("Create", "Requests", FormMethod.Post, new
+            {
+                role = "form",
+                enctype = "multipart/form-data"
+            }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.ValidationSummary("", new {@class = "text-danger"})
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CreditTypeId)
+
+                    @Html.DropDownListFor(m => m.CreditTypeId, Model.CreditTypes, new {@class = "form-control"})
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.StartSum)
+                    @Html.EditorFor(m => m.StartSum, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CreditInfo)
+                    @Html.TextBoxFor(m => m.CreditInfo, new {@class = "form-control"})
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.IncomeImage)
+                    @Html.TextBoxFor(m => m.IncomeImage, new {type = "file", @class = "form-control"})
+                </div>
+                <Br/>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Register"/>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                <div class="row">
+                    <div id="result" class="alert alert-dismissable fade-in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            }
+    </div>
+</div>

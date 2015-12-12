@@ -39,7 +39,7 @@ namespace Services.Implemenations
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
         }
 
@@ -51,6 +51,7 @@ namespace Services.Implemenations
             }
             catch (Exception)
             {
+                throw;
                 return null;
             }
         }

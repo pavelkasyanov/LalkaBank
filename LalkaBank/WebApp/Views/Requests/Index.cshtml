@@ -15,16 +15,37 @@
     @if (ViewBag.Result != null && !ViewBag.Result)
     {
         <div class="row">
-            <div class="span">ViewBag.ResultMsg.ToString()</div>
+            <div class="span">@ViewBag.ResultMsg.ToString()</div>
         </div>
     }
     else
     {
-        if (User.IsInRole("User"))
+        if (ViewBag.isUserNotRegister != null && ViewBag.isUserNotRegister && User.IsInRole("User"))
         {
             <div class="row">
-                <a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Create request</a>
+                <h4>
+                    <span class="label label-danger">@Html.ActionLink("Your need adding info about you", "UserInfo", "User")</span>
+                </h4>
             </div>
+        }
+        else
+        {
+
+            if (User.IsInRole("User"))
+            {
+                if (ViewBag.isUserBanned != null && ViewBag.isUserBanned)
+                {
+                    <div class="row">
+                        <span class="label label-default"> Your Account is blocked</span>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Create request</a>
+                    </div>
+                }
+            }
         }
         <div class="rows lb-margin">
             <div class="table-responsive">
@@ -38,12 +59,12 @@
                     </thead>
                     <tbody>
                         @foreach (var request in Model.Requests)
-                {
+                        {
                             <tr>
                                 <td>@(requestCount++ + scalar)</td>
                                 <td>@request.Text</td>
                                 <td>
-                                    <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info" role="button">Просмотреть</a>
+                                    <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info show-request" data-loading-text="Loading..." role="button">Просмотреть</a>
                                 </td>
                             </tr>
                         }
@@ -61,7 +82,7 @@
                         {
                             <li class="previous"><a href="@Url.Action("Index", "Requests", new {page = @Model.CurrentPageNumber - 1})"><span aria-hidden="true">&larr;</span> Previous</a></li>
                         }
-                        @if (Model.CurrentPageNumber == Model.AllPageCount)
+                        @if (Model.CurrentPageNumber == Model.AllPageCount || Model.AllPageCount == 0)
                         {
                             <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
                         }
@@ -76,41 +97,28 @@
     }
 </div>
 
-<div id="requestInfoModal" title="Create Album" style="overflow: hidden;">
+<div id="requestInfoModal" class="modal fade" title="Create Album">
+    <div id="dialogContent" class="modal-dialog">
+    </div>
 </div>
+
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-
     <script>
-        jQuery(document).ready(function ($) {
+        jQuery(document).ready(function($) {
+            $(".show-request").click(function (e) {
 
-            @*$('.btn-modal').click(function () {
-                var link = "@Url.Action("Show", "Requests", new { id ="-1" })";
-                link = link.replace("-1", this.id);
-                
-                $('#requestInfoModal').dialog({
-                    title: 'hi there',
-                    autoOpen: false,
-                    resizable: false,
-                    height: 355,
-                    width: 400,
-                    show: { effect: 'drop', direction: "up" },
-                    modal: true,
-                    draggable: true,
-                    open: function (event, ui) {
-                        $(this).load(link);
-                    },
-                    buttons: {
-                        "Close": function() {
-                            $(this).dialog("close");
-                        }
-                    }
+                var $btn = $(this).button('loading');
+
+                e.preventDefault();
+                $.get(this.href, function(data) {
+                    $('#dialogContent').html(data);
+                    $('#requestInfoModal').modal('show');
                 });
 
-                $("#requestInfoModal").dialog('open');
-                return false;
-            });*@
+                $btn.button('reset');
+            });
         });
     </script>
+    @Scripts.Render("~/bundles/jqueryval")
 }
 

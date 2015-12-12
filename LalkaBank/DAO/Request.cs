@@ -30,6 +30,8 @@ namespace DAO
         public int Confirm { get; set; }
         public int Number { get; set; }
         public int StartSum { get; set; }
+        public byte[] GuarantorImage { get; set; }
+        public System.DateTime Date { get; set; }
     
         public virtual Manager Managers { get; set; }
         public virtual Person Persons { get; set; }

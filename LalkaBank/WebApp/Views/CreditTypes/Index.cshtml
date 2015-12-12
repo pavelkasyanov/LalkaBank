@@ -1,0 +1,165 @@
+﻿@using System.Reflection.Emit
+@model WebApp.Models.Domains.Credits.CreditTypesViewModel
+    
+@{
+    ViewBag.Title = "requests";
+    int requestCount = 1;
+    int scalar = 0;
+    if (Model.CurrentPageNumber != 1)
+    {
+        scalar = Model.CurrentPageNumber * Model.ItemsPerPage - Model.ItemsPerPage;
+    }
+}
+
+<div class="row lb-margin">
+    <div class="rows lb-margin">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="row">
+                <a href="@Url.Action("Create", "CreditTypes")" class="btn btn-info show-request" role="button">Create</a>
+            </div>
+        }
+        <div class="row">
+            @*<input type="url" class="btn btn-primary" id="showSearchForm" value="Search"/>*@
+            <a href="#" id="showSearchForm">Search</a>
+        </div>
+        <div class="row collapse" id="search_form">
+            @using (Html.BeginForm("Index", "CreditTypes", FormMethod.Get, new
+            {
+                role = "form",
+                @class = "form-inline"
+            }))
+            {
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.PercentFrom)
+                        <div class="input-group">
+                            <span class="input-group-addon" id="search_percent_begin">from</span>
+                            @Html.TextBoxFor(m => m.PercentFrom, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.PercentTo)
+                        <div class="input-group">
+                            <span class="input-group-addon" id="search_percent_begin">to</span>
+                            @Html.TextBoxFor(m => m.PercentTo, new {@class = "form-control"})
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.PayCountFrom)
+                        <div class="input-group">
+                            <span class="input-group-addon" id="search_percent_begin">from</span>
+                            @Html.TextBoxFor(m => m.PayCountFrom, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.PayCountTo)
+                        <div class="input-group">
+                            <span class="input-group-addon" id="search_percent_begin">to</span>
+                            @Html.TextBoxFor(m => m.PayCountTo, new {@class = "form-control"})
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="form-group row col-md-1">
+                    <input type="submit" class="btn btn-primary" value="Search"/>
+                </div>
+            }
+        </div>
+        @if (Model.SearchResult)
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Info</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var request in Model.CreditTypes)
+                    {
+                        <tr>
+                            <td>@(requestCount++ + scalar)</td>
+                            <td>@request.Name</td>
+                            <td>
+                                <a href="@Url.Action("Show", "CreditTypes", new {id = request.Id})" class="btn btn-info show-request" role="button">Просмотреть</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <nav>
+                    <ul class="pager">
+                        @if (Model.CurrentPageNumber == 1)
+                        {
+                            <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        }
+                        else
+                        {
+                            <li class="previous"><a href="@Url.Action("Index", "CreditTypes", new
+                                                          {
+                                                              CurrentPageNumber = @Model.CurrentPageNumber - 1,
+                                                              PercentFrom = @Model.PercentFrom,
+                                                              PercentTo = @Model.PercentTo,
+                                                              PayCountFrom = @Model.PayCountFrom,
+                                                              PayCountTo = @Model.PayCountTo
+                                                          })"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        }
+                        @if (Model.CurrentPageNumber == Model.AllPageCount || Model.AllPageCount == 0)
+                        {
+                            <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        }
+                        else
+                        {
+                            <li class="next"><a href="@Url.Action("Index", "CreditTypes", new
+                                                      {
+                                                          CurrentPageNumber = @Model.CurrentPageNumber + 1,
+                                                          PercentFrom = @Model.PercentFrom,
+                                                          PercentTo = @Model.PercentTo,
+                                                          PayCountFrom = @Model.PayCountFrom,
+                                                          PayCountTo = @Model.PayCountTo
+
+                                                      })">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        }
+    </div>
+</div>
+
+<div id="requestInfoModal" class="modal fade" title="Create Album">
+    <div id="dialogContent" class="modal-dialog">
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        jQuery(document).ready(function($) {
+            $(".show-request").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href, function(data) {
+                    $('#dialogContent').html(data);
+                    $('#requestInfoModal').modal('show');
+                });
+            });
+
+            $("form").submit(function() {
+                alert("form submit");
+            });
+
+            $('#showSearchForm').click(function() {
+                $("#search_form").collapse('toggle');
+            });
+
+        });
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
