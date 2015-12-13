@@ -5,6 +5,10 @@
 -- Date Created: 12/06/2015 16:01:25
 -- Generated from EDMX file: E:\pavlik\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
 -- --------------------------------------------------
+USE master
+DROP DATABASE BankBase;
+
+CREATE DATABASE BankBase;
 
 SET QUOTED_IDENTIFIER OFF;
 GO
