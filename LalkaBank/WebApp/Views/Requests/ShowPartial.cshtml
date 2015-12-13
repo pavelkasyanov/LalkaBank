@@ -6,7 +6,7 @@
         <h4>Заявка</h4>
     </div>
     <div class="modal-body">
-        <div class="row">
+        <div class="row lb-margin">
             <form>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Number)
@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.CreditInfo)
-                    @Model.CreditInfo
+                    @Html.TextArea("CreditInfo", Model.CreditInfo, 10, 80, null)
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.CreditType.Name)
@@ -45,6 +45,31 @@
                     @Model.UserInfo.LastName
                 </div>
             </form>
+            <div class="row">
+                @if (Model.Confirm == 0 && !User.IsInRole("User"))
+                {
+                    <div class="col-md-1"></div>
+                    <div class="row col-md-2">
+                        @using (Html.BeginForm("ConfirmRequest", "Requests", FormMethod.Post,
+                            new { id = Model.Id }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-success">Confirm</button>
+                        }
+                    </div>
+                    <div class="row col-md-1">
+                        @using (Html.BeginForm("DiscartRequest", "Requests", FormMethod.Post,
+                            new { id = Model.Id }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-danger">Discart</button>
+                        }
+
+                    </div>
+                }
+            </div>
         </div>
         @*<dl class="dl-horizontal">
             <dt>Название модели:</dt>

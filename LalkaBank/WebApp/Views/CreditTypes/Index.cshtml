@@ -138,9 +138,18 @@
     <div id="dialogContent" class="modal-dialog">
     </div>
 </div>
+<div class="load-icon"></div>
 
 @section Scripts {
-    <script>
+    <script type="text/javascript">
+        
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+
         jQuery(document).ready(function($) {
             $(".show-request").click(function(e) {
 

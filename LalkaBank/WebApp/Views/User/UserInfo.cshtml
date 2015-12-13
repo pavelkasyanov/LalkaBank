@@ -67,7 +67,9 @@
                         <td>
                             @if (Model.PassportImage != null)
                             {
-                                <img src="data:image;base64,@Convert.ToBase64String(Model.PassportImage)" alt="" width="100px" height="100px" />
+                                <a href="@Url.Action("PasportImage", "Images", new {id = Model.PassportId})" target="_blank">
+                                    <img src="@Url.Action("PasportImage", "Images", new {id = Model.PassportId})" alt="" width="100px" height="100px" />
+                                </a>
                             }
                             else
                             {

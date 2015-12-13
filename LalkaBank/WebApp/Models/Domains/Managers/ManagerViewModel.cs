@@ -9,6 +9,8 @@ namespace WebApp.Models.Domains.Managers
 {
     public class ManagerViewModel
     {
+        public Guid Id { get; set; }
+
         [Required]
         [DisplayName("Login")]
         public string Login { get; set; }

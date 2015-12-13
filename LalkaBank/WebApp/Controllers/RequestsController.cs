@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -136,6 +137,8 @@ namespace WebApp.Controllers
         public ActionResult Show(Guid id)
         {
             var model = GetRequestViewModel(id);
+
+            Thread.Sleep(1000);
 
             return PartialView("ShowPartial", model);
         }

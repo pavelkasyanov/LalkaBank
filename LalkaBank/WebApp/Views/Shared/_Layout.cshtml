@@ -19,10 +19,22 @@
             <div class="lb-container" id="lb-area">
                 <b>@User.Identity.Name</b>
                 <b><a class="lb-area" href="@Url.Action("Index", "Home")">Moя страница</a></b>
+                @if (User.IsInRole("Admin"))
+                {
+                    <b><a class="lb-area" href="@Url.Action("Index", "Home")">Участники</a></b>
+                    {
+                        <b><a class="lb-area" style="margin-left: 20px;" href="@Url.Action("UsersList", "Admin")">Users</a></b>
+                        <b><a class="lb-area" style="margin-left: 20px;" href="@Url.Action("ManagersList", "Admin")">Managers</a></b>
+                    }
+                }
                 <b><a class="lb-area" href="@Url.Action("Index", "Credits")">Кредиты</a></b>
+                @{
                     <b><a class="lb-area" style="margin-left: 20px;" href="@Url.Action("Index", "CreditTypes")">Типы кредитов</a></b>
+                }
                 <b><a class="lb-area" href="@Url.Action("Index", "Requests")">Заявки</a></b>
+                @{
                     <b><a class="lb-area" style="margin-left: 20px;" href="@Url.Action("Find", "Requests")">Поиск</a></b>
+                }
                 <b><a class="lb-area" href="@Url.Action("Index", "Messages")">Сообщения</a></b>
                 <div class="lb-margin">
                     <b>

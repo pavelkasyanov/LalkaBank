@@ -62,7 +62,18 @@
                         {
                             <tr>
                                 <td>@(requestCount++ + scalar)</td>
-                                <td>@request.Text</td>
+                                <td>
+                                    <div style="width: 200px; overflow: hidden; height: 50px; line-height: 20px;">
+                                        @if (request.Text.Length > 20)
+                                        {
+                                            @request.Text.Substring(0, 20)<span>...</span>
+                                        }
+                                        else
+                                        {
+                                            @request.Text
+                                        }
+                                    </div>
+                                </td>
                                 <td>
                                     <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info show-request" data-loading-text="Loading..." role="button">Просмотреть</a>
                                 </td>
@@ -101,13 +112,23 @@
     <div id="dialogContent" class="modal-dialog">
     </div>
 </div>
+<div class="load-icon"></div>
 
 @section Scripts {
-    <script>
-        jQuery(document).ready(function($) {
+    <script type="text/javascript">
+        
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+
+        jQuery(document).ready(function ($) {
             $(".show-request").click(function (e) {
 
-                var $btn = $(this).button('loading');
+                var btn = $('show-request');
+                btn.button('loading');
 
                 e.preventDefault();
                 $.get(this.href, function(data) {
@@ -115,7 +136,7 @@
                     $('#requestInfoModal').modal('show');
                 });
 
-                $btn.button('reset');
+                btn.button('reset');
             });
         });
     </script>

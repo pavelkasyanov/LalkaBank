@@ -53,7 +53,8 @@ namespace WebApp.Controllers
                 Adress = user?.Passports.Adress ?? "",
                 Validity = user?.Passports.Validity ?? new DateTime(),
                 IsBanned =  user?.IsBanned ?? false,
-                PassportImage = user?.Passports.Image ?? null
+                PassportImage = user?.Passports.Image ?? null,
+                PassportId = user?.PassportId ?? Guid.NewGuid()
             };
 
             return View(model);

@@ -68,5 +68,7 @@ namespace WebApp.Models.Domains.Users
         public HttpPostedFileBase PassportImg { get; set; }
 
         public bool IsBanned { get; set; }
+
+        public Guid PassportId { get; set; }
     }
 }
