@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/12/2015 23:11:54
--- Generated from EDMX file: E:\pavlik\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
+-- Date Created: 12/13/2015 23:34:32
+-- Generated from EDMX file: D:\dev\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -56,6 +56,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_RequestMessage]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Messages] DROP CONSTRAINT [FK_RequestMessage];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CreditCreditHistory]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CreditHistory] DROP CONSTRAINT [FK_CreditCreditHistory];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -96,6 +99,12 @@ IF OBJECT_ID(N'[dbo].[sysdiagrams]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[BankAaccount]', 'U') IS NOT NULL
     DROP TABLE [dbo].[BankAaccount];
+GO
+IF OBJECT_ID(N'[dbo].[CreditHistory]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CreditHistory];
+GO
+IF OBJECT_ID(N'[dbo].[Table]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Table];
 GO
 
 -- --------------------------------------------------
@@ -237,6 +246,28 @@ CREATE TABLE [dbo].[BankAaccount] (
 );
 GO
 
+-- Creating table 'CreditHistory'
+CREATE TABLE [dbo].[CreditHistory] (
+    [Id] uniqueidentifier  NOT NULL,
+    [Month] int  NOT NULL,
+    [CreditBalance] decimal(18,2)  NOT NULL,
+    [MainPayment] decimal(18,2)  NOT NULL,
+    [Percent] decimal(18,2)  NOT NULL,
+    [TotalPayment] decimal(18,2)  NOT NULL,
+    [Paid] decimal(18,2)  NOT NULL,
+    [CreditId] uniqueidentifier  NOT NULL,
+    [Arrears] decimal(18,2)  NOT NULL,
+    [Fine] decimal(18,2)  NOT NULL,
+    [FinePayment] decimal(18,0)  NOT NULL
+);
+GO
+
+-- Creating table 'Table'
+CREATE TABLE [dbo].[Table] (
+    [Date] datetime  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -311,6 +342,18 @@ GO
 ALTER TABLE [dbo].[BankAaccount]
 ADD CONSTRAINT [PK_BankAaccount]
     PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CreditHistory'
+ALTER TABLE [dbo].[CreditHistory]
+ADD CONSTRAINT [PK_CreditHistory]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Date] in table 'Table'
+ALTER TABLE [dbo].[Table]
+ADD CONSTRAINT [PK_Table]
+    PRIMARY KEY CLUSTERED ([Date] ASC);
 GO
 
 -- --------------------------------------------------
@@ -510,6 +553,21 @@ GO
 CREATE INDEX [IX_FK_RequestMessage]
 ON [dbo].[Messages]
     ([RequestId]);
+GO
+
+-- Creating foreign key on [CreditId] in table 'CreditHistory'
+ALTER TABLE [dbo].[CreditHistory]
+ADD CONSTRAINT [FK_CreditCreditHistory]
+    FOREIGN KEY ([CreditId])
+    REFERENCES [dbo].[Credits]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CreditCreditHistory'
+CREATE INDEX [IX_FK_CreditCreditHistory]
+ON [dbo].[CreditHistory]
+    ([CreditId]);
 GO
 
 -- --------------------------------------------------

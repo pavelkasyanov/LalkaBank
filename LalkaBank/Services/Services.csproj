@@ -49,11 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\AnnuityCreadit.cs" />
     <Compile Include="Implementation\BankAccountService.cs" />
     <Compile Include="Implementation\BankBookService.cs" />
     <Compile Include="Implementation\CreditService.cs" />
     <Compile Include="Implementation\CreditTypesService.cs" />
     <Compile Include="Implementation\DebtService.cs" />
+    <Compile Include="Implementation\GradedCredit.cs" />
     <Compile Include="Implementation\ManagerService.cs" />
     <Compile Include="Implementation\MessageService.cs" />
     <Compile Include="Implementation\PassportService.cs" />

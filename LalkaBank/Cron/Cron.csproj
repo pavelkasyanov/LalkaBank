@@ -51,13 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CerditType1_Thread.cs" />
-    <Compile Include="CreditCron.cs" />
-    <Compile Include="Cron.cs" />
-    <Compile Include="MyThread.cs" />
-    <Compile Include="PenyaCron.cs" />
-    <Compile Include="PenyaThread.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="AnnuityCreadit.cs" />
+    <Compile Include="AnnuityCreditThread.cs" />
+    <Compile Include="CreditHandler.cs" />
+    <Compile Include="EntryPoint.cs" />
+    <Compile Include="GradedCredit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

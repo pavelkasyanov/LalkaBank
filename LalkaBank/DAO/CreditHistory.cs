@@ -15,26 +15,34 @@ namespace DAO
 using System;
     using System.Collections.Generic;
     
-public partial class Message
+public partial class CreditHistory
 {
 
     public System.Guid Id { get; set; }
 
-    public string Text { get; set; }
+    public int Month { get; set; }
 
-    public System.Guid PersonId { get; set; }
+    public decimal CreditBalance { get; set; }
 
-    public System.Guid ManagerId { get; set; }
+    public decimal MainPayment { get; set; }
 
-    public System.Guid RequestId { get; set; }
+    public decimal Percent { get; set; }
+
+    public decimal TotalPayment { get; set; }
+
+    public decimal Paid { get; set; }
+
+    public System.Guid CreditId { get; set; }
+
+    public decimal Arrears { get; set; }
+
+    public decimal Fine { get; set; }
+
+    public decimal FinePayment { get; set; }
 
 
 
-    public virtual Manager Manager { get; set; }
-
-    public virtual Person Persons { get; set; }
-
-    public virtual Request Request { get; set; }
+    public virtual Credit Credits { get; set; }
 
 }
 

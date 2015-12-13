@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cron;
 using DAO;
 using DAO.Implemenation;
 using DAO.Implementation;
@@ -131,6 +132,8 @@ namespace Services.Implemenations
                 _bankBookDao.CreateOrUpdate(bankBook);
 
                 _debtDao.SaveToBase();
+
+                AnnuityCreadit.ProcessHistory(credit.Id);
 
                 return true;
             }

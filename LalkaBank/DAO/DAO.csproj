@@ -60,6 +60,9 @@
     <Compile Include="Credit.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CreditHistory.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CreditType.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
@@ -124,6 +127,9 @@
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagram.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Table.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

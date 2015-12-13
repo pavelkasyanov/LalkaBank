@@ -15,26 +15,10 @@ namespace DAO
 using System;
     using System.Collections.Generic;
     
-public partial class Message
+public partial class Table
 {
 
-    public System.Guid Id { get; set; }
-
-    public string Text { get; set; }
-
-    public System.Guid PersonId { get; set; }
-
-    public System.Guid ManagerId { get; set; }
-
-    public System.Guid RequestId { get; set; }
-
-
-
-    public virtual Manager Manager { get; set; }
-
-    public virtual Person Persons { get; set; }
-
-    public virtual Request Request { get; set; }
+    public System.DateTime Date { get; set; }
 
 }
 
