@@ -21,14 +21,16 @@ namespace WebApp.Controllers
         private readonly IRequestService _requestService;
         private readonly ICreditTypesService _creditTypesService;
         private readonly IPersonService _personService;
+        private readonly IBankAccountService _accountService;
 
         public RequestsController(IRequestService requestService, 
             ICreditTypesService creditTypesService, 
-            IPersonService personService)
+            IPersonService personService, IBankAccountService accountService)
         {
             _requestService = requestService;
             _creditTypesService = creditTypesService;
             _personService = personService;
+            _accountService = accountService;
         }
 
         // GET: Requests
@@ -171,7 +173,6 @@ namespace WebApp.Controllers
         {
             ResultFindRequestsViewModel viewModel = new ResultFindRequestsViewModel()
             {
-                //Requests = new List<SelectListItem>()
             };
 
             //if (model.ItemsPerPage = 0)
@@ -222,6 +223,10 @@ namespace WebApp.Controllers
                 }
                 
             };
+
+            var  account = _accountService.Get();
+            account.Amount -= request.StartSum;
+            _accountService.CreateOrUpdate(account);
 
             return model;
         }

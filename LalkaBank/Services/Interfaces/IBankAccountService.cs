@@ -11,5 +11,7 @@ namespace Services.Interfaces
     {
         void CreateOrUpdate(BankAaccount credit);
         BankAaccount Get(Guid id);
+
+        BankAaccount Get();
     }
 }

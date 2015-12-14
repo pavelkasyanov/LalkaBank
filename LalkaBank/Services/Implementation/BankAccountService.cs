@@ -27,5 +27,10 @@ namespace Services.Implementation
         {
             return _accountDao.Get(id);
         }
+
+        public BankAaccount Get()
+        {
+            return _accountDao.Get();
+        }
     }
 }

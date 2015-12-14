@@ -31,7 +31,7 @@ namespace WebApp.Models.Domains.Credits
 
         [DataType(DataType.Text)]
         [DisplayName("AllSum")]
-        public int AllSum { get; set; }
+        public decimal AllSum { get; set; }
 
         [DataType(DataType.Text)]
         [DisplayName("PayCount")]
@@ -48,6 +48,12 @@ namespace WebApp.Models.Domains.Credits
         [DataType(DataType.Text)]
         [DisplayName("PayMounth")]
         public int PayMounth { get; set; }
+
+        [DisplayName("Dept")]
+        public decimal CurrentDept { get; set; }
+
+        [DisplayName("Dept")]
+        public int Number { get; set; }
 
         public virtual UserInfoViewModel Person { get; set; }
 

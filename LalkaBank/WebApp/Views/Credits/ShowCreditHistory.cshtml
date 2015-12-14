@@ -2,12 +2,6 @@
 
 @{
     ViewBag.Title = "requests";
-    int requestCount = 1;
-    int scalar = 0;
-    if (Model.CurrentPageNumber != 1)
-    {
-        scalar = Model.CurrentPageNumber * Model.ItemsPerPage - Model.ItemsPerPage;
-    }
 }
 
 <div class="row lb-margin">
@@ -24,7 +18,6 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Month</th>
                             <th>CreditBalance</th>
                             <th>MainPayment</th>
@@ -40,15 +33,28 @@
                         @foreach (var creditHistory in Model.CreditHistories)
                         {
                             <tr>
-                                <td>@(requestCount++ + scalar)</td>
                                 <td>@creditHistory.Month</td>
                                 <td>@creditHistory.CreditBalance</td>
                                 <td>@creditHistory.MainPayment</td>
                                 <td>@creditHistory.Percent</td>
                                 <td>@creditHistory.TotalPayment</td>
                                 <td>@creditHistory.Paid</td>
-                                <td>@creditHistory.Arrears</td>
-                                <td>@creditHistory.Fine</td>
+                                @if (creditHistory.Arrears != 0)
+                                {
+                                    <td style="color: red">@creditHistory.Arrears</td>
+                                }
+                                else
+                                {
+                                    <td style="color: green">@creditHistory.Arrears</td>
+                                }
+                                @if (creditHistory.Fine != 0)
+                                {
+                                    <td style="color: red">@creditHistory.Fine</td>
+                                }
+                                else
+                                {
+                                    <td style="color: green">@creditHistory.Fine</td>
+                                }
                                 <td>@creditHistory.FinePayment</td>
                             </tr>
                         }

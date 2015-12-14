@@ -33,9 +33,13 @@ namespace WebApp.Controllers
             return View(viewModel);
         }
         
-        public ActionResult Show(Guid id)
+        public ActionResult Show(Guid? id)
         {
-            var viewModel = GetCreditViewModel(id);
+            if (!id.HasValue)
+            {
+                return new HttpNotFoundResult();
+            }
+            var viewModel = GetCreditViewModel(id.Value);
 
             if (viewModel == null)
             {
@@ -149,8 +153,23 @@ namespace WebApp.Controllers
 
             var viewModel = new CreditViewModel()
             {
-                Id = credit.Id
+                Id = credit.Id,
+                DateStart =  credit.DateStart,
+                DateEnd = credit.DateEnd,
+                Percent = credit.Percent,
+                PayCount = credit.PayCount,
+                PayMounth = credit.PayMounth,
+                Penya = credit.Penya,
+                StartSum = credit.StartSum,
+                Status = credit.Status,
+                Number = credit.Number
             };
+
+            decimal dept = credit.CreditHistory.Sum(creditHistoryItem => creditHistoryItem.Arrears);
+            dept += credit.CreditHistory.Sum(creditHistoryItem => creditHistoryItem.Fine);
+
+            viewModel.CurrentDept = dept;
+            viewModel.AllSum = credit.CreditHistory.Sum(x => x.TotalPayment);
 
             return viewModel;
         }

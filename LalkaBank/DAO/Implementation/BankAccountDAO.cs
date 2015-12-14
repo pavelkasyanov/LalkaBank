@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity.Migrations;
+using System.Linq;
 
 namespace DAO.Interafaces
 {
@@ -23,6 +24,20 @@ namespace DAO.Interafaces
             lock (Look)
             {
                 var credit = _db.BankAaccount.Find(id);
+                if (credit == null)
+                {
+                    throw new Exception("not found");
+                }
+
+                return credit;
+            }
+        }
+
+        public BankAaccount Get()
+        {
+            lock (Look)
+            {
+                var credit = _db.BankAaccount.FirstOrDefault();
                 if (credit == null)
                 {
                     throw new Exception("not found");

@@ -12,5 +12,7 @@ namespace DAO.Interafaces
     {
         void CreateOrUpdate(BankAaccount credit);
         BankAaccount Get(Guid id);
+
+        BankAaccount Get();
     }
 }

@@ -11,18 +11,20 @@ namespace Services.Implemenations
     public class RequestService : IRequestService
     {
         [Obsolete("use other constructor")]
-        public RequestService()
+        public RequestService(IBankAccountDAO bankAccountDao)
         {
+            _bankAccountDao = bankAccountDao;
             _creditTypesDao = new CreditTypesDAO();
             _messageDao = new MessageDAO();
             _requestDao = new RequestDAO();
         }
 
-        public RequestService(IRequestDAO requestDao, ICreditTypesDAO creditTypesDao, IMessageDAO messageDao)
+        public RequestService(IRequestDAO requestDao, ICreditTypesDAO creditTypesDao, IMessageDAO messageDao, IBankAccountDAO bankAccountDao)
         {
             _requestDao = requestDao;
             _creditTypesDao = creditTypesDao;
             _messageDao = messageDao;
+            _bankAccountDao = bankAccountDao;
         }
 
         public bool Create(Request request)
@@ -166,6 +168,10 @@ namespace Services.Implemenations
 
                 _requestDao.SaveToBase();
 
+               var t =  _bankAccountDao.Get();
+                t.Amount += request.StartSum;
+                _bankAccountDao.CreateOrUpdate(t);
+
                 return true;
             }
             catch (Exception ex)
@@ -178,5 +184,6 @@ namespace Services.Implemenations
         private readonly IRequestDAO _requestDao;
         private readonly ICreditTypesDAO _creditTypesDao;
         private readonly IMessageDAO _messageDao;
+        private readonly IBankAccountDAO _bankAccountDao;
     }
 }
