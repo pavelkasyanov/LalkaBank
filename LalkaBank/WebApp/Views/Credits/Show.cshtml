@@ -3,5 +3,65 @@
     ViewBag.Title = "Show";
 }
 
-<h2>Show</h2>
+<div class="row lb-margin">
+    <div class="row">
+        <div class="row">
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.LabelFor(m => m.Number)</td>
+                    <td>@Model.Number</td>
+                </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.DateStart)</td>
+                <td>@Model.DateStart</td>
+            </tr>
+            <tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.DateEnd)</td>
+                <td>@Model.DateEnd</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Percent)</td>
+                <td>@Model.Percent</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.StartSum)</td>
+                <td>@Model.StartSum</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.AllSum)</td>
+                <td>@Model.AllSum</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.PayCount)</td>
+                <td>@Model.PayCount</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.CurrentDept)</td>
+                @if (Model.CurrentDept != 0)
+                {
+                    <td style="color: red">@Model.CurrentDept</td>
+                }
+                else
+                {
+                    <td style="color: green">@Model.CurrentDept</td>
+                }
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <a href="@Url.Action("ShowCreditHistory", "Credits", new {CreditId = Model.Id})">Show Credit History</a>
+    </div>
+</div>
 

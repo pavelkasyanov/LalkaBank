@@ -53,5 +53,13 @@ namespace DAO.Implemenation
                 return _db.Requests.ToList();
             }
         }
+
+        public void SaveToBase()
+        {
+            lock (Look)
+            {
+                _db.SaveChanges();
+            }
+        }
     }
 }

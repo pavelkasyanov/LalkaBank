@@ -61,5 +61,21 @@ namespace DAO.Implemenation
                 return _db.CreditTypes.ToList();
             }
         }
+
+        public List<CreditSubType> GetCreditSubTypes()
+        {
+            lock (Look)
+            {
+                return _db.CreditSubType.ToList();
+            }
+        }
+
+        public void SaveToBase()
+        {
+            lock (Look)
+            {
+                _db.SaveChanges();
+            }
+        }
     }
 }

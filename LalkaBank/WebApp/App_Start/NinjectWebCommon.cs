@@ -2,6 +2,7 @@ using DAO.Implemenation;
 using DAO.Implementation;
 using DAO.Interafaces;
 using Services.Implemenations;
+using Services.Implementation;
 using Services.Interfaces;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WebApp.App_Start.NinjectWebCommon), "Start")]
@@ -78,6 +79,8 @@ namespace WebApp.App_Start
             kernel.Bind<IPaymentService>().To<PaymentService>();
             kernel.Bind<IPersonService>().To<PersonService>();
             kernel.Bind<IRequestService>().To<RequestService>();
+            kernel.Bind<IBankAccountService>().To<BankAccountService>();
+            kernel.Bind<ICreditHistoryService>().To<CreditHistoryService>();
             #endregion
 
             #region DAOInjection
@@ -91,6 +94,8 @@ namespace WebApp.App_Start
             kernel.Bind<IPaymentDAO>().To<PaymentDAO>();
             kernel.Bind<IPersonDAO>().To<PersonDAO>();
             kernel.Bind<IRequestDAO>().To<RequestDAO>();
+            kernel.Bind<IBankAccountDAO>().To<BankAccountDAO>();
+            kernel.Bind<ICreditHistoryDAO>().To<CreditHistoryDAO>();
             #endregion
         }
     }

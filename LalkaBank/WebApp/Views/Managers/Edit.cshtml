@@ -1,0 +1,54 @@
+﻿@model WebApp.Models.Domains.Managers.ManagerViewModel
+
+@{
+    ViewBag.Title = "EditInfo";
+}
+
+<div class="row lb-margin">
+    <div class="row lb-margin">
+        @if (ViewBag.Result != null)
+        {
+            <div class="row">
+                @if (ViewBag.Result)
+                {
+                    <div class="span" style="color: green">@ViewBag.ResultMsg.ToString()</div>
+                }
+                else
+                {
+                    <div class="span" style="color: red">@ViewBag.ResultMsg.ToString()</div>
+                }
+            </div>
+        }
+
+        @using (Html.BeginForm("Edit", "Managers", FormMethod.Post, new
+        {
+            @class = "form-horizontal",
+            role = "form"
+        }))
+        {
+            <div class="row">
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+            </div>
+            <div class="row">
+                <b>@Html.LabelFor(m => m.Login)</b>
+                <div class="row">
+                    @Html.TextBoxFor(m => m.Login, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="row">
+                <b>@Html.LabelFor(m => m.Name)</b>
+                <div class="row">
+                    @Html.TextBoxFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="row">
+                <input type="hidden" name="Position" value="@Model.Position" />
+            </div>
+
+            <Br />
+            <div class="row">
+                <input type="submit" class="btn btn-primary" value="Edit" />
+            </div>
+        }
+    </div>
+

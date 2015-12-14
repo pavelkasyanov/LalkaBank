@@ -20,24 +20,61 @@ namespace Services.Implemenations
             _passportDao = passportDao;
         }
 
-        public void Create(Passport passport)
+        public bool Create(Passport passport)
         {
-            _passportDao.CreateOrUpdate(passport);
+            try
+            {
+                _passportDao.CreateOrUpdate(passport);
+
+                _passportDao.SaveToBase();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public Passport Get(Guid id)
         {
-            return _passportDao.Get(id);
+            try
+            {
+                return _passportDao.Get(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _passportDao.Delete(id);
+            try
+            {
+                _passportDao.Delete(id);
+
+                _passportDao.SaveToBase();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<Passport> GetList()
         {
-            return _passportDao.GetList();
+            try
+            {
+                return _passportDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private readonly IPassportDAO _passportDao;

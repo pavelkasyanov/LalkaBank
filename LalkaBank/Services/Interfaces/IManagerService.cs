@@ -6,11 +6,11 @@ namespace Services.Interfaces
 {
     public interface IManagerService
     {
-        void Create(Manager manager);
+        bool Create(Manager manager);
 
         Manager Get(Guid id);
 
-        void Delete(Guid id);
+        bool Delete(Guid id);
 
         List<Manager> GetList();
     }

@@ -60,5 +60,13 @@ namespace DAO.Implementation
                 return _db.Payments.ToList();
             }
         }
+
+        public void SaveToBase()
+        {
+            lock (Look)
+            {
+                _db.SaveChanges();
+            }
+        }
     }
 }

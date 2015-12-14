@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace DAO.Interafaces
 {
     // ReSharper disable once InconsistentNaming
-    public interface ICreditDAO
+    public interface ICreditDAO : IContexstSave
     {
         void CreateOrUpdate(Credit credit);
 

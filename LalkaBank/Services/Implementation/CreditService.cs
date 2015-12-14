@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Cron;
 using DAO;
 using DAO.Implemenation;
 using DAO.Implementation;
@@ -26,77 +28,125 @@ namespace Services.Implemenations
             _debtDao = debtDao;
         }
 
-        public void Create(DAO.Credit credit)
+        public bool Create(DAO.Credit credit)
         {
-            _creditDao.CreateOrUpdate(credit);
+            try
+            {
+                _creditDao.CreateOrUpdate(credit);
+                _debtDao.SaveToBase();
 
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        public DAO.Credit Get(Guid id)
+        public Credit Get(Guid id)
         {
-
-            return _creditDao.Get(id);
+            try
+            {
+                return _creditDao.Get(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _creditDao.Delete(id);
+            try
+            {
+                _creditDao.Delete(id);
+                _debtDao.SaveToBase();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<DAO.Credit> GetList()
         {
-            return _creditDao.GetList();
+            try
+            {
+                return _creditDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public bool CreateCreditForRequest(Guid requestId)
         {
-            var request = _requestDao.Get(requestId);
-            if (request == null)
+            try
+            {
+                var request = _requestDao.Get(requestId);
+                if (request == null)
+                {
+                    return false;
+                }
+
+                var debts = new Debts()
+                {
+                    Id = Guid.NewGuid(),
+                    Debt = 0
+                };
+                _debtDao.CreateOrUpdate(debts);
+
+                //startSum - cумма запрошеная пользователем
+                int allSum = 0;
+                //TODO
+                var payMounth = (int)((request.StartSum + (request.StartSum * request.CreditTypes.Percent)) / request.CreditTypes.PayCount);
+
+                var credit = new Credit()
+                {
+                    Id = Guid.NewGuid(),
+                    DateStart = DateTime.Now,
+                    DateEnd = DateTime.Now.AddMonths(request.CreditTypes.PayCount),
+                    Percent = request.CreditTypes.Percent,
+                    StartSum = request.StartSum,
+                    AllSum = allSum,
+                    PayCount = request.CreditTypes.PayCount,
+                    Penya = 0.04, /*belarus magic*/
+                    PayMounth = payMounth,
+                    PersonId = request.PersonId,
+                    ManagerId = request.ManagerId.Value,
+                    CreditTypeId = request.CreditTypeId,
+                    DebtsId = debts.Id,
+                    Status = "0"
+                };
+
+                _creditDao.CreateOrUpdate(credit);
+
+                var bankBook = new BankBook()
+                {
+                    Id = Guid.NewGuid(),
+                    CreditId = credit.Id,
+                    cache = 0
+                };
+                _bankBookDao.CreateOrUpdate(bankBook);
+
+                _debtDao.SaveToBase();
+
+                AnnuityCreadit.ProcessHistory(credit.Id);
+
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }
+        }
 
-            Debts debts = new Debts()
-            {
-                Id = Guid.NewGuid(),
-                Debt = 0
-            };
-            _debtDao.CreateOrUpdate(debts);
-
-            //startSum - cумма запрошеная пользователем
-            int allSum = 0;
-            //TODO
-            var payMounth = (int)((request.StartSum + (request.StartSum * request.CreditTypes.Percent)) / request.CreditTypes.PayCount);
-
-            var credit = new Credit()
-            {
-                Id = Guid.NewGuid(),
-                DateStart = DateTime.Now,
-                DateEnd = DateTime.Now.AddMonths(request.CreditTypes.PayCount),
-                Percent = request.CreditTypes.Percent,
-                StartSum = request.StartSum,
-                AllSum = allSum,
-                PayCount = request.CreditTypes.PayCount,
-                Penya = 0.04, /*belarus magic*/
-                PayMounth = payMounth,
-                PersonId = request.PersonId,
-                ManagerId = request.ManagerId.Value,
-                CreditTypeId = request.CreditTypeId,
-                DebtsId = debts.Id,
-                Status = "0"
-            };
-
-            _creditDao.CreateOrUpdate(credit);
-
-            BankBook bankBook = new BankBook()
-            {
-                Id = Guid.NewGuid(),
-                CreditId = credit.Id,
-                cache = 0
-            };
-            _bankBookDao.CreateOrUpdate(bankBook);
-
-            return true;
+        public List<Credit> GetListByPersonId(Guid personId)
+        {
+            return _creditDao.GetList().Where(x => x.PersonId.Equals(personId)).ToList();
         }
 
         private readonly ICreditDAO _creditDao;

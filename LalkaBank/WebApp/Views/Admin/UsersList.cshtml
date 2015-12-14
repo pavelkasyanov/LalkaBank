@@ -1,0 +1,137 @@
+﻿@model WebApp.Models.Domains.Admins.UsersListViewModel
+
+@{
+    ViewBag.Title = "requests";
+    int requestCount = 1;
+    int scalar = 0;
+    if (Model.CurrentPageNumber != 1)
+    {
+        scalar = Model.CurrentPageNumber * Model.ItemsPerPage - Model.ItemsPerPage;
+    }
+}
+
+<div class="row lb-margin">
+    <div class="rows lb-margin">
+        <div class="row">
+            <a href="#" id="showSearchForm">Search</a>
+        </div>
+        <div class="row collapse" id="search_form">
+            @using (Html.BeginForm("UsersList", "Admin", FormMethod.Get, new
+            {
+                role = "form",
+                @class = "form-inline"
+            }))
+            {
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.SearchLogin)
+                        <div class="input-group">
+                            <span class="input-group-addon" id="search_percent_begin">@Html.LabelFor(m => m.SearchLogin)</span>
+                            @Html.TextBoxFor(m => m.SearchLogin, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.SearchName)
+                        <div class="input-group">
+                            <span class="input-group-addon" id="search_percent_begin">to</span>
+                            @Html.TextBoxFor(m => m.SearchName, new {@class = "form-control"})
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.SearchSurname)
+                        <div class="input-group">
+                            <span class="input-group-addon" id="search_percent_begin">from</span>
+                            @Html.TextBoxFor(m => m.SearchSurname, new {@class = "form-control"})
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="form-group row col-md-1">
+                    <input type="submit" class="btn btn-primary" value="Search"/>
+                </div>
+            }
+        </div>
+        @if (Model.SearchResult)
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Login</th>
+                        <th>FIO</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>@(requestCount++ + scalar)</td>
+                            <td>@user.Email</td>
+                            <td>@user.SecondName @user.Name @user.LastName</td>
+                            <td>
+                                <a href="@Url.Action("UserInfo", "User", new {id = user.Id})" class="btn btn-info show-request" role="button">Просмотреть</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <nav>
+                    <ul class="pager">
+                        @if (Model.CurrentPageNumber == 1)
+                        {
+                            <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        }
+                        else
+                        {
+                            <li class="previous">
+                                <a href="@Url.Action("UsersList", "Admin", new
+                                         {
+                                             CurrentPageNumber = @Model.CurrentPageNumber - 1,
+                                             SearchLogin = @Model.SearchLogin,
+                                             SearchName = @Model.SearchName,
+                                             SearchSurname = @Model.SearchSurname
+                                         })"><span aria-hidden="true">&larr;</span>Previous</a>
+                            </li>
+                        }
+                        @if (Model.CurrentPageNumber == Model.AllPageCount || Model.AllPageCount == 0)
+                        {
+                            <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        }
+                        else
+                        {
+                            <li class="next">
+                                <a href="@Url.Action("UsersList", "Admin", new
+                                         {
+                                             CurrentPageNumber = @Model.CurrentPageNumber + 1,
+                                             SearchLogin = @Model.SearchLogin,
+                                             SearchName = @Model.SearchName,
+                                             SearchSurname = @Model.SearchSurname
+
+                                         })">Next<span aria-hidden="true">&rarr;</span></a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+        jQuery(document).ready(function($) {
+            $('#showSearchForm').click(function() {
+                $("#search_form").collapse('toggle');
+            });
+
+        });
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

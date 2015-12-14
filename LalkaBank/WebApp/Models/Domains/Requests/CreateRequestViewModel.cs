@@ -15,7 +15,7 @@ namespace WebApp.Models.Domains.Requests
         public IEnumerable<SelectListItem> CreditTypes { get; set; }
 
         [DisplayName("Размер кредита")]
-        [Required]
+        [Range(1, 200000, ErrorMessage = "Недопустимый год")]
         public int StartSum { get; set; }
 
         //[DataType(DataType.Upload)]

@@ -6,11 +6,11 @@ namespace Services.Interfaces
 {
     public interface IRequestService
     {
-        void Create(Request request);
+        bool Create(Request request);
 
         Request Get(Guid id);
 
-        void Delete(Guid id);
+        bool Delete(Guid id);
 
         List<Request> GetList();
 

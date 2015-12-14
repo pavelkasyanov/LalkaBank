@@ -1,11 +1,101 @@
 ﻿@model WebApp.Models.Domains.Credits.CreditsViewModel
+@using Microsoft.Ajax.Utilities
+@using Microsoft.AspNet.Identity
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "requests";
+    int requestCount = 1;
+    int scalar = 0;
+    if (Model.CurrentPageNumber != 1)
+    {
+        scalar = Model.CurrentPageNumber * Model.ItemsPerPage - Model.ItemsPerPage;
+    }
 }
 
-<div class="row">
-
+<div class="row lb-margin">
+    @if (ViewBag.Result != null && !ViewBag.Result)
+    {
+        <div class="row">
+            <div class="span">@ViewBag.ResultMsg.ToString()</div>
+        </div>
+    }
+    @if (Model.IsSearch)
+    {
+        <div class="rows lb-margin">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Info</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var credit in Model.Credits)
+                    {
+                        <tr>
+                            <td>@(requestCount++ + scalar)</td>
+                            <td>
+                                <div style="width: 200px; overflow: hidden; height: 50px; line-height: 20px;">
+                                    @*@if (credit.Person.Email.Length > 20)
+                                    {
+                                        @credit.Person.Email.Substring(0, 20)<span>...</span>
+                                    }
+                                    else
+                                    {
+                                        @credit.Person.Email
+                                    }*@
+                                </div>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Show", "Credits", new {id = credit.Id})" class="btn btn-info show-request" data-loading-text="Loading..." role="button">Просмотреть</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <nav>
+                    <ul class="pager">
+                        @if (Model.CurrentPageNumber == 1)
+                        {
+                            <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        }
+                        else
+                        {
+                            <li class="previous"><a href="@Url.Action("Index", "Credits", new {page = @Model.CurrentPageNumber - 1})"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        }
+                        @if (Model.CurrentPageNumber == Model.AllPageCount || Model.AllPageCount == 0)
+                        {
+                            <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        }
+                        else
+                        {
+                            <li class="next"><a href="@Url.Action("Index", "Credits", new {page = @Model.CurrentPageNumber + 1})">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    }
 </div>
 
-<div class="row">
-</div>
+<div class="load-icon"></div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+
+        jQuery(document).ready(function ($) {
+        });
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

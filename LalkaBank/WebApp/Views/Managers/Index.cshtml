@@ -1,5 +1,44 @@
-﻿
+﻿@model WebApp.Models.Domains.Managers.ManagerViewModel
 @{
     ViewBag.Title = "manager page";
 }
 
+<div class="row lb-margin">
+    @if (ViewBag.Result != null && !ViewBag.Result)
+    {
+        <div class="row">
+            <div class="span" style="color: red">@ViewBag.ResultMsg.ToString()</div>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Login)</td>
+                        <td>@Model.Login</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Name)</td>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Position)</td>
+                        <td>@Model.Position</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <div class="row">
+        <a href="@Url.Action("Edit", "Managers")" class="btn btn-primary">edit user info</a>
+    </div>
+</div>

@@ -30,6 +30,12 @@
         <AssociationConnector Association="LalkaBankDabaseModel.CreditTypesSetRequestSet" />
         <AssociationConnector Association="LalkaBankDabaseModel.RequestMessage" ManuallyRouted="false" >
         </AssociationConnector>
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.BankAaccount" Width="1.5" PointX="0.5" PointY="4.125" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.CreditHistory" Width="1.5" PointX="1.875" PointY="15.625" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.Table" Width="1.5" PointX="0.5" PointY="0.5" />
+        <AssociationConnector Association="LalkaBankDabaseModel.FK_CreditCreditHistory" />
+        <EntityTypeShape EntityType="LalkaBankDabaseModel.CreditSubType" Width="1.5" PointX="9.5" PointY="3.5" />
+        <AssociationConnector Association="LalkaBankDabaseModel.CreditSubTypeCreditType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -30,7 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,17 +49,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\AnnuityCreadit.cs" />
+    <Compile Include="Implementation\BankAccountService.cs" />
     <Compile Include="Implementation\BankBookService.cs" />
+    <Compile Include="Implementation\CreditHistoryService.cs" />
     <Compile Include="Implementation\CreditService.cs" />
     <Compile Include="Implementation\CreditTypesService.cs" />
     <Compile Include="Implementation\DebtService.cs" />
+    <Compile Include="Implementation\GradedCredit.cs" />
     <Compile Include="Implementation\ManagerService.cs" />
     <Compile Include="Implementation\MessageService.cs" />
     <Compile Include="Implementation\PassportService.cs" />
     <Compile Include="Implementation\PaymentService.cs" />
     <Compile Include="Implementation\PersonService.cs" />
     <Compile Include="Implementation\RequestService.cs" />
+    <Compile Include="Interfaces\IBankAccountService.cs" />
     <Compile Include="Interfaces\IBankBookService.cs" />
+    <Compile Include="Interfaces\ICreditHistoryService.cs" />
     <Compile Include="Interfaces\ICreditService.cs" />
     <Compile Include="Interfaces\ICreditTypesService.cs" />
     <Compile Include="Interfaces\IDebtService.cs" />
@@ -68,7 +83,10 @@
       <Name>DAO</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

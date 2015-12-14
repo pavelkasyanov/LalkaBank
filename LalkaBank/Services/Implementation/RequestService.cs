@@ -11,101 +11,179 @@ namespace Services.Implemenations
     public class RequestService : IRequestService
     {
         [Obsolete("use other constructor")]
-        public RequestService()
+        public RequestService(IBankAccountDAO bankAccountDao)
         {
+            _bankAccountDao = bankAccountDao;
             _creditTypesDao = new CreditTypesDAO();
             _messageDao = new MessageDAO();
             _requestDao = new RequestDAO();
         }
 
-        public RequestService(IRequestDAO requestDao, ICreditTypesDAO creditTypesDao, IMessageDAO messageDao)
+        public RequestService(IRequestDAO requestDao, ICreditTypesDAO creditTypesDao, IMessageDAO messageDao, IBankAccountDAO bankAccountDao)
         {
             _requestDao = requestDao;
             _creditTypesDao = creditTypesDao;
             _messageDao = messageDao;
+            _bankAccountDao = bankAccountDao;
         }
 
-        public void Create(Request request)
+        public bool Create(Request request)
         {
-            request.Id = Guid.NewGuid();
+            try
+            {
+                request.Id = Guid.NewGuid();
 
-            _requestDao.CreateOrUpdate(request);
+                _requestDao.CreateOrUpdate(request);
+
+                _requestDao.SaveToBase();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Request Get(Guid id)
         {
-            return _requestDao.Get(id);
+            try
+            {
+                return _requestDao.Get(id);
+            }
+            catch (Exception)
+            {
+                throw;
+                return null;
+            }
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _requestDao.Delete(id);
+            try
+            {
+                _requestDao.Delete(id);
+
+                _requestDao.SaveToBase();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<Request> GetList()
         {
-            return _requestDao.GetList();
+            try
+            {
+                return _requestDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
 
         public List<Request> GetListByPersonId(Guid personId)
         {
-            return  GetList().Where(x => x.PersonId.Equals(personId)).ToList();
+            try
+            {
+                return GetList().Where(x => x.PersonId.Equals(personId)).ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public List<CreditType> GetCreditTypes()
         {
-            return _creditTypesDao.GetList();
+            try
+            {
+                return _creditTypesDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public bool ConfirmRequest(Guid requestId, Guid managerId, string msg)
         {
-            //create message
-            var request = _requestDao.Get(requestId);
-            request.Confirm = 1;
-            request.ManagerId = managerId;
-
-            _requestDao.CreateOrUpdate(request);
-
-            var message = new Message
+            try
             {
-                Id = Guid.NewGuid(),
-                PersonId = request.PersonId,
-                RequestId = requestId,
-                Text = msg,
-                ManagerId = managerId,
-                
-            };
+                //create message
+                var request = _requestDao.Get(requestId);
+                request.Confirm = 1;
+                request.ManagerId = managerId;
 
-            _messageDao.CreateOrUpdate(message);
+                _requestDao.CreateOrUpdate(request);
+
+                var message = new Message
+                {
+                    Id = Guid.NewGuid(),
+                    PersonId = request.PersonId,
+                    RequestId = requestId,
+                    Text = msg,
+                    ManagerId = managerId,
+
+                };
+
+                _messageDao.CreateOrUpdate(message);
+
+                _requestDao.SaveToBase();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
             return true;
         }
 
         public bool DiscartRequest(Guid requestId, Guid managerId, string msg)
         {
-            //create message
-            var request = _requestDao.Get(requestId);
-            request.Confirm = 2;
-
-            _requestDao.CreateOrUpdate(request);
-
-            var message = new Message
+            try
             {
-                Id = Guid.NewGuid(),
-                PersonId = request.PersonId,
-                RequestId = requestId,
-                Text = msg,
-                ManagerId = managerId,
+                //create message
+                var request = _requestDao.Get(requestId);
+                request.Confirm = 2;
 
-            };
+                _requestDao.CreateOrUpdate(request);
 
-            _messageDao.CreateOrUpdate(message);
+                var message = new Message
+                {
+                    Id = Guid.NewGuid(),
+                    PersonId = request.PersonId,
+                    RequestId = requestId,
+                    Text = msg,
+                    ManagerId = managerId,
 
-            return true;
+                };
+
+                _messageDao.CreateOrUpdate(message);
+
+                _requestDao.SaveToBase();
+
+               var t =  _bankAccountDao.Get();
+                t.Amount += request.StartSum;
+                _bankAccountDao.CreateOrUpdate(t);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+                return false;
+            }
         }
 
         private readonly IRequestDAO _requestDao;
         private readonly ICreditTypesDAO _creditTypesDao;
         private readonly IMessageDAO _messageDao;
+        private readonly IBankAccountDAO _bankAccountDao;
     }
 }

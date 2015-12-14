@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -19,45 +20,81 @@ namespace WebApp.Controllers
     {
         private readonly IRequestService _requestService;
         private readonly ICreditTypesService _creditTypesService;
+        private readonly IPersonService _personService;
+        private readonly IBankAccountService _accountService;
 
         public RequestsController(IRequestService requestService, 
-            ICreditTypesService creditTypesService)
+            ICreditTypesService creditTypesService, 
+            IPersonService personService, IBankAccountService accountService)
         {
             _requestService = requestService;
             _creditTypesService = creditTypesService;
+            _personService = personService;
+            _accountService = accountService;
         }
 
         // GET: Requests
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            List<Request> list = null;
-            list = User.IsInRole("User") ? 
-                _requestService.GetListByPersonId( Guid.Parse(User.Identity.GetUserId()) ) : _requestService.GetList();
+            var user = _personService.Get(Guid.Parse(User.Identity.GetUserId()));
 
-            var model = new RequestsViewModel()
+            if (user == null)
             {
-                Requests = list.Select(
-                request => new SelectListItem()
-                {
-                    Text = request.CreditInfo, Value = request.Id.ToString()
-                }).ToList()
-        };
+                ViewBag.isUserNotRegister = true;
+            }
 
-            return View(model);
+            if (user != null && user.IsBanned)
+            {
+                ViewBag.isUserBanned = true;
+            }
+
+            var viewModel = GetRequestsViewModelFromPage(page ?? 1);
+            if (viewModel == null)
+            {
+                ViewBag.Result = false;
+                ViewBag.ResultMsg = "error load requests";
+            }
+
+            return View(viewModel);
         }
 
         public ActionResult Create()
         {
+            var user = _personService.Get(Guid.Parse(User.Identity.GetUserId()));
+            if (user == null)
+            {
+                ViewBag.Resull = false;
+                ViewBag.ResultMsg = "edit your info";
+
+                return RedirectToAction("UserInfo", "User");
+            }
+
+            if (user.IsBanned)
+            {
+                ViewBag.isUserBanned = true;
+            }
+
             var model = new CreateRequestViewModel()
             {
                 CreditTypes = GetCreditTypes()
             };
+
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Create(CreateRequestViewModel viewModel)
         {
+
+            var user = _personService.Get(Guid.Parse(User.Identity.GetUserId()));
+            if (user == null)
+            {
+                ViewBag.Resull = false;
+                ViewBag.ResultMsg = "edit your info";
+
+                RedirectToAction("UserInfo", "User");
+            }
+
             viewModel.CreditTypes = GetCreditTypes();
 
             if (!ModelState.IsValid)
@@ -79,13 +116,22 @@ namespace WebApp.Controllers
                 CreditInfo = viewModel.CreditInfo,
                 PersonId = Guid.Parse(User.Identity.GetUserId()),
                 IncomeImage = incomeImage,
-                StartSum = viewModel.StartSum
+                StartSum = viewModel.StartSum,
+                Date = DateTime.Now
             };
 
-            _requestService.Create(request);
+            var result = _requestService.Create(request);
 
-            ViewBag.Result = true;
-            ViewBag.ResultMsg = "Done";
+            if (result)
+            {
+                ViewBag.Result = true;
+                ViewBag.ResultMsg = "Done";
+            }
+            else
+            {
+                ViewBag.Result = false;
+                ViewBag.ResultMsg = "Error";
+            }
 
             return View(viewModel);
         }
@@ -94,7 +140,9 @@ namespace WebApp.Controllers
         {
             var model = GetRequestViewModel(id);
 
-            return View(model);
+            Thread.Sleep(1000);
+
+            return PartialView("ShowPartial", model);
         }
 
         //Подтвердить заявку
@@ -118,8 +166,24 @@ namespace WebApp.Controllers
             var msg = "Discart suc!";
             _requestService.DiscartRequest(id, Guid.Parse(User.Identity.GetUserId()), msg);
 
-            return RedirectToAction("Show", id);
+            return RedirectToAction("Show", new { id = id});
         }
+
+        public ActionResult Find(ResultFindRequestsViewModel model)
+        {
+            ResultFindRequestsViewModel viewModel = new ResultFindRequestsViewModel()
+            {
+            };
+
+            //if (model.ItemsPerPage = 0)
+            {
+                viewModel = this.FindRequestsViewModelFromPage(model.CurrentPageNumber, model.Start, model.End);
+            }
+
+            return View(viewModel);
+        }
+
+        //============================
 
         private IEnumerable<SelectListItem> GetCreditTypes()
         {
@@ -135,14 +199,14 @@ namespace WebApp.Controllers
 
             var model = new RequestViewModel
             {
-                RequestId = request.Id,
+                Id = request.Id,
                 CreditInfo = request.CreditInfo,
                 Confirm = request.Confirm,
                 Number = request.Number,
                 IncomeImage = request.IncomeImage,
                 CreditType = new CreditTypeViewModel()
                 {
-                    CreditTypesId = creaditType.Id,
+                    Id = creaditType.Id,
                     Info = creaditType.Info,
                     PayCount = creaditType.PayCount,
                     Percent = creaditType.PayCount,
@@ -158,6 +222,99 @@ namespace WebApp.Controllers
                     CreditHistoryIndex = request.Persons.CreditHistoryIndex
                 }
                 
+            };
+
+            var  account = _accountService.Get();
+            account.Amount -= request.StartSum;
+            _accountService.CreateOrUpdate(account);
+
+            return model;
+        }
+
+        private ResultFindRequestsViewModel FindRequestsViewModelFromPage(int pageNumber, DateTime start, DateTime end)
+        {
+            int itemsInPage = 10;
+
+            List<Request> list = null;
+            list = User.IsInRole("User") ?
+                _requestService.GetListByPersonId(Guid.Parse(User.Identity.GetUserId())) : _requestService.GetList();
+            if (list == null)
+            {
+                return null;
+            }
+
+            list = list.Where(x => x.Date >= start && x.Date <= end).ToList();
+            list = list.OrderBy(x => x.Date).ToList();
+
+            int startRange = pageNumber * 10 - itemsInPage;
+            int allPageCount = list.Count / itemsInPage;
+            int ost = list.Count % itemsInPage;
+            if (ost != 0) { allPageCount++; }
+
+            int selectCount = ((pageNumber >= allPageCount && ost != 0) ? ost : itemsInPage);
+
+            if (list.Count != 0)
+            {
+                list = list.GetRange(startRange, selectCount);
+            }
+
+            var model = new ResultFindRequestsViewModel()
+            {
+                Requests = list.Select(
+                request => new RequestViewModel()
+                {
+                    CreditInfo = request.CreditInfo,
+                    Id = request.Id,
+                    Date = request.Date
+                }).ToList(),
+
+                CurrentPageNumber = pageNumber,
+                AllPageCount = allPageCount,
+                ItemsPerPage = itemsInPage,
+                Start = start,
+                End = end
+            };
+
+            return model;
+        }
+
+        private RequestsViewModel GetRequestsViewModelFromPage(int pageNumber)
+        {
+            int itemsInPage = 10;
+
+            List<Request> list = null;
+            list = User.IsInRole("User") ?
+                _requestService.GetListByPersonId(Guid.Parse(User.Identity.GetUserId())) : _requestService.GetList();
+            if (list == null)
+            {
+                return null;
+            }
+
+            int startRange = pageNumber * 10 - itemsInPage;
+            int allPageCount = list.Count/itemsInPage;
+            int ost = list.Count % itemsInPage;
+            if (ost != 0) { allPageCount++; }
+
+            int selectCount = ( (pageNumber >= allPageCount && ost != 0) ?  ost : itemsInPage);
+
+            if (list.Count != 0)
+            {
+                list = list.OrderBy(x => x.Number).ToList();
+                list = list.GetRange(startRange, selectCount);
+            }
+            
+            var model = new RequestsViewModel()
+            {
+                Requests = list.Select(
+                request => new SelectListItem()
+                {
+                    Text = request.CreditInfo,
+                    Value = request.Id.ToString()
+                }).ToList(),
+
+                CurrentPageNumber = pageNumber,
+                AllPageCount = allPageCount,
+                ItemsPerPage = itemsInPage
             };
 
             return model;

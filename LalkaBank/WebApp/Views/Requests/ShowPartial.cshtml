@@ -1,0 +1,80 @@
+﻿@model WebApp.Models.Domains.Requests.RequestViewModel
+    
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">&times;</button>
+        <h4>Заявка</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row lb-margin">
+            <form>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Number)
+                    @Html.DisplayFor(m => m.Number)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Date)
+                    @Model.Date.ToString("D")
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CreditInfo)
+                    @Html.TextArea("CreditInfo", Model.CreditInfo, 10, 80, null)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CreditType.Name)
+                    @Model.CreditType.Name
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CreditType.PayCount)
+                    @Model.CreditType.PayCount
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CreditType.Percent)
+                    @Model.CreditType.Percent
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserInfo.Name)
+                    @Model.UserInfo.Name
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserInfo.SecondName)
+                    @Model.UserInfo.SecondName
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserInfo.LastName)
+                    @Model.UserInfo.LastName
+                </div>
+            </form>
+            <div class="row">
+                @if (Model.Confirm == 0 && !User.IsInRole("User"))
+                {
+                    <div class="col-md-1"></div>
+                    <div class="row col-md-2">
+                        @using (Html.BeginForm("ConfirmRequest", "Requests", FormMethod.Post,
+                            new { id = Model.Id }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-success">Confirm</button>
+                        }
+                    </div>
+                    <div class="row col-md-1">
+                        @using (Html.BeginForm("DiscartRequest", "Requests", FormMethod.Post,
+                            new { id = Model.Id }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-danger">Discart</button>
+                        }
+
+                    </div>
+                }
+            </div>
+        </div>
+        @*<dl class="dl-horizontal">
+            <dt>Название модели:</dt>
+            <dd>@Html.DisplayFor(model => model.Number)</dd>
+        </dl>*@
+    </div>
+</div>
+

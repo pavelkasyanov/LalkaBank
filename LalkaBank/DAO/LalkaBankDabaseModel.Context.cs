@@ -36,5 +36,9 @@ namespace DAO
         public virtual DbSet<Person> Persons { get; set; }
         public virtual DbSet<Request> Requests { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<BankAaccount> BankAaccount { get; set; }
+        public virtual DbSet<CreditHistory> CreditHistory { get; set; }
+        public virtual DbSet<Table> Table { get; set; }
+        public virtual DbSet<CreditSubType> CreditSubType { get; set; }
     }
 }

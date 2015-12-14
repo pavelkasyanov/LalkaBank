@@ -6,11 +6,11 @@ namespace Services.Interfaces
 {
     public interface IMessageService
     {
-        void Create(Message message);
+        bool Create(Message message);
 
         Message Get(Guid id);
 
-        void Delete(Guid id);
+        bool Delete(Guid id);
 
         List<Message> GetList();
 

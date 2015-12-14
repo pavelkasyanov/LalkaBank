@@ -51,10 +51,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BankAaccount.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="BankBook.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Credit.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CreditHistory.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CreditSubType.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="CreditType.cs">
@@ -65,6 +74,7 @@
     </Compile>
     <Compile Include="Implementation\BankBookDAO.cs" />
     <Compile Include="Implementation\CreditDAO.cs" />
+    <Compile Include="Implementation\CreditHistoryDAO.cs" />
     <Compile Include="Implementation\CreditTypesDAO.cs" />
     <Compile Include="Implementation\DebtDAO.cs" />
     <Compile Include="Implementation\ManagerDAO.cs" />
@@ -73,8 +83,12 @@
     <Compile Include="Implementation\PaymentDAO.cs" />
     <Compile Include="Implementation\PersonDAO.cs" />
     <Compile Include="Implementation\RequestDAO.cs" />
+    <Compile Include="Implementation\BankAccountDAO.cs" />
+    <Compile Include="Interafaces\IBankAccountDAO.cs" />
+    <Compile Include="Interafaces\IContextSave.cs" />
     <Compile Include="Interafaces\IBankBookDAO.cs" />
     <Compile Include="Interafaces\ICreditDAO.cs" />
+    <Compile Include="Interafaces\ICreditHistoryDAO.cs" />
     <Compile Include="Interafaces\ICreditTypesDAO.cs" />
     <Compile Include="Interafaces\IDebtDAO.cs" />
     <Compile Include="Interafaces\IManagerDAO.cs" />
@@ -118,6 +132,9 @@
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagram.cs">
+      <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Table.cs">
       <DependentUpon>LalkaBankDabaseModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

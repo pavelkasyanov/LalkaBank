@@ -50,7 +50,7 @@ namespace DAO.Implemenation
             lock (Look)
             {
                 _db.Persons.AddOrUpdate(person);
-                _db.SaveChanges();
+                //_db.SaveChanges();
             }
         }
 
@@ -59,6 +59,14 @@ namespace DAO.Implemenation
             lock (Look)
             {
                 return _db.Persons.ToListAsync().Result;
+            }
+        }
+
+        public void SaveToBase()
+        {
+            lock (Look)
+            {
+                _db.SaveChanges();
             }
         }
     }

@@ -6,11 +6,11 @@ namespace Services.Interfaces
 {
     public interface IPassportService
     {
-        void Create(Passport passport);
+        bool Create(Passport passport);
 
         Passport Get(Guid id);
 
-        void Delete(Guid id);
+        bool Delete(Guid id);
 
         List<Passport> GetList();
     }

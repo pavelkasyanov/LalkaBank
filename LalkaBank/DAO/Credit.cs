@@ -19,6 +19,7 @@ namespace DAO
         {
             this.BankBooks = new HashSet<BankBook>();
             this.Payments = new HashSet<Payments>();
+            this.CreditHistory = new HashSet<CreditHistory>();
         }
     
         public System.Guid Id { get; set; }
@@ -45,5 +46,7 @@ namespace DAO
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Payments> Payments { get; set; }
         public virtual Person Persons { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CreditHistory> CreditHistory { get; set; }
     }
 }

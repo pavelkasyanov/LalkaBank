@@ -21,31 +21,74 @@ namespace Services.Implemenations
             _bankBookDao = bankBookDao;
         }
 
-        public void Create(BankBook book)
+        public bool Create(BankBook book)
         {
-            _bankBookDao.CreateOrUpdate(book);
-
+            try
+            {
+                _bankBookDao.CreateOrUpdate(book);
+                _bankBookDao.SaveToBase();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public BankBook Get(Guid id)
         {
-            return _bankBookDao.Get(id);
+            try
+            {
+                return _bankBookDao.Get(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _bankBookDao.Delete(id);
+            try
+            {
+                _bankBookDao.Delete(id);
+                _bankBookDao.SaveToBase();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<BankBook> GetList()
         {
-            return _bankBookDao.GetList();
+            try
+            {
+                return _bankBookDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
 
 
-        public void Update(BankBook book)
+        public bool Update(BankBook book)
         {
-            _bankBookDao.Update(book);
+            try
+            {
+                _bankBookDao.Update(book);
+                _bankBookDao.SaveToBase();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private readonly IBankBookDAO _bankBookDao;

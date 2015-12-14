@@ -20,24 +20,58 @@ namespace Services.Implemenations
             _debtDao = debtDao;
         }
 
-        public void Create(Debts debt)
+        public bool Create(Debts debt)
         {
-            _debtDao.CreateOrUpdate(debt);
+            try
+            {
+                _debtDao.CreateOrUpdate(debt);
+                
+                _debtDao.SaveToBase();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public Debts Get(Guid id)
         {
-            return _debtDao.Get(id);
+            try
+            {
+                return _debtDao.Get(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public void Delete(Guid id)
+        public bool Delete(Guid id)
         {
-            _debtDao.Delete(id);
+            try
+            {
+                _debtDao.Delete(id);
+                _debtDao.SaveToBase();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<Debts> GetList()
         {
-            return _debtDao.GetList();
+            try
+            {
+                return _debtDao.GetList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private readonly IDebtDAO _debtDao;

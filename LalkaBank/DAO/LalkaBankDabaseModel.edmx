@@ -17,6 +17,10 @@
     <EntitySet Name="Persons" EntityType="LalkaBankDabaseModel.Store.Persons" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Requests" EntityType="LalkaBankDabaseModel.Store.Requests" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="sysdiagrams" EntityType="LalkaBankDabaseModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BankAaccount" EntityType="LalkaBankDabaseModel.Store.BankAaccount" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CreditHistory" EntityType="LalkaBankDabaseModel.Store.CreditHistory" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Table" EntityType="LalkaBankDabaseModel.Store.Table" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CreditSubType" EntityType="LalkaBankDabaseModel.Store.CreditSubType" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_BankBookCredit" Association="LalkaBankDabaseModel.Store.FK_BankBookCredit">
       <End Role="CreditSet" EntitySet="Credits" />
       <End Role="BankBookSet" EntitySet="BankBooks" />
@@ -69,6 +73,14 @@
       <End Role="Request" EntitySet="Requests" />
       <End Role="Message" EntitySet="Messages" />
     </AssociationSet>
+    <AssociationSet Name="FK_CreditCreditHistory" Association="LalkaBankDabaseModel.Store.FK_CreditCreditHistory">
+      <End Role="Credit" EntitySet="Credits" />
+      <End Role="CreditHistory" EntitySet="CreditHistory" />
+    </AssociationSet>
+    <AssociationSet Name="CreditSubTypeCreditType" Association="LalkaBankDabaseModel.Store.CreditSubTypeCreditType">
+      <End Role="CreditSubType" EntitySet="CreditSubType" />
+      <End Role="CreditType" EntitySet="CreditTypes" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="BankBooks">
     <Key>
@@ -107,6 +119,10 @@
     <Property Name="StartSumPercent" Type="float" Nullable="false" />
     <Property Name="PayCount" Type="int" Nullable="false" />
     <Property Name="Info" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="CreditSubTypeId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Debts">
     <Key>
@@ -143,6 +159,7 @@
     <Property Name="RUVD" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Adress" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Validity" Type="datetime" Nullable="false" />
+    <Property Name="Image" Type="varbinary(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Payments">
     <Key>
@@ -165,6 +182,7 @@
     <Property Name="DateBirth" Type="datetime" Nullable="true" />
     <Property Name="PassportId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="CreditHistoryIndex" Type="int" Nullable="false" />
+    <Property Name="IsBanned" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Requests">
     <Key>
@@ -180,6 +198,8 @@
     <Property Name="Confirm" Type="int" Nullable="false" />
     <Property Name="Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="StartSum" Type="int" Nullable="false" />
+    <Property Name="GuarantorImage" Type="varbinary(max)" Nullable="true" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -190,6 +210,43 @@
     <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="version" Type="int" Nullable="true" />
     <Property Name="definition" Type="varbinary(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="BankAaccount">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="CreditHistory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Month" Type="int" Nullable="false" />
+    <Property Name="CreditBalance" Type="decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="MainPayment" Type="decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="Percent" Type="decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="TotalPayment" Type="decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="Paid" Type="decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="CreditId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Arrears" Type="decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="Fine" Type="decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="FinePayment" Type="decimal" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Table">
+    <Key>
+      <PropertyRef Name="Date" />
+    </Key>
+    <Property Name="Date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CreditSubType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Abbreviation" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="FK_BankBookCredit">
     <End Role="CreditSet" Type="LalkaBankDabaseModel.Store.Credits" Multiplicity="1" />
@@ -347,6 +404,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_CreditCreditHistory">
+    <End Role="Credit" Type="LalkaBankDabaseModel.Store.Credits" Multiplicity="1" />
+    <End Role="CreditHistory" Type="LalkaBankDabaseModel.Store.CreditHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Credit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CreditHistory">
+        <PropertyRef Name="CreditId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CreditSubTypeCreditType">
+    <End Role="CreditSubType" Type="LalkaBankDabaseModel.Store.CreditSubType" Multiplicity="1" />
+    <End Role="CreditType" Type="LalkaBankDabaseModel.Store.CreditTypes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CreditSubType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CreditType">
+        <PropertyRef Name="CreditSubTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -415,6 +496,18 @@
             <End Role="Request" EntitySet="Requests" />
             <End Role="Message" EntitySet="Messages" />
           </AssociationSet>
+          <EntitySet Name="BankAaccount" EntityType="LalkaBankDabaseModel.BankAaccount" />
+          <EntitySet Name="CreditHistory" EntityType="LalkaBankDabaseModel.CreditHistory" />
+          <EntitySet Name="Table" EntityType="LalkaBankDabaseModel.Table" />
+          <AssociationSet Name="FK_CreditCreditHistory" Association="LalkaBankDabaseModel.FK_CreditCreditHistory">
+            <End Role="Credit" EntitySet="Credits" />
+            <End Role="CreditHistory" EntitySet="CreditHistory" />
+          </AssociationSet>
+          <EntitySet Name="CreditSubType" EntityType="LalkaBankDabaseModel.CreditSubType" />
+          <AssociationSet Name="CreditSubTypeCreditType" Association="LalkaBankDabaseModel.CreditSubTypeCreditType">
+            <End Role="CreditSubType" EntitySet="CreditSubType" />
+            <End Role="CreditType" EntitySet="CreditTypes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="BankBook">
           <Key>
@@ -450,6 +543,7 @@
           <NavigationProperty Name="Payments" Relationship="LalkaBankDabaseModel.FK_PaymentsCredit" FromRole="Credit" ToRole="Payments" />
           <NavigationProperty Name="Persons" Relationship="LalkaBankDabaseModel.FK_PersonCredit" FromRole="CreditSet" ToRole="PersonSet" />
           <Property Name="Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CreditHistory" Relationship="LalkaBankDabaseModel.FK_CreditCreditHistory" FromRole="Credit" ToRole="CreditHistory" />
         </EntityType>
         <EntityType Name="CreditType">
           <Key>
@@ -462,6 +556,11 @@
           <Property Name="Info" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Credits" Relationship="LalkaBankDabaseModel.FK_CreditCreditTypes" FromRole="CreditTypesSet" ToRole="CreditSet" />
           <NavigationProperty Name="Requests" Relationship="LalkaBankDabaseModel.CreditTypesSetRequestSet" FromRole="CreditTypesSet" ToRole="RequestSet" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CreditSubType" Relationship="LalkaBankDabaseModel.CreditSubTypeCreditType" FromRole="CreditType" ToRole="CreditSubType" />
+          <Property Name="CreditSubTypeId" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="Debts">
           <Key>
@@ -506,6 +605,7 @@
           <Property Name="Adress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Validity" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Persons" Relationship="LalkaBankDabaseModel.FK_PersonPassport" FromRole="Passport" ToRole="Person" />
+          <Property Name="Image" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Payments">
           <Key>
@@ -533,6 +633,7 @@
           <NavigationProperty Name="Passports" Relationship="LalkaBankDabaseModel.FK_PersonPassport" FromRole="Person" ToRole="Passport" />
           <NavigationProperty Name="Requests" Relationship="LalkaBankDabaseModel.FK_PersonRequest" FromRole="Person" ToRole="Request" />
           <Property Name="CreditHistoryIndex" Type="Int32" Nullable="false" />
+          <Property Name="IsBanned" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Request">
           <Key>
@@ -552,6 +653,8 @@
           <Property Name="Number" Type="Int32" Nullable="false" ConcurrencyMode="None" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Messages" Relationship="LalkaBankDabaseModel.RequestMessage" FromRole="Request" ToRole="Message" />
           <Property Name="StartSum" Nullable="false" Type="Int32" />
+          <Property Name="GuarantorImage" Type="Binary" Nullable="true" MaxLength="Max" FixedLength="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -719,6 +822,69 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BankAaccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="CreditHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="CreditBalance" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MainPayment" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Percent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalPayment" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Paid" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CreditId" Type="Guid" Nullable="false" />
+          <Property Name="Arrears" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Fine" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Credits" Relationship="LalkaBankDabaseModel.FK_CreditCreditHistory" FromRole="CreditHistory" ToRole="Credit" />
+          <Property Name="FinePayment" Type="Decimal" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK_CreditCreditHistory">
+          <End Type="LalkaBankDabaseModel.Credit" Role="Credit" Multiplicity="1" />
+          <End Type="LalkaBankDabaseModel.CreditHistory" Role="CreditHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Credit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CreditHistory">
+              <PropertyRef Name="CreditId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CreditSubType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Abbreviation" Type="String" Nullable="false" />
+          <NavigationProperty Name="CreditTypes" Relationship="LalkaBankDabaseModel.CreditSubTypeCreditType" FromRole="CreditSubType" ToRole="CreditType" />
+        </EntityType>
+        <Association Name="CreditSubTypeCreditType">
+          <End Type="LalkaBankDabaseModel.CreditSubType" Role="CreditSubType" Multiplicity="1" />
+          <End Type="LalkaBankDabaseModel.CreditType" Role="CreditType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CreditSubType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CreditType">
+              <PropertyRef Name="CreditSubTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -763,6 +929,10 @@
           <ScalarProperty Name="StartSumPercent" ColumnName="StartSumPercent" />
           <ScalarProperty Name="PayCount" ColumnName="PayCount" />
           <ScalarProperty Name="Info" ColumnName="Info" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="CreditSubTypeId" ColumnName="CreditSubTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -803,6 +973,7 @@
           <ScalarProperty Name="RUVD" ColumnName="RUVD" />
           <ScalarProperty Name="Adress" ColumnName="Adress" />
           <ScalarProperty Name="Validity" ColumnName="Validity" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -827,6 +998,7 @@
           <ScalarProperty Name="DateBirth" ColumnName="DateBirth" />
           <ScalarProperty Name="PassportId" ColumnName="PassportId" />
           <ScalarProperty Name="CreditHistoryIndex" ColumnName="CreditHistoryIndex" />
+          <ScalarProperty Name="IsBanned" ColumnName="IsBanned" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -843,6 +1015,8 @@
           <ScalarProperty Name="Confirm" ColumnName="Confirm" />
           <ScalarProperty Name="Number" ColumnName="Number" />
           <ScalarProperty Name="StartSum" ColumnName="StartSum" />
+          <ScalarProperty Name="GuarantorImage" ColumnName="GuarantorImage" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -854,6 +1028,47 @@
           <ScalarProperty Name="principal_id" ColumnName="principal_id" />
           <ScalarProperty Name="version" ColumnName="version" />
           <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BankAaccount">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.BankAaccount)">
+        <MappingFragment StoreEntitySet="BankAaccount">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CreditHistory">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.CreditHistory)">
+        <MappingFragment StoreEntitySet="CreditHistory">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="CreditBalance" ColumnName="CreditBalance" />
+          <ScalarProperty Name="MainPayment" ColumnName="MainPayment" />
+          <ScalarProperty Name="Percent" ColumnName="Percent" />
+          <ScalarProperty Name="TotalPayment" ColumnName="TotalPayment" />
+          <ScalarProperty Name="Paid" ColumnName="Paid" />
+          <ScalarProperty Name="CreditId" ColumnName="CreditId" />
+          <ScalarProperty Name="Arrears" ColumnName="Arrears" />
+          <ScalarProperty Name="Fine" ColumnName="Fine" />
+          <ScalarProperty Name="FinePayment" ColumnName="FinePayment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Table">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.Table)">
+        <MappingFragment StoreEntitySet="Table">
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CreditSubType">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.CreditSubType)">
+        <MappingFragment StoreEntitySet="CreditSubType">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Abbreviation" ColumnName="Abbreviation" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -870,7 +1085,7 @@
     <edmx:Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
         <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />

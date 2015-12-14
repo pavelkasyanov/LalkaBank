@@ -4,86 +4,142 @@
 @{
     ViewBag.Title = "requests";
     int requestCount = 1;
+    int scalar = 0;
+    if (Model.CurrentPageNumber != 1)
+    {
+        scalar = Model.CurrentPageNumber * Model.ItemsPerPage - Model.ItemsPerPage;
+    }
 }
 
-<div class="row">
-    @if (!string.IsNullOrEmpty(ViewBag.Result))
+<div class="row lb-margin">
+    @if (ViewBag.Result != null && !ViewBag.Result)
     {
         <div class="row">
-            <div class="span">ViewBag.Result.ToString()</div>
+            <div class="span">@ViewBag.ResultMsg.ToString()</div>
         </div>
     }
-    @if (User.IsInRole("User"))
+    else
     {
-        <div class="row">
-            <a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Create request</a>
-        </div>
-    }
-    <div class="row lb-margin">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Info</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var request in Model.Requests)
+        if (ViewBag.isUserNotRegister != null && ViewBag.isUserNotRegister && User.IsInRole("User"))
+        {
+            <div class="row">
+                <h4>
+                    <span class="label label-danger">@Html.ActionLink("Your need adding info about you", "UserInfo", "User")</span>
+                </h4>
+            </div>
+        }
+        else
+        {
+
+            if (User.IsInRole("User"))
+            {
+                if (ViewBag.isUserBanned != null && ViewBag.isUserBanned)
                 {
-                    <tr>
-                        <td>@(requestCount++)</td>
-                        <td>@request.Text</td>
-                        <td>
-                            <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info" role="button">Просмотреть</a>
-                            @*<button id="@request.Value" type="button" class="btn btn-primary btn-lg btn-modal">
-                                Просмотреть
-                            </button>*@
-                        </td>
-                    </tr>
+                    <div class="row">
+                        <span class="label label-default"> Your Account is blocked</span>
+                    </div>
                 }
-                </tbody>
-            </table>
+                else
+                {
+                    <div class="row">
+                        <a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Create request</a>
+                    </div>
+                }
+            }
+        }
+        <div class="rows lb-margin">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Info</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var request in Model.Requests)
+                        {
+                            <tr>
+                                <td>@(requestCount++ + scalar)</td>
+                                <td>
+                                    <div style="width: 200px; overflow: hidden; height: 50px; line-height: 20px;">
+                                        @if (request.Text.Length > 20)
+                                        {
+                                            @request.Text.Substring(0, 20)<span>...</span>
+                                        }
+                                        else
+                                        {
+                                            @request.Text
+                                        }
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info show-request" data-loading-text="Loading..." role="button">Просмотреть</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <nav>
+                    <ul class="pager">
+                        @if (Model.CurrentPageNumber == 1)
+                        {
+                            <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        }
+                        else
+                        {
+                            <li class="previous"><a href="@Url.Action("Index", "Requests", new {page = @Model.CurrentPageNumber - 1})"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        }
+                        @if (Model.CurrentPageNumber == Model.AllPageCount || Model.AllPageCount == 0)
+                        {
+                            <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        }
+                        else
+                        {
+                            <li class="next"><a href="@Url.Action("Index", "Requests", new {page = @Model.CurrentPageNumber + 1})">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        }
+                    </ul>
+                </nav>
+            </div>
         </div>
+    }
+</div>
+
+<div id="requestInfoModal" class="modal fade" title="Create Album">
+    <div id="dialogContent" class="modal-dialog">
     </div>
 </div>
+<div class="load-icon"></div>
 
-<div id="requestInfoModal" title="Create Album" style="overflow: hidden;">
-</div>
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        
+        $body = $("body");
 
-    <script>
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+
         jQuery(document).ready(function ($) {
+            $(".show-request").click(function (e) {
 
-            @*$('.btn-modal').click(function () {
-                var link = "@Url.Action("Show", "Requests", new { id ="-1" })";
-                link = link.replace("-1", this.id);
-                
-                $('#requestInfoModal').dialog({
-                    title: 'hi there',
-                    autoOpen: false,
-                    resizable: false,
-                    height: 355,
-                    width: 400,
-                    show: { effect: 'drop', direction: "up" },
-                    modal: true,
-                    draggable: true,
-                    open: function (event, ui) {
-                        $(this).load(link);
-                    },
-                    buttons: {
-                        "Close": function() {
-                            $(this).dialog("close");
-                        }
-                    }
+                var btn = $('show-request');
+                btn.button('loading');
+
+                e.preventDefault();
+                $.get(this.href, function(data) {
+                    $('#dialogContent').html(data);
+                    $('#requestInfoModal').modal('show');
                 });
 
-                $("#requestInfoModal").dialog('open');
-                return false;
-            });*@
+                btn.button('reset');
+            });
         });
     </script>
+    @Scripts.Render("~/bundles/jqueryval")
 }
 

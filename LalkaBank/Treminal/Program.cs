@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using DAO;
-using DAO.Implemenation;
-using DAO.Implementation;
-using DAO.Interafaces;
+using System.IO;
 
 namespace Treminal
 {
@@ -18,139 +13,110 @@ namespace Treminal
             return key.All(char.IsDigit);
         }
 
-        static void Main(string[] args)
+        static void Process()
         {
-            ICreditDAO creditDao = new CreditDAO();
-            IDebtDAO debtsDao = new DebtDAO();
-            IPaymentDAO paymentDao = new PaymentDAO();
-            IBankBookDAO bookDao = new BankBookDAO();
-            IPersonDAO personDao = new PersonDAO();
+            var context = new LalkaBankDabaseModelContainer();
 
-            Console.WriteLine("Enter Login");
+            Console.WriteLine("Terminal: Enter Login");
             string name = Console.ReadLine();
 
-            Console.WriteLine("Enter password");
-            //string pass = Console.ReadLine();
-
-
-            // проверить существование пользователя!!
-            // получить список активных кредитов
-            // проверять статус
-
-            if (personDao.GetList().Find(x => x.Login.Equals(name)) == null)
+            if (context.Persons.Any(person => person.Login == name) == false)
             {
+                Console.WriteLine("Terminal: User with such login does not exist");
                 return;
             }
 
-            Console.WriteLine("Active credits");
-            List<Credit> creditList = creditDao.GetList()
-                            .Where(x => x.Status.Equals("0") && x.Persons.Login.Equals(name)).ToList();
+            Console.WriteLine("Terminal: Active user credits");
+
+            List<Credit> creditList = context.Credits.Where(credit => credit.Status == "0" && credit.Persons.Login == name).ToList();
+
             if (creditList.Count == 0)
-                Console.WriteLine("NO found active credits");
+                Console.WriteLine("Terminal: Active user credits do not exist");
             else
             {
-                foreach (var el in creditList)
+                Console.WriteLine("Terminal: Active credits numbers");
+
+                int counter = 1;
+                foreach (var credit in creditList)
                 {
-                    Console.WriteLine("{0},{1}", el.Id, el.PayMounth);//all sum - остаточная цена
+                    Console.WriteLine("{0}. Credit with number {1}", counter, credit.Number);
+                    counter++;
                 }
 
-
-                Console.WriteLine("press P to pay, Q to exit");
+                Console.WriteLine("Terminal: Press 'P' to pay, other - for exit");
                 var key = Console.ReadKey();
+
                 switch (key.Key)
                 {
                     case ConsoleKey.P:
                         {
-                            Console.WriteLine("Enter credit's number");
+                            Console.WriteLine("Terminal: Enter credit's number");
+
                             var key1 = Console.ReadLine();
-                            int number = 0;
-                           int.TryParse(key1, out number);
-                            Credit credit = creditDao.GetList().FirstOrDefault(x => x.Number == number);
+
+                            int number;
+                            int.TryParse(key1, out number);
+
+                            Credit credit = context.Credits.FirstOrDefault(x => x.Number == number);
                             if (credit == null)
-                                Console.WriteLine("Error");
+                            {
+                                Console.WriteLine("Terminal: Wrong credit number");
+                            }
                             else
                             {
-                                Console.WriteLine("input money");
+                                Console.WriteLine("Terminal: Enter the amount for payment");
+
                                 string key2 = Console.ReadLine();
-                                if (Validator(key2) == false) // проверка ввода
+
+                                if (Validator(key2) == false)
                                 {
-                                    Console.WriteLine("Ошибка ввода");
+                                    Console.WriteLine("Terminal: Wrong credit amount");
                                     return;
                                 }
+
                                 int pay = 0;
                                 int.TryParse(key2, out pay);
+
                                 Payments payment = new Payments
                                 {
+                                    Id = Guid.NewGuid(),
                                     CreditId = credit.Id,
                                     Payment = key2,
-                                    Time = DateTime.Now
+                                    Time = context.Table.FirstOrDefault().Date
                                 };
 
-                                paymentDao.CreateOrUpdate(payment);
-                                BankBook book = credit.BankBooks.FirstOrDefault(x => x.CreditId.Equals(credit.Id));
-                                //BankBook book = new BankBook();
-                                //List<BankBook> set = bookDao.GetList();
-                                //foreach (var el in set)
-                                //{
-                                //    if (el.CreditId.Equals(credit.Id))
-                                //    {
-                                //        book = el;
-                                //        break;
-                                //    }
+                                context.Payments.Add(payment);
 
-                                //}
-                                //проверка есть ли непогашенный долг
-                                Debts debt = debtsDao.Get(credit.DebtsId.Value);
-                                if (debt == null) // долгов нет
-                                {
+                                BankBook book = credit.BankBooks.FirstOrDefault(x => x.CreditId == credit.Id);
 
-                                    book.cache = (Int16)(book.cache + pay);
-                                    bookDao.CreateOrUpdate(book);
-                                    Console.WriteLine("Платеж составил {0}", payment.Payment);
-                                    Console.WriteLine("Поступило на счет {0}", book.cache);
-                                }
-                                else
-                                {
-                                    if (pay - debt.Debt > 0)// если оплата полностью гасит долг
-                                    {
-                                        book.cache = (Int16)(book.cache + (pay - debt.Debt));
-                                        bookDao.CreateOrUpdate(book);
-                                        Console.WriteLine("Платеж составил {0}", payment.Payment);
-                                        Console.WriteLine("Поступило на счет {0}", book.cache);
-                                    }
-                                    else
-                                    {
-                                        debt.Debt = (Int16)(debt.Debt - pay);
-                                        debtsDao.CreateOrUpdate(debt);
-                                        Console.WriteLine("Платеж составил {0}", payment.Payment);
-                                    }
-                                }
-                                break;
+                                book.cache = (long)(book.cache + pay);
+
+                                Console.WriteLine("Terminal: Payment - {0}", payment.Payment);
+
                             }
                             break;
                         }
-                    case ConsoleKey.Q:
-                        {
-                            Console.WriteLine("завершение работы");
-                            Thread.Sleep(500);
-                            Console.Clear();
-                            Console.WriteLine(" ^_^");
-                            Thread.Sleep(500);
-                            Console.Clear();
-                            Console.WriteLine(@"\^_^/");
-                            Thread.Sleep(500);
-                            Console.Clear();
-                            Console.WriteLine(@"/-_-\");
-                            Thread.Sleep(500);
-                            Console.Clear();
-                            Console.WriteLine("Goodbuy");
-                            break;
-                        }
-                    default:
-                        {
-                            break;
-                        }
                 }
+            }
+
+            context.SaveChanges();
+            context.Dispose();
+        }
+
+        static void Main(string[] args)
+        {
+            try
+            {
+                //TestGradedHistory();
+                //TestAnnuityHistory();
+                Process();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Detected a problem connecting to the database. Please restart the application.");
+                var name = "Terminal - Connection trace: " + DateTime.Now;
+                File.Create(name);
+                File.AppendAllText(name, ex.StackTrace);
             }
         }
     }
