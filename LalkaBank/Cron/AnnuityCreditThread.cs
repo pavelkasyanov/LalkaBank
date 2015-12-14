@@ -222,7 +222,7 @@ namespace Cron
 
                     Console.WriteLine(
                         "Annuity Credit Thread {0}: Payment done, Account balance - {1}, Remaining payment for mounth - {2}",
-                        _number, bankBook.cache, curentHistory.TotalPayment - curentHistory.Paid < 0 ? 0 : (int)Math.Ceiling(curentHistory.TotalPayment - curentHistory.Paid);
+                        _number, bankBook.cache, curentHistory.TotalPayment - curentHistory.Paid < 0 ? 0 : (int)Math.Ceiling(curentHistory.TotalPayment - curentHistory.Paid));
                 }
                 if (arrears <= 0 && ((currentMouth > credit.PayCount) || (currentMouth == credit.PayCount && curentHistory.TotalPayment - curentHistory.Paid <= 0)))
                 {

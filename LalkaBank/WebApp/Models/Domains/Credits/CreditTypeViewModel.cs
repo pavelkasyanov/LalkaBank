@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace WebApp.Models.Domains.Credits
 {
@@ -34,6 +35,9 @@ namespace WebApp.Models.Domains.Credits
         [DisplayName("Active")]
         public bool IsActive { get; set; }
 
+        [DisplayName("SubType")]
+        public Guid SubTypeId { get; set; }
 
+        public virtual IEnumerable<SelectListItem> SubTypes { get; set; }
     }
 }

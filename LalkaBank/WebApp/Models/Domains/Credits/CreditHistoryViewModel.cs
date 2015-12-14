@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
 namespace WebApp.Models.Domains.Credits
 {
-    public class CreditsViewModel
+    public class CreditHistoryViewModel
     {
-        public CreditsViewModel()
+        public CreditHistoryViewModel()
         {
             CurrentPageNumber = 1;
-            Credits = new List<CreditViewModel>();
+            CreditHistories = new List<CreditHistoryItemViewModel>();
         }
 
-        public IEnumerable<CreditViewModel> Credits { get; set; }
+        public IEnumerable<CreditHistoryItemViewModel> CreditHistories { get; set; }
+
+        public Guid CreditId { get; set; }
 
         public int CurrentPageNumber { get; set; }
 

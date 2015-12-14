@@ -2,49 +2,50 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Threading;
+using System.Text;
+using System.Threading.Tasks;
 using DAO.Interafaces;
 
-namespace DAO.Implemenation
+namespace DAO.Implementation
 {
-    // ReSharper disable once InconsistentNaming
-    public class CreditTypesDAO : ICreditTypesDAO
+    public class CreditHistoryDAO : ICreditHistoryDAO
     {
         private readonly LalkaBankDabaseModelContainer _db = new LalkaBankDabaseModelContainer();
         //private static readonly Mutex Mutex = new Mutex();
         private static readonly Object Look = new object();
 
-        public void CreateOrUpdate(CreditType creditType)
+        public void CreateOrUpdate(CreditHistory credit)
         {
             lock (Look)
             {
-                _db.CreditTypes.AddOrUpdate(creditType);
+                _db.CreditHistory.AddOrUpdate(credit);
                 _db.SaveChanges();
             }
         }
 
-        public CreditType GetById(Guid id)
+        public CreditHistory Get(Guid id)
         {
             lock (Look)
             {
-                var creditType = _db.CreditTypes.Find(id);
-                if (creditType == null)
+                var credit = _db.CreditHistory.Find(id);
+                if (credit == null)
                 {
                     throw new Exception("not found");
                 }
 
-                return creditType;
+                return credit;
             }
+
         }
 
         public void Delete(Guid id)
         {
             lock (Look)
             {
-                var creditType = _db.CreditTypes.Find(id);
-                if (creditType != null)
+                var credit = _db.CreditHistory.Find(id);
+                if (credit != null)
                 {
-                    _db.CreditTypes.Remove(creditType);
+                    _db.CreditHistory.Remove(credit);
                     _db.SaveChanges();
                 }
                 else
@@ -54,20 +55,15 @@ namespace DAO.Implemenation
             }
         }
 
-        public List<CreditType> GetList()
+        public List<CreditHistory> GetList()
         {
             lock (Look)
             {
-                return _db.CreditTypes.ToList();
+                List<CreditHistory> result = null;
+                result = _db.CreditHistory.ToList();
+                return result;
             }
-        }
 
-        public List<CreditSubType> GetCreditSubTypes()
-        {
-            lock (Look)
-            {
-                return _db.CreditSubType.ToList();
-            }
         }
 
         public void SaveToBase()

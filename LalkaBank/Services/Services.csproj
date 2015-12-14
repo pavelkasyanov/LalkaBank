@@ -52,6 +52,7 @@
     <Compile Include="Implementation\AnnuityCreadit.cs" />
     <Compile Include="Implementation\BankAccountService.cs" />
     <Compile Include="Implementation\BankBookService.cs" />
+    <Compile Include="Implementation\CreditHistoryService.cs" />
     <Compile Include="Implementation\CreditService.cs" />
     <Compile Include="Implementation\CreditTypesService.cs" />
     <Compile Include="Implementation\DebtService.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Implementation\RequestService.cs" />
     <Compile Include="Interfaces\IBankAccountService.cs" />
     <Compile Include="Interfaces\IBankBookService.cs" />
+    <Compile Include="Interfaces\ICreditHistoryService.cs" />
     <Compile Include="Interfaces\ICreditService.cs" />
     <Compile Include="Interfaces\ICreditTypesService.cs" />
     <Compile Include="Interfaces\IDebtService.cs" />

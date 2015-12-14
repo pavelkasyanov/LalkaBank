@@ -1,0 +1,110 @@
+﻿@model WebApp.Models.Domains.Credits.CreditHistoryViewModel
+
+@{
+    ViewBag.Title = "requests";
+    int requestCount = 1;
+    int scalar = 0;
+    if (Model.CurrentPageNumber != 1)
+    {
+        scalar = Model.CurrentPageNumber * Model.ItemsPerPage - Model.ItemsPerPage;
+    }
+}
+
+<div class="row lb-margin">
+    @if (ViewBag.Result != null && !ViewBag.Result)
+    {
+        <div class="row">
+            <div class="span">@ViewBag.ResultMsg.ToString()</div>
+        </div>
+    }
+    @if (Model.IsSearch)
+    {
+        <div class="rows lb-margin">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Month</th>
+                            <th>CreditBalance</th>
+                            <th>MainPayment</th>
+                            <th>Percent</th>
+                            <th>TotalPayment</th>
+                            <th>Paid</th>
+                            <th>Arrears</th>
+                            <th>Fine</th>
+                            <th>FinePayment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var creditHistory in Model.CreditHistories)
+                        {
+                            <tr>
+                                <td>@(requestCount++ + scalar)</td>
+                                <td>@creditHistory.Month</td>
+                                <td>@creditHistory.CreditBalance</td>
+                                <td>@creditHistory.MainPayment</td>
+                                <td>@creditHistory.Percent</td>
+                                <td>@creditHistory.TotalPayment</td>
+                                <td>@creditHistory.Paid</td>
+                                <td>@creditHistory.Arrears</td>
+                                <td>@creditHistory.Fine</td>
+                                <td>@creditHistory.FinePayment</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <nav>
+                    <ul class="pager">
+                        @if (Model.CurrentPageNumber == 1)
+                        {
+                            <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        }
+                        else
+                        {
+                            <li class="previous"><a href="@Url.Action("ShowCreditHistory", "Credits", new
+                                                     {
+                                                         page = @Model.CurrentPageNumber - 1,
+                                                         CreditId = @Model.CreditId
+                                                     })"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        }
+                        @if (Model.CurrentPageNumber == Model.AllPageCount || Model.AllPageCount == 0)
+                        {
+                            <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        }
+                        else
+                        {
+                            <li class="next"><a href="@Url.Action("ShowCreditHistory", "Credits", new
+                                                 {
+                                                     page = @Model.CurrentPageNumber + 1,
+                                                     CreditId = @Model.CreditId
+                                                 })">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="load-icon"></div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+
+        jQuery(document).ready(function ($) {
+        });
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

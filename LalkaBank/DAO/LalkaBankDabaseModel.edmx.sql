@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/13/2015 23:34:32
--- Generated from EDMX file: D:\dev\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
+-- Date Created: 12/14/2015 03:12:01
+-- Generated from EDMX file: E:\pavlik\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -148,7 +148,8 @@ CREATE TABLE [dbo].[CreditTypes] (
     [Info] nvarchar(max)  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [Created] datetime  NOT NULL,
-    [Active] bit  NOT NULL
+    [Active] bit  NOT NULL,
+    [CreditSubTypeId] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -268,6 +269,14 @@ CREATE TABLE [dbo].[Table] (
 );
 GO
 
+-- Creating table 'CreditSubType'
+CREATE TABLE [dbo].[CreditSubType] (
+    [Id] uniqueidentifier  NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [Abbreviation] nvarchar(max)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -354,6 +363,12 @@ GO
 ALTER TABLE [dbo].[Table]
 ADD CONSTRAINT [PK_Table]
     PRIMARY KEY CLUSTERED ([Date] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CreditSubType'
+ALTER TABLE [dbo].[CreditSubType]
+ADD CONSTRAINT [PK_CreditSubType]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -568,6 +583,21 @@ GO
 CREATE INDEX [IX_FK_CreditCreditHistory]
 ON [dbo].[CreditHistory]
     ([CreditId]);
+GO
+
+-- Creating foreign key on [CreditSubTypeId] in table 'CreditTypes'
+ALTER TABLE [dbo].[CreditTypes]
+ADD CONSTRAINT [FK_CreditSubTypeCreditType]
+    FOREIGN KEY ([CreditSubTypeId])
+    REFERENCES [dbo].[CreditSubType]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CreditSubTypeCreditType'
+CREATE INDEX [IX_FK_CreditSubTypeCreditType]
+ON [dbo].[CreditTypes]
+    ([CreditSubTypeId]);
 GO
 
 -- --------------------------------------------------

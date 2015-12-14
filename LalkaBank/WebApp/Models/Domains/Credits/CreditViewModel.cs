@@ -47,7 +47,7 @@ namespace WebApp.Models.Domains.Credits
 
         [DataType(DataType.Text)]
         [DisplayName("PayMounth")]
-        public short PayMounth { get; set; }
+        public int PayMounth { get; set; }
 
         public virtual UserInfoViewModel Person { get; set; }
 

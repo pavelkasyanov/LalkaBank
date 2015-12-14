@@ -37,7 +37,14 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            var viewModel = new CreditTypeViewModel();
+            var viewModel = new CreditTypeViewModel()
+            {
+                SubTypes = _creditTypesService.GetCreditSubTypes().Select(x => new SelectListItem()
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name
+                })
+            };
 
             return PartialView("CreatePartial", viewModel);
         }
@@ -45,6 +52,12 @@ namespace WebApp.Controllers
         [HttpPost]
         public ActionResult Create(CreditTypeViewModel viewModel)
         {
+            viewModel.SubTypes = _creditTypesService.GetCreditSubTypes().Select(x => new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            });
+
             if (!ModelState.IsValid)
             {
                 return PartialView("CreatePartial", viewModel);
@@ -59,7 +72,8 @@ namespace WebApp.Controllers
                PayCount = viewModel.PayCount,
                StartSumPercent = viewModel.StartSumPercent,
                Info = viewModel.Info,
-               Active = true
+               Active = true,
+               CreditSubTypeId = viewModel.SubTypeId
             };
 
             var res = _creditTypesService.Create(creditType);
@@ -166,7 +180,12 @@ namespace WebApp.Controllers
                         Percent = creditType.Percent,
                         StartSumPercent = creditType.StartSumPercent,
                         PayCount = creditType.PayCount,
-                        Info = creditType.Info
+                        Info = creditType.Info,
+                        SubTypes = _creditTypesService.GetCreditSubTypes().Select(x => new SelectListItem()
+                        {
+                            Value = x.Id.ToString(),
+                            Text = x.Name
+                        })
                     }).ToList(),
 
                 CurrentPageNumber = pageNumber,

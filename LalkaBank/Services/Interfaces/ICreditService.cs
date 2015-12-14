@@ -15,5 +15,7 @@ namespace Services.Interfaces
         List<Credit> GetList();
 
         bool CreateCreditForRequest(Guid requestId);
+
+        List<Credit> GetListByPersonId(Guid personId);
     }
 }

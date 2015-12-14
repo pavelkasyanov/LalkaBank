@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cron;
 using DAO;
 using DAO.Implemenation;
@@ -141,6 +142,11 @@ namespace Services.Implemenations
             {
                 return false;
             }
+        }
+
+        public List<Credit> GetListByPersonId(Guid personId)
+        {
+            return _creditDao.GetList().Where(x => x.PersonId.Equals(personId)).ToList();
         }
 
         private readonly ICreditDAO _creditDao;

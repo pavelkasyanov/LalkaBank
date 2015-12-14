@@ -14,5 +14,7 @@ namespace Services.Interfaces
 
         List<CreditType> GetList();
 
+        List<CreditSubType> GetCreditSubTypes();
+
     }
 }

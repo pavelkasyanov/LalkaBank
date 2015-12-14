@@ -80,6 +80,7 @@ namespace WebApp.App_Start
             kernel.Bind<IPersonService>().To<PersonService>();
             kernel.Bind<IRequestService>().To<RequestService>();
             kernel.Bind<IBankAccountService>().To<BankAccountService>();
+            kernel.Bind<ICreditHistoryService>().To<CreditHistoryService>();
             #endregion
 
             #region DAOInjection
@@ -94,6 +95,7 @@ namespace WebApp.App_Start
             kernel.Bind<IPersonDAO>().To<PersonDAO>();
             kernel.Bind<IRequestDAO>().To<RequestDAO>();
             kernel.Bind<IBankAccountDAO>().To<BankAccountDAO>();
+            kernel.Bind<ICreditHistoryDAO>().To<CreditHistoryDAO>();
             #endregion
         }
     }

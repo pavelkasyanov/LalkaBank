@@ -72,6 +72,11 @@ namespace Services.Implemenations
             }
         }
 
+        public List<CreditSubType> GetCreditSubTypes()
+        {
+            return _creditTypesDao.GetCreditSubTypes();
+        }
+
         private readonly CreditTypesDAO _creditTypesDao;
     }
 }

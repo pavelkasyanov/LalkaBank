@@ -20,6 +20,7 @@
     <EntitySet Name="BankAaccount" EntityType="LalkaBankDabaseModel.Store.BankAaccount" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CreditHistory" EntityType="LalkaBankDabaseModel.Store.CreditHistory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Table" EntityType="LalkaBankDabaseModel.Store.Table" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CreditSubType" EntityType="LalkaBankDabaseModel.Store.CreditSubType" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_BankBookCredit" Association="LalkaBankDabaseModel.Store.FK_BankBookCredit">
       <End Role="CreditSet" EntitySet="Credits" />
       <End Role="BankBookSet" EntitySet="BankBooks" />
@@ -76,6 +77,10 @@
       <End Role="Credit" EntitySet="Credits" />
       <End Role="CreditHistory" EntitySet="CreditHistory" />
     </AssociationSet>
+    <AssociationSet Name="CreditSubTypeCreditType" Association="LalkaBankDabaseModel.Store.CreditSubTypeCreditType">
+      <End Role="CreditSubType" EntitySet="CreditSubType" />
+      <End Role="CreditType" EntitySet="CreditTypes" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="BankBooks">
     <Key>
@@ -117,6 +122,7 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Created" Type="datetime" Nullable="false" />
     <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="CreditSubTypeId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Debts">
     <Key>
@@ -233,6 +239,14 @@
       <PropertyRef Name="Date" />
     </Key>
     <Property Name="Date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CreditSubType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Abbreviation" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="FK_BankBookCredit">
     <End Role="CreditSet" Type="LalkaBankDabaseModel.Store.Credits" Multiplicity="1" />
@@ -402,6 +416,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CreditSubTypeCreditType">
+    <End Role="CreditSubType" Type="LalkaBankDabaseModel.Store.CreditSubType" Multiplicity="1" />
+    <End Role="CreditType" Type="LalkaBankDabaseModel.Store.CreditTypes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CreditSubType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CreditType">
+        <PropertyRef Name="CreditSubTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -477,6 +503,11 @@
             <End Role="Credit" EntitySet="Credits" />
             <End Role="CreditHistory" EntitySet="CreditHistory" />
           </AssociationSet>
+          <EntitySet Name="CreditSubType" EntityType="LalkaBankDabaseModel.CreditSubType" />
+          <AssociationSet Name="CreditSubTypeCreditType" Association="LalkaBankDabaseModel.CreditSubTypeCreditType">
+            <End Role="CreditSubType" EntitySet="CreditSubType" />
+            <End Role="CreditType" EntitySet="CreditTypes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="BankBook">
           <Key>
@@ -528,6 +559,8 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CreditSubType" Relationship="LalkaBankDabaseModel.CreditSubTypeCreditType" FromRole="CreditType" ToRole="CreditSubType" />
+          <Property Name="CreditSubTypeId" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="Debts">
           <Key>
@@ -831,6 +864,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CreditSubType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Abbreviation" Type="String" Nullable="false" />
+          <NavigationProperty Name="CreditTypes" Relationship="LalkaBankDabaseModel.CreditSubTypeCreditType" FromRole="CreditSubType" ToRole="CreditType" />
+        </EntityType>
+        <Association Name="CreditSubTypeCreditType">
+          <End Type="LalkaBankDabaseModel.CreditSubType" Role="CreditSubType" Multiplicity="1" />
+          <End Type="LalkaBankDabaseModel.CreditType" Role="CreditType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CreditSubType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CreditType">
+              <PropertyRef Name="CreditSubTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -878,6 +932,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Created" ColumnName="Created" />
           <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="CreditSubTypeId" ColumnName="CreditSubTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1005,6 +1060,15 @@
       <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.Table)">
         <MappingFragment StoreEntitySet="Table">
           <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CreditSubType">
+      <EntityTypeMapping TypeName="IsTypeOf(LalkaBankDabaseModel.CreditSubType)">
+        <MappingFragment StoreEntitySet="CreditSubType">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Abbreviation" ColumnName="Abbreviation" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
