@@ -107,7 +107,7 @@ namespace Services.Implemenations
                 var credit = new Credit()
                 {
                     Id = Guid.NewGuid(),
-                    DateStart = DateTime.Now,
+                    DateStart = _creditDao.GetTimeTable().Date,
                     DateEnd = DateTime.Now.AddMonths(request.CreditTypes.PayCount),
                     Percent = request.CreditTypes.Percent,
                     StartSum = request.StartSum,
@@ -134,7 +134,15 @@ namespace Services.Implemenations
 
                 _debtDao.SaveToBase();
 
-                AnnuityCreadit.ProcessHistory(credit.Id);
+                if (request.CreditTypes.CreditSubType.Abbreviation.Equals("Ann"))
+                {
+                    AnnuityCreadit.ProcessHistory(credit.Id);
+                }
+                if (request.CreditTypes.CreditSubType.Abbreviation.Equals("Grad"))
+                {
+
+                    GradedCredit.ProcessHistory(credit.Id);
+                }
 
                 return true;
             }

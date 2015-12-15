@@ -206,11 +206,11 @@ namespace WebApp.Controllers
                 IncomeImage = request.IncomeImage,
                 CreditType = new CreditTypeViewModel()
                 {
-                    Id = creaditType.Id,
-                    Info = creaditType.Info,
-                    PayCount = creaditType.PayCount,
-                    Percent = creaditType.PayCount,
-                    StartSumPercent = creaditType.StartSumPercent
+                    Id = creaditType?.Id ?? Guid.Empty,
+                    Info = creaditType?.Info ?? "",
+                    PayCount = creaditType?.PayCount ?? 0,
+                    Percent = creaditType?.PayCount ?? 0,
+                    StartSumPercent = creaditType?.StartSumPercent ?? 0
                 },
                 UserInfo = new UserInfoPartialViewModel()
                 {

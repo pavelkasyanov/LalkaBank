@@ -13,5 +13,7 @@ namespace DAO.Interafaces
         void Delete(Guid id);
 
         List<Request> GetList();
+
+        //Table GetTimeTable();
     }
 }

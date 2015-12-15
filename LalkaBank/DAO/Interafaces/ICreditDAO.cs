@@ -15,5 +15,7 @@ namespace DAO.Interafaces
 
         List<Credit> GetList();
 
+        Table GetTimeTable();
+
     }
 }

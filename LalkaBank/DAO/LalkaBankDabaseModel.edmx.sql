@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/14/2015 03:12:01
--- Generated from EDMX file: E:\pavlik\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
+-- Date Created: 12/15/2015 13:55:06
+-- Generated from EDMX file: D:\dev\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -59,6 +59,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CreditCreditHistory]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CreditHistory] DROP CONSTRAINT [FK_CreditCreditHistory];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CreditSubTypeCreditType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CreditTypes] DROP CONSTRAINT [FK_CreditSubTypeCreditType];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -105,6 +108,9 @@ IF OBJECT_ID(N'[dbo].[CreditHistory]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Table]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Table];
+GO
+IF OBJECT_ID(N'[dbo].[CreditSubType]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CreditSubType];
 GO
 
 -- --------------------------------------------------

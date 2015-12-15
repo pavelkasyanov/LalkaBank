@@ -140,6 +140,14 @@ namespace WebApp.Controllers
 
             var list = _creditTypesService.GetList();
 
+            if (list == null)
+            {
+                return new CreditTypesViewModel()
+                {
+                    SearchResult = false
+                };
+            }
+
             {
                 var tPercentFrom = (percentFrom != 0 ? percentFrom : double.MinValue);
                 var tPercentTo = (percentTo != 0 ? percentTo : double.MaxValue);

@@ -20,9 +20,9 @@ namespace WebApp
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            //var exception = Server.GetLastError();
-            //Server.ClearError();
-            //Response.Redirect("/Home/Error");
+            var exception = Server.GetLastError();
+            Server.ClearError();
+            Response.Redirect("/Error/Error");
         }
     }
 }

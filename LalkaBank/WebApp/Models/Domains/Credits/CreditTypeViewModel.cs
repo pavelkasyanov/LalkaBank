@@ -18,18 +18,19 @@ namespace WebApp.Models.Domains.Credits
 
         [Required]
         [DisplayName("Percent")]
+        [Range(1.0d, 100.0d, ErrorMessage = "Percent is invalid")]
         public double Percent { get; set; }
 
-        [Required]
         [DisplayName("StartSumPercent")]
         public double StartSumPercent { get; set; }
 
         [Required]
-        [DisplayName("PayCount")]
+        [DisplayName("Credit duration in mounth")]
+        [Range(1, 120, ErrorMessage = "Credit duration is ivalid")]
         public int PayCount { get; set; }
 
         [DataType(DataType.MultilineText)]
-        [DisplayName("Размер кредита")]
+        [DisplayName("Description")]
         public string Info { get; set; }
 
         [DisplayName("Active")]

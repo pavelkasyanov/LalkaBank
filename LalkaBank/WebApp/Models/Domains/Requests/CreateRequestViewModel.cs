@@ -10,19 +10,18 @@ namespace WebApp.Models.Domains.Requests
 {
     public class CreateRequestViewModel
     {
-        [DisplayName("Тип кредита")]
+        [DisplayName("Credit type")]
         public Guid CreditTypeId { get; set; }
         public IEnumerable<SelectListItem> CreditTypes { get; set; }
 
         [DisplayName("Размер кредита")]
-        [Range(1, 200000, ErrorMessage = "Недопустимый год")]
+        [Range(1, 500000000, ErrorMessage = "Credit sum is ivalid")]
         public int StartSum { get; set; }
 
-        //[DataType(DataType.Upload)]
-        [DisplayName("IncomeImage")]
+        [DisplayName("Income Image")]
         public HttpPostedFileBase IncomeImage { get; set; }
 
-        [DisplayName("Дополнительная информация")]
+        [DisplayName("Credit goal")]
         public string CreditInfo { get; set; }
     }
 }
