@@ -181,6 +181,7 @@ namespace WebApp.Controllers
 
             decimal dept = credit.CreditHistory.Sum(creditHistoryItem => creditHistoryItem.Arrears);
             dept += credit.CreditHistory.Sum(creditHistoryItem => creditHistoryItem.Fine);
+            dept = (int)Math.Ceiling(dept);
 
             viewModel.CurrentDept = dept;
             viewModel.AllSum = credit.CreditHistory.Sum(x => x.TotalPayment);

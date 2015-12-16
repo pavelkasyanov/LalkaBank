@@ -74,5 +74,8 @@ namespace WebApp.Models.Domains.Users
         public Guid PassportId { get; set; }
 
         public bool IsUserRegister { get; set; }
+
+        [DisplayName("ScoringSystemIndex")]
+        public int ScoringSystemIndex { get; set; }
     }
 }

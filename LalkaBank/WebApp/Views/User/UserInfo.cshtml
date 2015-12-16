@@ -88,15 +88,38 @@
                             @if (Model.PassportImage != null)
                             {
                                 <a href="@Url.Action("PasportImage", "Images", new {id = Model.PassportId})" target="_blank">
-                                    <img src="@Url.Action("PasportImage", "Images", new {id = Model.PassportId})" alt="" width="100px" height="100px" />
+                                    <img src="@Url.Action("PasportImage", "Images", new {id = Model.PassportId})" alt="" width="100px" height="100px"/>
                                 </a>
                             }
                             else
                             {
-                                <img src="" alt="" width="100px" height="100px" />
+                                <img src="" alt="" width="100px" height="100px"/>
                             }
                         </td>
                     </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => Model.CreditHistoryIndex)td>
+                        @if (Model.CreditHistoryIndex <= 3)
+                        {
+                            <td style="color: green">@Model.CreditHistoryIndex</td>
+                        }
+                        @if (Model.CreditHistoryIndex >= 3 && Model.CreditHistoryIndex <= 20 )
+                        {
+                            <td style="color: yellow">@Model.CreditHistoryIndex</td>
+                        }
+                        @if (Model.CreditHistoryIndex >= 21)
+                        {
+                            <td style="color: red">@Model.CreditHistoryIndex</td>
+                        }
+                            
+                    </tr>
+                    @if (!User.IsInRole("User"))
+                    {
+                        <tr>
+                            <td>@Html.LabelFor(m => Model.ScoringSystemIndex)</td>
+                            <td>@Model.ScoringSystemIndex</td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>

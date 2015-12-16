@@ -155,9 +155,6 @@ namespace WebApp.Controllers
         {
             var model = new RegisterViewModel
             {
-              UserRoles  = RoleManager.Roles.Select(
-                  role => new SelectListItem() {Text = role.Name, Value = role.Name})
-                  .ToList()
             };
             return View(model);
         }

@@ -55,7 +55,8 @@ namespace WebApp.Controllers
                 IsBanned =  user?.IsBanned ?? false,
                 PassportImage = user?.Passports.Image ?? null,
                 PassportId = user?.PassportId ?? Guid.NewGuid(),
-                IsUserRegister = user != null
+                IsUserRegister = user != null,
+                ScoringSystemIndex = 1
             };
 
             return View(model);
