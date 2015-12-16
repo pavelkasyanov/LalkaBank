@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/15/2015 13:55:06
--- Generated from EDMX file: D:\dev\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
+-- Date Created: 12/16/2015 03:33:23
+-- Generated from EDMX file: E:\pavlik\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -141,7 +141,8 @@ CREATE TABLE [dbo].[Credits] (
     [ManagerId] uniqueidentifier  NOT NULL,
     [CreditTypeId] uniqueidentifier  NOT NULL,
     [DebtsId] uniqueidentifier  NULL,
-    [Number] int IDENTITY(1,1) NOT NULL
+    [Number] int IDENTITY(1,1) NOT NULL,
+    [RequestId] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -232,7 +233,9 @@ CREATE TABLE [dbo].[Requests] (
     [Number] int IDENTITY(1,1) NOT NULL,
     [StartSum] int  NOT NULL,
     [GuarantorImage] varbinary(max)  NULL,
-    [Date] datetime  NOT NULL
+    [Date] datetime  NOT NULL,
+    [CreditId] uniqueidentifier  NULL,
+    [Credit_Id] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -597,13 +600,28 @@ ADD CONSTRAINT [FK_CreditSubTypeCreditType]
     FOREIGN KEY ([CreditSubTypeId])
     REFERENCES [dbo].[CreditSubType]
         ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_CreditSubTypeCreditType'
 CREATE INDEX [IX_FK_CreditSubTypeCreditType]
 ON [dbo].[CreditTypes]
     ([CreditSubTypeId]);
+GO
+
+-- Creating foreign key on [Credit_Id] in table 'Requests'
+ALTER TABLE [dbo].[Requests]
+ADD CONSTRAINT [FK_RequestCredit]
+    FOREIGN KEY ([Credit_Id])
+    REFERENCES [dbo].[Credits]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RequestCredit'
+CREATE INDEX [IX_FK_RequestCredit]
+ON [dbo].[Requests]
+    ([Credit_Id]);
 GO
 
 -- --------------------------------------------------

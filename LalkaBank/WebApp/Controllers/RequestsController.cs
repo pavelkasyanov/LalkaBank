@@ -188,7 +188,7 @@ namespace WebApp.Controllers
         private IEnumerable<SelectListItem> GetCreditTypes()
         {
             return _requestService.GetCreditTypes().Select(
-                role => new SelectListItem() { Text = role.Info, Value = role.Id.ToString() })
+                role => new SelectListItem() { Text = role.Name, Value = role.Id.ToString() })
                 .ToList();
         }
 
@@ -204,6 +204,7 @@ namespace WebApp.Controllers
                 Confirm = request.Confirm,
                 Number = request.Number,
                 IncomeImage = request.IncomeImage,
+                Date = request.Date,
                 CreditType = new CreditTypeViewModel()
                 {
                     Id = creaditType?.Id ?? Guid.Empty,
@@ -214,6 +215,7 @@ namespace WebApp.Controllers
                 },
                 UserInfo = new UserInfoPartialViewModel()
                 {
+                    Id = request.Persons.Id,
                     Name = request.Persons.Name,
                     SecondName = request.Persons.SecondName,
                     LastName = request.Persons.LastName,
@@ -244,7 +246,7 @@ namespace WebApp.Controllers
             }
 
             list = list.Where(x => x.Date >= start && x.Date <= end).ToList();
-            list = list.OrderBy(x => x.Date).ToList();
+            list = list.OrderBy(x => x.Number).ToList();
 
             int startRange = pageNumber * 10 - itemsInPage;
             int allPageCount = list.Count / itemsInPage;
@@ -285,7 +287,8 @@ namespace WebApp.Controllers
             List<Request> list = null;
             list = User.IsInRole("User") ?
                 _requestService.GetListByPersonId(Guid.Parse(User.Identity.GetUserId())) : _requestService.GetList();
-            if (list == null)
+            list = list.Where(x => x.Confirm == 0).ToList();
+            if (list.Count == 0)
             {
                 return null;
             }

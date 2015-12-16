@@ -36,7 +36,9 @@
                 if (ViewBag.isUserBanned != null && ViewBag.isUserBanned)
                 {
                     <div class="row">
-                        <span class="label label-default"> Your Account is blocked</span>
+                        <h4>
+                            <span class="label label-default"> Your Account is blocked</span>
+                        </h4>
                     </div>
                 }
                 else
@@ -75,7 +77,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info show-request" data-loading-text="Loading..." role="button">Просмотреть</a>
+                                    <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info show-request" data-loading-text="Loading..." role="button">Show</a>
                                 </td>
                             </tr>
                         }

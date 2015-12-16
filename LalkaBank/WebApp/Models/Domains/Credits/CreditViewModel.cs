@@ -14,7 +14,7 @@ namespace WebApp.Models.Domains.Credits
         public Guid Id { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayName("DateEnd")]
+        [DisplayName("Start credit date")]
         public DateTime DateStart { get; set; }
 
         [DataType(DataType.Date)]
@@ -26,19 +26,19 @@ namespace WebApp.Models.Domains.Credits
         public double Percent { get; set; }
 
         [DataType(DataType.Text)]
-        [DisplayName("StartSum")]
+        [DisplayName("Start credit Sum")]
         public int StartSum { get; set; }
 
         [DataType(DataType.Text)]
-        [DisplayName("AllSum")]
+        [DisplayName("All credit Sum")]
         public decimal AllSum { get; set; }
 
         [DataType(DataType.Text)]
-        [DisplayName("PayCount")]
+        [DisplayName("Credit duration(in mounth)")]
         public int PayCount { get; set; }
 
         [DataType(DataType.Text)]
-        [DisplayName("Status")]
+        [DisplayName("Credit status")]
         public string Status { get; set; }
 
         [DataType(DataType.Text)]
@@ -49,10 +49,10 @@ namespace WebApp.Models.Domains.Credits
         [DisplayName("PayMounth")]
         public int PayMounth { get; set; }
 
-        [DisplayName("Dept")]
+        [DisplayName("current credit dept")]
         public decimal CurrentDept { get; set; }
 
-        [DisplayName("Dept")]
+        [DisplayName("Credit number")]
         public int Number { get; set; }
 
         public virtual UserInfoViewModel Person { get; set; }

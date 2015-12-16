@@ -17,5 +17,7 @@ namespace Services.Interfaces
         bool CreateCreditForRequest(Guid requestId);
 
         List<Credit> GetListByPersonId(Guid personId);
+
+        Table GetTimeTable();
     }
 }

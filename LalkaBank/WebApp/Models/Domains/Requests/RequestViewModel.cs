@@ -11,29 +11,31 @@ namespace WebApp.Models.Domains.Requests
         public Guid Id { get; set; }
 
         [Required]
-        [DisplayName("CreditInfo")]
+        [DisplayName("Credit Info")]
         public string CreditInfo { get; set; }
 
         [DataType(DataType.DateTime)]
         [DisplayName("Date")]
         public System.DateTime Date { get; set; }
 
-        [DisplayName("Number")]
+        [DisplayName("Request Number")]
         public int Number { get; set; }
 
-        [DisplayName("PassportImage")]
+        [DisplayName("User Passport Image")]
         public byte[] PassportImage { get; set; }
 
-        [DisplayName("IncomeImage")]
+        [DisplayName("User Income Image")]
         public byte[] IncomeImage { get; set; }
 
-        [DisplayName("Status")]
+        [DisplayName("Request Status")]
         public int Confirm { get; set; }
 
-        [DisplayName("CreditType")]
+        public Guid CreditId { get; set; }
+
+        [DisplayName("Credit Type")]
         public virtual CreditTypeViewModel CreditType { get; set; }
 
-        [DisplayName("UserInfo")]
+        [DisplayName("User Information")]
         public virtual UserInfoPartialViewModel UserInfo { get; set; }
 
         [DisplayName("Passport")]

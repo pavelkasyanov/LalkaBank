@@ -36,6 +36,7 @@
         <AssociationConnector Association="LalkaBankDabaseModel.FK_CreditCreditHistory" />
         <EntityTypeShape EntityType="LalkaBankDabaseModel.CreditSubType" Width="1.5" PointX="9.5" PointY="3.5" />
         <AssociationConnector Association="LalkaBankDabaseModel.CreditSubTypeCreditType" />
+        <AssociationConnector Association="LalkaBankDabaseModel.RequestCredit" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -157,6 +157,11 @@ namespace Services.Implemenations
             return _creditDao.GetList().Where(x => x.PersonId.Equals(personId)).ToList();
         }
 
+        public Table GetTimeTable()
+        {
+            return _creditDao.GetTimeTable();
+        }
+
         private readonly ICreditDAO _creditDao;
         private readonly IRequestDAO _requestDao;
         private readonly IBankBookDAO _bankBookDao;

@@ -81,6 +81,10 @@
       <End Role="CreditSubType" EntitySet="CreditSubType" />
       <End Role="CreditType" EntitySet="CreditTypes" />
     </AssociationSet>
+    <AssociationSet Name="RequestCredit" Association="LalkaBankDabaseModel.Store.RequestCredit">
+      <End Role="Request" EntitySet="Requests" />
+      <End Role="Credit" EntitySet="Credits" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="BankBooks">
     <Key>
@@ -109,6 +113,7 @@
     <Property Name="CreditTypeId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="DebtsId" Type="uniqueidentifier" Nullable="true" />
     <Property Name="Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequestId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="CreditTypes">
     <Key>
@@ -200,6 +205,8 @@
     <Property Name="StartSum" Type="int" Nullable="false" />
     <Property Name="GuarantorImage" Type="varbinary(max)" Nullable="true" />
     <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="CreditId" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="Credit_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -417,7 +424,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="CreditSubTypeCreditType">
-    <End Role="CreditSubType" Type="LalkaBankDabaseModel.Store.CreditSubType" Multiplicity="1" />
+    <End Role="CreditSubType" Type="LalkaBankDabaseModel.Store.CreditSubType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="CreditType" Type="LalkaBankDabaseModel.Store.CreditTypes" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="CreditSubType">
@@ -425,6 +434,18 @@
       </Principal>
       <Dependent Role="CreditType">
         <PropertyRef Name="CreditSubTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RequestCredit">
+    <End Role="Request" Type="LalkaBankDabaseModel.Store.Requests" Multiplicity="*" />
+    <End Role="Credit" Type="LalkaBankDabaseModel.Store.Credits" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Credit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="Credit_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -508,6 +529,10 @@
             <End Role="CreditSubType" EntitySet="CreditSubType" />
             <End Role="CreditType" EntitySet="CreditTypes" />
           </AssociationSet>
+          <AssociationSet Name="RequestCredit" Association="LalkaBankDabaseModel.RequestCredit">
+            <End Role="Request" EntitySet="Requests" />
+            <End Role="Credit" EntitySet="Credits" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="BankBook">
           <Key>
@@ -544,6 +569,8 @@
           <NavigationProperty Name="Persons" Relationship="LalkaBankDabaseModel.FK_PersonCredit" FromRole="CreditSet" ToRole="PersonSet" />
           <Property Name="Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="CreditHistory" Relationship="LalkaBankDabaseModel.FK_CreditCreditHistory" FromRole="Credit" ToRole="CreditHistory" />
+          <NavigationProperty Name="Request" Relationship="LalkaBankDabaseModel.RequestCredit" FromRole="Credit" ToRole="Request" />
+          <Property Name="RequestId" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="CreditType">
           <Key>
@@ -655,6 +682,8 @@
           <Property Name="StartSum" Nullable="false" Type="Int32" />
           <Property Name="GuarantorImage" Type="Binary" Nullable="true" MaxLength="Max" FixedLength="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Credit" Relationship="LalkaBankDabaseModel.RequestCredit" FromRole="Request" ToRole="Credit" />
+          <Property Name="CreditId" Type="Guid" Nullable="true" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -874,8 +903,11 @@
           <NavigationProperty Name="CreditTypes" Relationship="LalkaBankDabaseModel.CreditSubTypeCreditType" FromRole="CreditSubType" ToRole="CreditType" />
         </EntityType>
         <Association Name="CreditSubTypeCreditType">
-          <End Type="LalkaBankDabaseModel.CreditSubType" Role="CreditSubType" Multiplicity="1" />
-          <End Type="LalkaBankDabaseModel.CreditType" Role="CreditType" Multiplicity="*" />
+          <End Type="LalkaBankDabaseModel.CreditSubType" Role="CreditSubType" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LalkaBankDabaseModel.CreditType" Role="CreditType" Multiplicity="*" >
+          </End>
           <ReferentialConstraint>
             <Principal Role="CreditSubType">
               <PropertyRef Name="Id" />
@@ -884,6 +916,11 @@
               <PropertyRef Name="CreditSubTypeId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestCredit">
+          <End Type="LalkaBankDabaseModel.Request" Role="Request" Multiplicity="1" >
+          </End>
+          <End Type="LalkaBankDabaseModel.Credit" Role="Credit" Multiplicity="1" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -918,6 +955,7 @@
           <ScalarProperty Name="CreditTypeId" ColumnName="CreditTypeId" />
           <ScalarProperty Name="DebtsId" ColumnName="DebtsId" />
           <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="RequestId" ColumnName="RequestId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1017,6 +1055,7 @@
           <ScalarProperty Name="StartSum" ColumnName="StartSum" />
           <ScalarProperty Name="GuarantorImage" ColumnName="GuarantorImage" />
           <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="CreditId" ColumnName="CreditId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1072,6 +1111,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <AssociationSetMapping Name="RequestCredit" TypeName="LalkaBankDabaseModel.RequestCredit" StoreEntitySet="Requests">
+      <EndProperty Name="Credit">
+        <ScalarProperty Name="Id" ColumnName="Credit_Id" />
+      </EndProperty>
+      <EndProperty Name="Request">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

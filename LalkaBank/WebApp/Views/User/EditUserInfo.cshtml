@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
                 <b>@Html.LabelFor(m => m.Email)</b>
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @disabled = "disabled", @value=Model.Email})
             </div>
             <div class="form-group">
                 <b>@Html.LabelFor(m => m.Name)</b>
@@ -55,9 +55,7 @@
             </div>
             <div class="form-group">
                 <b>@Html.LabelFor(m => m.Adress)</b>
-                <div class="row">
                     @Html.TextBoxFor(m => m.Adress, new { @class = "form-control" })
-                </div>
             </div>
             <div class="form-group">
                 <b>@Html.LabelFor(m => m.Validity)</b>
@@ -65,7 +63,16 @@
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.PassportImg)
-                @Html.TextBoxFor(m => m.PassportImg, new { type = "file", @style = "form-control" })
+                <br />
+                @if (Model.PassportImage != null)
+                {
+                    <a href="@Url.Action("PasportImage", "Images", new {id = Model.PassportId})" target="_blank">
+                        <img src="@Url.Action("PasportImage", "Images", new {id = Model.PassportId})" alt="" width="100px" height="100px"/>
+                    </a>
+                }
+                <br/>
+                <br />
+                @Html.TextBoxFor(m => m.PassportImg, new {type = "file", @style = "form-control"})
             </div>
             <Br />
             <div class="form-group">

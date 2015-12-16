@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Services.Interfaces;
 using WebApp.Models.Domains.Credits;
 using WebApp.Models.Domains.Requests;
+using WebApp.Models.Domains.Users;
 
 namespace WebApp.Controllers
 {
@@ -77,6 +78,11 @@ namespace WebApp.Controllers
                 ViewBag.ResultMsg = "credit not created";
             }
             return View("Index", GetCreditsViewModel(1));
+        }
+
+        public ActionResult Search()
+        {
+            return View();
         }
 
         private CreditsViewModel GetCreditsViewModel(int pageNumber)
@@ -162,7 +168,15 @@ namespace WebApp.Controllers
                 Penya = credit.Penya,
                 StartSum = credit.StartSum,
                 Status = credit.Status,
-                Number = credit.Number
+                Number = credit.Number,
+                Person = new UserInfoViewModel()
+                {
+                    Id = credit.Persons.Id,
+                    Name = credit.Persons.Name,
+                    Email = credit.Persons.Login,
+                    LastName = credit.Persons.LastName,
+                    SecondName = credit.Persons.SecondName
+                }
             };
 
             decimal dept = credit.CreditHistory.Sum(creditHistoryItem => creditHistoryItem.Arrears);
@@ -230,7 +244,8 @@ namespace WebApp.Controllers
                 CurrentPageNumber = pageNumber,
                 AllPageCount = allPageCount,
                 ItemsPerPage = itemsInPage,
-                IsSearch = true
+                IsSearch = true,
+                CreditId = creditId
             };
 
             return model;

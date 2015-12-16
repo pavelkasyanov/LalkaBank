@@ -21,11 +21,11 @@ namespace WebApp.Models.Domains.Credits
         [Range(1.0d, 100.0d, ErrorMessage = "Percent is invalid")]
         public double Percent { get; set; }
 
-        [DisplayName("StartSumPercent")]
+        [DisplayName("Start Sum Percent")]
         public double StartSumPercent { get; set; }
 
         [Required]
-        [DisplayName("Credit duration in mounth")]
+        [DisplayName("Credit duration(in mounth)")]
         [Range(1, 120, ErrorMessage = "Credit duration is ivalid")]
         public int PayCount { get; set; }
 

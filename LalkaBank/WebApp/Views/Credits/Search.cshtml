@@ -1,0 +1,127 @@
+﻿@model WebApp.Models.Domains.Requests.ResultFindRequestsViewModel
+
+@{
+    ViewBag.Title = "requests";
+    int requestCount = 1;
+    int scalar = 0;
+    if (Model.CurrentPageNumber != 1)
+    {
+        scalar = Model.CurrentPageNumber * Model.ItemsPerPage - Model.ItemsPerPage;
+    }
+}
+
+<div class="row lb-margin">
+    @if (ViewBag.Result != null && !ViewBag.Result)
+    {
+        <div class="row">
+            <div class="span">ViewBag.ResultMsg.ToString()</div>
+        </div>
+    }
+    else
+    {
+        <div class="rows lb-margin">
+            <div class="row">
+                @using (Html.BeginForm("Find", "Requests", FormMethod.Get, new
+                {
+                    @class = "form-inline",
+                    role = "form"
+                }))
+                {
+                    <input type="hidden" id="CurrentPageNumber" name="CurrentPageNumber" value="1" />
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Start)
+                        @Html.EditorFor(m => m.Start, new { htmlAttributes = new { @type = "date" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.End)
+                        @Html.EditorFor(m => m.End)
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Find" />
+                    </div>
+                }
+            </div>
+            @if (Model.Requests != null && Model.Requests.ToList().Count > 0)
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Info</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var request in Model.Requests)
+                            {
+                                <tr>
+                                    <td>@(requestCount++ + scalar)</td>
+                                    <td>@request.CreditInfo</td>
+                                    <td>@request.Date.ToString("D")</td>
+                                    <td>
+                                        <a href="@Url.Action("Show", "Requests", new {id = request.Id})" class="btn btn-info show-request" role="button">Просмотреть</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <nav>
+                        <ul class="pager">
+                            @if (Model.CurrentPageNumber == 1)
+                            {
+                                <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                            }
+                            else
+                            {
+                                <li class="previous"><a href="@Url.Action("Find", "Requests", new {Start = Model.Start.ToString("yyyy'-'MM'-'dd"), End = Model.End.ToString("yyyy'-'MM'-'dd"), CurrentPageNumber = Model.CurrentPageNumber - 1})"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                            }
+                            @if (Model.CurrentPageNumber == Model.AllPageCount || Model.AllPageCount == 0)
+                            {
+                                <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
+                            }
+                            else
+                            {
+                                <li class="next"><a href="@Url.Action("Find", "Requests", new {Start = Model.Start.ToString("yyyy'-'MM'-'dd"), End = Model.End.ToString("yyyy'-'MM'-'dd"), CurrentPageNumber = Model.CurrentPageNumber + 1})">Next <span aria-hidden="true">&rarr;</span></a></li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<div id="requestInfoModal" class="modal fade" title="Create Album">
+    <div id="dialogContent" class="modal-dialog">
+    </div>
+</div>
+<div class="load-icon"></div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+
+        jQuery(document).ready(function ($) {
+
+            $(".show-request").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href, function(data) {
+                    $('#dialogContent').html(data);
+                    $('#requestInfoModal').modal('show');
+                });
+            });
+        });
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
