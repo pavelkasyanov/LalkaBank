@@ -81,10 +81,6 @@
       <End Role="CreditSubType" EntitySet="CreditSubType" />
       <End Role="CreditType" EntitySet="CreditTypes" />
     </AssociationSet>
-    <AssociationSet Name="RequestCredit" Association="LalkaBankDabaseModel.Store.RequestCredit">
-      <End Role="Request" EntitySet="Requests" />
-      <End Role="Credit" EntitySet="Credits" />
-    </AssociationSet>
   </EntityContainer>
   <EntityType Name="BankBooks">
     <Key>
@@ -113,7 +109,7 @@
     <Property Name="CreditTypeId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="DebtsId" Type="uniqueidentifier" Nullable="true" />
     <Property Name="Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="RequestId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RequestId" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
   <EntityType Name="CreditTypes">
     <Key>
@@ -206,7 +202,6 @@
     <Property Name="GuarantorImage" Type="varbinary(max)" Nullable="true" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="CreditId" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="Credit_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -437,18 +432,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="RequestCredit">
-    <End Role="Request" Type="LalkaBankDabaseModel.Store.Requests" Multiplicity="*" />
-    <End Role="Credit" Type="LalkaBankDabaseModel.Store.Credits" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Credit">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Request">
-        <PropertyRef Name="Credit_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -510,8 +493,8 @@
             <End Role="Request" EntitySet="Requests" />
           </AssociationSet>
           <AssociationSet Name="CreditTypesSetRequestSet" Association="LalkaBankDabaseModel.CreditTypesSetRequestSet">
-            <End Role="CreditTypesSet" EntitySet="CreditTypes" />
-            <End Role="RequestSet" EntitySet="Requests" />
+            <End EntitySet="CreditTypes" Role="CreditTypesSet" />
+            <End EntitySet="Requests" Role="RequestSet" />
           </AssociationSet>
           <AssociationSet Name="RequestMessage" Association="LalkaBankDabaseModel.RequestMessage">
             <End Role="Request" EntitySet="Requests" />
@@ -528,10 +511,6 @@
           <AssociationSet Name="CreditSubTypeCreditType" Association="LalkaBankDabaseModel.CreditSubTypeCreditType">
             <End Role="CreditSubType" EntitySet="CreditSubType" />
             <End Role="CreditType" EntitySet="CreditTypes" />
-          </AssociationSet>
-          <AssociationSet Name="RequestCredit" Association="LalkaBankDabaseModel.RequestCredit">
-            <End Role="Request" EntitySet="Requests" />
-            <End Role="Credit" EntitySet="Credits" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="BankBook">
@@ -569,8 +548,7 @@
           <NavigationProperty Name="Persons" Relationship="LalkaBankDabaseModel.FK_PersonCredit" FromRole="CreditSet" ToRole="PersonSet" />
           <Property Name="Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="CreditHistory" Relationship="LalkaBankDabaseModel.FK_CreditCreditHistory" FromRole="Credit" ToRole="CreditHistory" />
-          <NavigationProperty Name="Request" Relationship="LalkaBankDabaseModel.RequestCredit" FromRole="Credit" ToRole="Request" />
-          <Property Name="RequestId" Type="Guid" Nullable="false" />
+          <Property Name="RequestId" Type="Guid" Nullable="true" />
         </EntityType>
         <EntityType Name="CreditType">
           <Key>
@@ -682,7 +660,6 @@
           <Property Name="StartSum" Nullable="false" Type="Int32" />
           <Property Name="GuarantorImage" Type="Binary" Nullable="true" MaxLength="Max" FixedLength="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Credit" Relationship="LalkaBankDabaseModel.RequestCredit" FromRole="Request" ToRole="Credit" />
           <Property Name="CreditId" Type="Guid" Nullable="true" />
         </EntityType>
         <EntityType Name="sysdiagram">
@@ -828,8 +805,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="CreditTypesSetRequestSet">
-          <End Type="LalkaBankDabaseModel.CreditType" Role="CreditTypesSet" Multiplicity="1" />
-          <End Type="LalkaBankDabaseModel.Request" Role="RequestSet" Multiplicity="*" />
+          <End Type="LalkaBankDabaseModel.CreditType" Multiplicity="1" Role="CreditTypesSet" />
+          <End Type="LalkaBankDabaseModel.Request" Multiplicity="*" Role="RequestSet" />
           <ReferentialConstraint>
             <Principal Role="CreditTypesSet">
               <PropertyRef Name="Id" />
@@ -916,11 +893,6 @@
               <PropertyRef Name="CreditSubTypeId" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="RequestCredit">
-          <End Type="LalkaBankDabaseModel.Request" Role="Request" Multiplicity="1" >
-          </End>
-          <End Type="LalkaBankDabaseModel.Credit" Role="Credit" Multiplicity="1" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -1111,14 +1083,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="RequestCredit" TypeName="LalkaBankDabaseModel.RequestCredit" StoreEntitySet="Requests">
-      <EndProperty Name="Credit">
-        <ScalarProperty Name="Id" ColumnName="Credit_Id" />
-      </EndProperty>
-      <EndProperty Name="Request">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

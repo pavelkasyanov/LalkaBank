@@ -10,7 +10,7 @@ namespace WebApp.Models.Domains.Credits
         public CreditsViewModel()
         {
             CurrentPageNumber = 1;
-            Credits = new List<CreditViewModel>();
+            Action = "Index";
         }
 
         public IEnumerable<CreditViewModel> Credits { get; set; }
@@ -22,5 +22,9 @@ namespace WebApp.Models.Domains.Credits
         public int ItemsPerPage { get; set; }
 
         public bool IsSearch { get; set; }
+
+        public string Action { get; set; }
+
+        public string NotFoundMsg { get; set; }
     }
 }

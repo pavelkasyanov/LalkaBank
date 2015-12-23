@@ -152,23 +152,24 @@
         
         $body = $("body");
 
-        $(document).on({
-            ajaxStart: function () { $body.addClass("loading"); },
-            ajaxStop: function () { $body.removeClass("loading"); }
-        });
+        //$(document).on({
+        //    ajaxStart: function () { $body.addClass("loading"); },
+        //    ajaxStop: function () { $body.removeClass("loading"); }
+        //});
 
         jQuery(document).ready(function($) {
             $(".show-request").click(function(e) {
 
                 e.preventDefault();
+                $body.addClass("loading");
                 $.get(this.href, function(data) {
                     $('#dialogContent').html(data);
+                    $body.removeClass("loading");
                     $('#requestInfoModal').modal('show');
                 });
             });
 
             $("form").submit(function() {
-                alert("form submit");
             });
 
             $('#showSearchForm').click(function() {

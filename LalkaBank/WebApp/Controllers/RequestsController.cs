@@ -22,37 +22,53 @@ namespace WebApp.Controllers
         private readonly ICreditTypesService _creditTypesService;
         private readonly IPersonService _personService;
         private readonly IBankAccountService _accountService;
+        private readonly IManagerService _managerService;
 
         public RequestsController(IRequestService requestService, 
             ICreditTypesService creditTypesService, 
-            IPersonService personService, IBankAccountService accountService)
+            IPersonService personService, IBankAccountService accountService, IManagerService managerService)
         {
             _requestService = requestService;
             _creditTypesService = creditTypesService;
             _personService = personService;
             _accountService = accountService;
+            _managerService = managerService;
         }
 
         // GET: Requests
         public ActionResult Index(int? page)
         {
-            var user = _personService.Get(Guid.Parse(User.Identity.GetUserId()));
-
-            if (user == null)
+            if (User.IsInRole("User"))
             {
-                ViewBag.isUserNotRegister = true;
+                if (!_personService.IsUserRegister(Guid.Parse(User.Identity.GetUserId())))
+                {
+                        ViewBag.isUserNotRegister = true;
+                }
+                else
+                {
+                    var user = _personService.Get(Guid.Parse(User.Identity.GetUserId()));
+                    if (user != null && user.IsBanned)
+                    {
+                        ViewBag.isUserBanned = true;
+                    }
+                }
+
+            } else if (User.IsInRole("Manager"))
+            {
+                if (!_managerService.IsManagerRegister(Guid.Parse(User.Identity.GetUserId())))
+                {
+                    ViewBag.isManagerNotRegister = false;
+                }
+            }
+            else
+            {
             }
 
-            if (user != null && user.IsBanned)
-            {
-                ViewBag.isUserBanned = true;
-            }
-
-            var viewModel = GetRequestsViewModelFromPage(page ?? 1);
+            var viewModel = GetRequestsViewModelFromPage(page != null ? page.Value : 1);
             if (viewModel == null)
             {
                 ViewBag.Result = false;
-                ViewBag.ResultMsg = "error load requests";
+                //ViewBag.ResultMsg = "error load requests";
             }
 
             return View(viewModel);
@@ -76,7 +92,24 @@ namespace WebApp.Controllers
 
             var model = new CreateRequestViewModel()
             {
-                CreditTypes = GetCreditTypes()
+                CreditTypes = GetCreditTypes(),
+                FamilyStatusList = new List<SelectListItem>()
+                {
+                    new SelectListItem() { Value = "0", Text = "married" },
+                    new SelectListItem() { Value = "1", Text = "single" }
+                },
+                EducationList = new List<SelectListItem>()
+                {
+                   new SelectListItem() { Value = "0", Text = "higher" },
+                   new SelectListItem() { Value = "1", Text = "secondary special" },
+                   new SelectListItem() { Value = "2", Text = "secondary" }
+                },
+                WorkChangeCountList = new List<SelectListItem>()
+                {
+                    new SelectListItem() { Value = "0", Text = "no one" },
+                    new SelectListItem() { Value = "1", Text = "once" },
+                    new SelectListItem() { Value = "2", Text = "more than one time" }
+                }
             };
 
             return View(model);
@@ -96,6 +129,23 @@ namespace WebApp.Controllers
             }
 
             viewModel.CreditTypes = GetCreditTypes();
+            viewModel.FamilyStatusList = new List<SelectListItem>()
+            {
+                new SelectListItem() {Value = "0", Text = "married"},
+                new SelectListItem() {Value = "1", Text = "single"}
+            };
+            viewModel.EducationList = new List<SelectListItem>()
+            {
+                new SelectListItem() {Value = "0", Text = "higher"},
+                new SelectListItem() {Value = "1", Text = "secondary special"},
+                new SelectListItem() {Value = "2", Text = "secondary"}
+            };
+            viewModel.WorkChangeCountList = new List<SelectListItem>()
+            {
+                new SelectListItem() {Value = "0", Text = "no one"},
+                new SelectListItem() {Value = "1", Text = "once"},
+                new SelectListItem() {Value = "2", Text = "more than one time"}
+            };
 
             if (!ModelState.IsValid)
             {
@@ -290,7 +340,15 @@ namespace WebApp.Controllers
             list = list.Where(x => x.Confirm == 0).ToList();
             if (list.Count == 0)
             {
-                return null;
+                var viewModel = new RequestsViewModel()
+                {
+                    CurrentPageNumber = pageNumber,
+                    AllPageCount = 1,
+                    ItemsPerPage = itemsInPage,
+                    IsRequestExist = false
+                };
+
+                return viewModel;
             }
 
             int startRange = pageNumber * 10 - itemsInPage;
@@ -317,10 +375,12 @@ namespace WebApp.Controllers
 
                 CurrentPageNumber = pageNumber,
                 AllPageCount = allPageCount,
-                ItemsPerPage = itemsInPage
+                ItemsPerPage = itemsInPage,
+                IsRequestExist = true
             };
 
             return model;
         }
+
     }
 }

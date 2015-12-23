@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Cron;
 using DAO;
-using DAO.Implemenation;
 using DAO.Implementation;
 using DAO.Interafaces;
 using Services.Interfaces;
 
-namespace Services.Implemenations
+namespace Services.Implementation
 {
     public class CreditService: ICreditService
     {
@@ -82,14 +81,14 @@ namespace Services.Implemenations
             }
         }
 
-        public bool CreateCreditForRequest(Guid requestId)
+        public Guid? CreateCreditForRequest(Guid requestId)
         {
             try
             {
                 var request = _requestDao.Get(requestId);
                 if (request == null)
                 {
-                    return false;
+                    return null;
                 }
 
                 var debts = new Debts()
@@ -103,12 +102,13 @@ namespace Services.Implemenations
                 int allSum = 0;
                 //TODO
                 var payMounth = (int)((request.StartSum + (request.StartSum * request.CreditTypes.Percent)) / request.CreditTypes.PayCount);
+                var dateStart = _creditDao.GetTimeTable().Date;
 
                 var credit = new Credit()
                 {
                     Id = Guid.NewGuid(),
-                    DateStart = _creditDao.GetTimeTable().Date,
-                    DateEnd = DateTime.Now.AddMonths(request.CreditTypes.PayCount),
+                    DateStart = dateStart,
+                    DateEnd = dateStart.AddMonths(request.CreditTypes.PayCount),
                     Percent = request.CreditTypes.Percent,
                     StartSum = request.StartSum,
                     AllSum = allSum,
@@ -119,7 +119,8 @@ namespace Services.Implemenations
                     ManagerId = request.ManagerId.Value,
                     CreditTypeId = request.CreditTypeId,
                     DebtsId = debts.Id,
-                    Status = "0"
+                    Status = "0",
+                    RequestId = requestId
                 };
 
                 _creditDao.CreateOrUpdate(credit);
@@ -144,11 +145,14 @@ namespace Services.Implemenations
                     GradedCredit.ProcessHistory(credit.Id);
                 }
 
-                return true;
+                request.CreditId = credit.Id;
+                _requestDao.CreateOrUpdate(request);
+
+                return credit.Id;
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
 

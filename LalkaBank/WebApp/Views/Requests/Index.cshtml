@@ -5,20 +5,25 @@
     ViewBag.Title = "requests";
     int requestCount = 1;
     int scalar = 0;
-    if (Model.CurrentPageNumber != 1)
-    {
-        scalar = Model.CurrentPageNumber * Model.ItemsPerPage - Model.ItemsPerPage;
-    }
+    //if (Model.CurrentPageNumber != 1)
+    //{
+    //    scalar = Model.CurrentPageNumber * Model.ItemsPerPage - Model.ItemsPerPage;
+    //}
 }
 
 <div class="row lb-margin">
-    @if (ViewBag.Result != null && !ViewBag.Result)
+    @if (User.IsInRole("Manager"))
     {
-        <div class="row">
-            <div class="span">@ViewBag.ResultMsg.ToString()</div>
-        </div>
+        if (ViewBag.isManagerNotRegister != null && ViewBag.isManagerNotRegister)
+        {
+            <div class="row">
+                <h4>
+                    <span class="label label-danger">@Html.ActionLink("Your need adding info about you", "Edit", "Managers")</span>
+                </h4>
+            </div>
+        }
     }
-    else
+    else if (User.IsInRole("User"))
     {
         if (ViewBag.isUserNotRegister != null && ViewBag.isUserNotRegister && User.IsInRole("User"))
         {
@@ -30,57 +35,62 @@
         }
         else
         {
-
-            if (User.IsInRole("User"))
+            if (ViewBag.isUserBanned != null && ViewBag.isUserBanned)
             {
-                if (ViewBag.isUserBanned != null && ViewBag.isUserBanned)
-                {
-                    <div class="row">
-                        <h4>
-                            <span class="label label-default"> Your Account is blocked</span>
-                        </h4>
-                    </div>
-                }
-                else
-                {
-                    <div class="row">
-                        <a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Create request</a>
-                    </div>
-                }
+                <div class="row">
+                    <h4>
+                        <span class="label label-default"> Your Account is blocked</span>
+                    </h4>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <a href="@Url.Action("Create", "Requests")" class="btn btn-info" role="button">Create request</a>
+                </div>
             }
         }
+    }
+    @if (ViewBag.Result != null && !ViewBag.Result)
+    {
+        <div class="row">
+            @*<div class="span">@ViewBag.ResultMsg.ToString()</div>*@
+        </div>
+    }
+    @if (Model.IsRequestExist)
+    {
         <div class="rows lb-margin">
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Info</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Info</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach (var request in Model.Requests)
-                        {
-                            <tr>
-                                <td>@(requestCount++ + scalar)</td>
-                                <td>
-                                    <div style="width: 200px; overflow: hidden; height: 50px; line-height: 20px;">
-                                        @if (request.Text.Length > 20)
-                                        {
-                                            @request.Text.Substring(0, 20)<span>...</span>
-                                        }
-                                        else
-                                        {
-                                            @request.Text
-                                        }
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info show-request" data-loading-text="Loading..." role="button">Show</a>
-                                </td>
-                            </tr>
-                        }
+                    @foreach (var request in Model.Requests)
+                    {
+                        <tr>
+                            <td>@*@(requestCount++ + scalar)*@</td>
+                            <td>
+                                <div style="width: 200px; overflow: hidden; height: 50px; line-height: 20px;">
+                                    @if (request.Text.Length > 20)
+                                    {
+                                        @request.Text.Substring(0, 20)<span>...</span>
+                                    }
+                                    else
+                                    {
+                                        @request.Text
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Show", "Requests", new {id = request.Value})" class="btn btn-info show-request" data-loading-text="Loading..." role="button">Show</a>
+                            </td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
@@ -108,6 +118,14 @@
             </div>
         </div>
     }
+    else
+    {
+        <div class="row">
+            <h4>
+                <span class="label label-danger">Not active request to show</span>
+            </h4>
+        </div>
+    }
 </div>
 
 <div id="requestInfoModal" class="modal fade" title="Create Album">
@@ -121,10 +139,10 @@
         
         $body = $("body");
 
-        $(document).on({
-            ajaxStart: function () { $body.addClass("loading"); },
-            ajaxStop: function () { $body.removeClass("loading"); }
-        });
+        //$(document).on({
+        //    ajaxStart: function () { $body.addClass("loading"); },
+        //    ajaxStop: function () { $body.removeClass("loading"); }
+        //});
 
         jQuery(document).ready(function ($) {
             $(".show-request").click(function (e) {
@@ -133,8 +151,10 @@
                 btn.button('loading');
 
                 e.preventDefault();
+                $body.addClass("loading");
                 $.get(this.href, function(data) {
                     $('#dialogContent').html(data);
+                    $body.removeClass("loading");
                     $('#requestInfoModal').modal('show');
                 });
 

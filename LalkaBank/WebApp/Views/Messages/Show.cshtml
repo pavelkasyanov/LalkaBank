@@ -20,7 +20,7 @@
             @if (Model.Request.Confirm  == 1)
             {
                 <div class="form-group">
-                    <a href="@Url.Action("Show", "Credits", new {id = Model.Request.Id})" target="_blank">credit page</a>
+                    <a href="@Url.Action("Show", "Credits", new {id = Model.Request.CreditId})" target="_blank">credit page</a>
                 </div>
             }
             <Br />

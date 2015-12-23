@@ -26,6 +26,7 @@
                     <thead>
                     <tr>
                         <th>#</th>
+                        <th>Number</th>
                         <th>Info</th>
                         <th></th>
                     </tr>
@@ -35,6 +36,7 @@
                     {
                         <tr>
                             <td>@(requestCount++ + scalar)</td>
+                            <td>@credit.Number</td>
                             <td>
                                 <div style="width: 200px; overflow: hidden; height: 50px; line-height: 20px;">
                                     @*@if (credit.Person.Email.Length > 20)
@@ -48,7 +50,7 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="@Url.Action("Show", "Credits", new {id = credit.Id})" class="btn btn-info show-request" data-loading-text="Loading..." role="button">Просмотреть</a>
+                                <a href="@Url.Action("Show", "Credits", new {id = credit.Id})" class="btn btn-info show-request" data-loading-text="Loading..." role="button">Show</a>
                             </td>
                         </tr>
                     }
@@ -64,7 +66,7 @@
                         }
                         else
                         {
-                            <li class="previous"><a href="@Url.Action("Index", "Credits", new {page = @Model.CurrentPageNumber - 1})"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                            <li class="previous"><a href="@Url.Action(Model.Action, "Credits", new {CurrentPageNumber = @Model.CurrentPageNumber - 1})"><span aria-hidden="true">&larr;</span> Previous</a></li>
                         }
                         @if (Model.CurrentPageNumber == Model.AllPageCount || Model.AllPageCount == 0)
                         {
@@ -72,11 +74,17 @@
                         }
                         else
                         {
-                            <li class="next"><a href="@Url.Action("Index", "Credits", new {page = @Model.CurrentPageNumber + 1})">Next <span aria-hidden="true">&rarr;</span></a></li>
+                            <li class="next"><a href="@Url.Action(Model.Action, "Credits", new {CurrentPageNumber = @Model.CurrentPageNumber + 1})">Next <span aria-hidden="true">&rarr;</span></a></li>
                         }
                     </ul>
                 </nav>
             </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <h4>not credits to show</h4>
         </div>
     }
 </div>
@@ -88,10 +96,10 @@
 
         $body = $("body");
 
-        $(document).on({
-            ajaxStart: function () { $body.addClass("loading"); },
-            ajaxStop: function () { $body.removeClass("loading"); }
-        });
+        //$(document).on({
+        //    ajaxStart: function () { $body.addClass("loading"); },
+        //    ajaxStop: function () { $body.removeClass("loading"); }
+        //});
 
         jQuery(document).ready(function ($) {
         });

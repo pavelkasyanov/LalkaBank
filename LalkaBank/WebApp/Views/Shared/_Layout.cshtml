@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title  - Lalka Bank</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -27,7 +27,11 @@
                         <b><a class="lb-area" style="margin-left: 20px;" href="@Url.Action("ManagersList", "Admin")">Managers</a></b>
                     }
                 }
-                <b><a class="lb-area" href="@Url.Action("Index", "Credits")">Credits</a></b>
+                <b><a class="lb-area" href="@Url.Action("Index", "Credits")">Credits <span id="badge_actives_credits" class="badge"></span></a></b>
+                @{
+                    <b><a class="lb-area" style="margin-left: 20px;" href="@Url.Action("Closeds", "Credits")">Closeds</a></b>
+                    <b><a class="lb-area" style="margin-left: 20px;" href="@Url.Action("Overdues", "Credits")">Overdues <span id="badge_overdues_credits"class="badge"></span></a></b>
+                }
                 @{
                     <b><a class="lb-area" style="margin-left: 20px;" href="@Url.Action("Index", "CreditTypes")">Credit types</a></b>
                 }
@@ -70,5 +74,29 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $.ajax({
+                url: '@Url.Action("GetActivesCreditCount", "Credits")',
+                type: 'GET',
+                success: function (data) {
+                    if (data.result > 0) {
+                        $('#badge_actives_credits').text(data.result);
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '@Url.Action("GetOverduesCreditCount", "Credits")',
+                type: 'GET',
+                success: function (data) {
+                    if (data.result > 0) {
+                        $('#badge_overdues_credits').text(data.result);
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

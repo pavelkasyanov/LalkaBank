@@ -15,5 +15,7 @@ namespace Services.Interfaces
         List<Person> GetList();
 
         bool RegisterUser(Person person, Passport passport);
+
+        bool IsUserRegister(Guid userId);
     }
 }

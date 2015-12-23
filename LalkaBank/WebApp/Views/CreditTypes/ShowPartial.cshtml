@@ -3,7 +3,7 @@
 <div class="modal-content">
     <div class="modal-header">
         <button class="close" data-dismiss="modal" area-hidden="true">&times;</button>
-        <h4>User Info</h4>
+        <h4>Credit Type</h4>
     </div>
     <div class="modal-body">
         @using (Html.BeginForm("Create", "CreditTypes", FormMethod.Post, new
@@ -32,26 +32,29 @@
                 @Model.Info
             </div>
             <Br/>
-            <div class="form-group">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                @if (Model.IsActive)
-                {
-                    <button type="button" id="ban_user_btn" class="btn btn-primary">set not active</button>
-                    <input type="hidden" id="userBanValue" value="false" />
-                }
-                else
-                {
-                    <button type="button" id="ban_user_btn" class="btn btn-primary">set active</button>
-                    <input type="hidden" id="userBanValue" value="true" />
-                }
-            </div>
-            <div class="row">
-                <div id="ban_result" class="alert alert-dismissable fade-in" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
+            if (User.IsInRole("Admin"))
+            {
+                 <div class="form-group">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     @if (Model.IsActive)
+                     {
+                         <button type="button" id="ban_user_btn" class="btn btn-primary">set not active</button>
+                         <input type="hidden" id="userBanValue" value="false"/>
+                     }
+                     else
+                     {
+                         <button type="button" id="ban_user_btn" class="btn btn-primary">set active</button>
+                         <input type="hidden" id="userBanValue" value="true"/>
+                     }
+                 </div>
+                 <div class="row">
+                     <div id="ban_result" class="alert alert-dismissable fade-in" role="alert">
+                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                         </button>
+                     </div>
+                 </div>
+            }
         }
     </div>
     <script type="text/javascript">
