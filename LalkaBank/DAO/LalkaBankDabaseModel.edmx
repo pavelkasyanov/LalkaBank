@@ -202,6 +202,7 @@
     <Property Name="GuarantorImage" Type="varbinary(max)" Nullable="true" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="CreditId" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="ScoringIndex" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -661,6 +662,7 @@
           <Property Name="GuarantorImage" Type="Binary" Nullable="true" MaxLength="Max" FixedLength="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreditId" Type="Guid" Nullable="true" />
+          <Property Name="ScoringIndex" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -1028,6 +1030,7 @@
           <ScalarProperty Name="GuarantorImage" ColumnName="GuarantorImage" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="CreditId" ColumnName="CreditId" />
+          <ScalarProperty Name="ScoringIndex" ColumnName="ScoringIndex" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -2,13 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using DAO;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+using WebApp.Models;
 using WebApp.Models.Domains.Credits;
 using WebApp.Models.Domains.Requests;
 using WebApp.Models.Domains.Users;
@@ -23,16 +20,21 @@ namespace WebApp.Controllers
         private readonly IPersonService _personService;
         private readonly IBankAccountService _accountService;
         private readonly IManagerService _managerService;
+        private readonly ICreditService _creditService;
 
         public RequestsController(IRequestService requestService, 
             ICreditTypesService creditTypesService, 
-            IPersonService personService, IBankAccountService accountService, IManagerService managerService)
+            IPersonService personService, 
+            IBankAccountService accountService, 
+            IManagerService managerService, 
+            ICreditService creditService)
         {
             _requestService = requestService;
             _creditTypesService = creditTypesService;
             _personService = personService;
             _accountService = accountService;
             _managerService = managerService;
+            _creditService = creditService;
         }
 
         // GET: Requests
@@ -64,11 +66,10 @@ namespace WebApp.Controllers
             {
             }
 
-            var viewModel = GetRequestsViewModelFromPage(page != null ? page.Value : 1);
+            var viewModel = GetRequestsViewModelFromPage(page ?? 1);
             if (viewModel == null)
             {
                 ViewBag.Result = false;
-                //ViewBag.ResultMsg = "error load requests";
             }
 
             return View(viewModel);
@@ -167,7 +168,8 @@ namespace WebApp.Controllers
                 PersonId = Guid.Parse(User.Identity.GetUserId()),
                 IncomeImage = incomeImage,
                 StartSum = viewModel.StartSum,
-                Date = DateTime.Now
+                Date = _creditService.GetTimeTable().Date,
+                ScoringIndex = GetScoringIndexForRequest(viewModel)
             };
 
             var result = _requestService.Create(request);
@@ -186,13 +188,16 @@ namespace WebApp.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Show(Guid id)
+        public ActionResult Show(Guid? id)
         {
-            var model = GetRequestViewModel(id);
+            if (!id.HasValue)
+            {
+                return HttpNotFound();
+            }
 
-            Thread.Sleep(1000);
+            var model = GetRequestViewModel(id.Value);
 
-            return PartialView("ShowPartial", model);
+            return View(model);
         }
 
         //Подтвердить заявку
@@ -221,14 +226,7 @@ namespace WebApp.Controllers
 
         public ActionResult Find(ResultFindRequestsViewModel model)
         {
-            ResultFindRequestsViewModel viewModel = new ResultFindRequestsViewModel()
-            {
-            };
-
-            //if (model.ItemsPerPage = 0)
-            {
-                viewModel = this.FindRequestsViewModelFromPage(model.CurrentPageNumber, model.Start, model.End);
-            }
+            var viewModel = FindRequestsViewModelFromPage(model.CurrentPageNumber, model.Start, model.End);
 
             return View(viewModel);
         }
@@ -255,6 +253,7 @@ namespace WebApp.Controllers
                 Number = request.Number,
                 IncomeImage = request.IncomeImage,
                 Date = request.Date,
+                ScoringIndex = request.ScoringIndex,
                 CreditType = new CreditTypeViewModel()
                 {
                     Id = creaditType?.Id ?? Guid.Empty,
@@ -380,6 +379,116 @@ namespace WebApp.Controllers
             };
 
             return model;
+        }
+
+        private int GetScoringIndexForRequest(CreateRequestViewModel viewModel)
+        {
+            int scoringIndex = 0;
+
+            var person = _personService.Get(Guid.Parse(User.Identity.GetUserId()));
+            if (person == null)
+            {
+                return -100;
+            }
+
+            scoringIndex = (int)(person.CreditHistoryIndex * (-0.2));
+
+            var bday = person.DateBirth.Value;
+            var today = _creditService.GetTimeTable().Date;
+            int age = today.Year - bday.Year;
+            if (bday > today.AddYears(-age)) age--;
+
+
+            //Scoring Age
+            if (age < 24)
+            {
+                scoringIndex += -5;
+            } else if (age >= 24 && age <= 40)
+            {
+                scoringIndex += 5;
+            } else if (age > 40)
+            {
+                scoringIndex += 3;
+            }
+
+            //Family status
+            switch (viewModel.FamilyStatus)
+            {
+                case 0:
+                    scoringIndex += 3;
+                    break;
+                case 1:
+                    scoringIndex += -2;
+                    break;
+            }
+
+            //Have children
+            if (viewModel.HaveChildren)
+            {
+                scoringIndex += 3;
+            }
+            else
+            {
+                scoringIndex += -1;
+            }
+
+            //Education
+            switch (viewModel.Education)
+            {
+                case 0:
+                    scoringIndex += 5;
+                    break;
+                case 1:
+                    scoringIndex += 4;
+                    break;
+                case 2:
+                    scoringIndex += 0;
+                    break;
+            }
+
+            //have vehicle
+
+            if (viewModel.HaveVehicle)
+            {
+                scoringIndex += 3;
+            }
+            else
+            {
+                scoringIndex += 0;
+            }
+
+            //Work Expireance
+
+            if (viewModel.WorkExperience < 3)
+            {
+                scoringIndex += -1;
+
+            } else if (viewModel.WorkExperience >=3 && viewModel.WorkExperience <= 10)
+            {
+                scoringIndex += -3;
+
+            } else if (viewModel.WorkExperience > 10)
+            {
+                scoringIndex += -4;
+            }
+
+            //Work change count 
+            switch (viewModel.WorkChangeCount)
+            {
+                case 0:
+                    scoringIndex += 4;
+                    break;
+                case 1:
+                    scoringIndex += 1;
+                    break;
+                case 2:
+                    scoringIndex += -2;
+                    break;
+            }
+
+
+
+            return scoringIndex;
         }
 
     }

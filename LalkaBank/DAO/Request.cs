@@ -53,6 +53,8 @@ public partial class Request
 
     public Nullable<System.Guid> CreditId { get; set; }
 
+    public int ScoringIndex { get; set; }
+
 
 
     public virtual Manager Managers { get; set; }

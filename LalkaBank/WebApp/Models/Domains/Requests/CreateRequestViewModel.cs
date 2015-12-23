@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -57,7 +56,5 @@ namespace WebApp.Models.Domains.Requests
         public int WorkChangeCount { get; set; }
 
         public List<SelectListItem> WorkChangeCountList { get; set; }
-
-
     }
 }

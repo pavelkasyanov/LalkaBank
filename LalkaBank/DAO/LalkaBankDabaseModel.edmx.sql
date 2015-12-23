@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/16/2015 11:51:38
--- Generated from EDMX file: D:\dev\my\univer\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
+-- Date Created: 12/23/2015 20:34:17
+-- Generated from EDMX file: D:\univer\tofi\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -234,7 +234,8 @@ CREATE TABLE [dbo].[Requests] (
     [StartSum] int  NOT NULL,
     [GuarantorImage] varbinary(max)  NULL,
     [Date] datetime  NOT NULL,
-    [CreditId] uniqueidentifier  NULL
+    [CreditId] uniqueidentifier  NULL,
+    [ScoringIndex] int  NOT NULL
 );
 GO
 

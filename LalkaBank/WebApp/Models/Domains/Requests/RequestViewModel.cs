@@ -32,6 +32,9 @@ namespace WebApp.Models.Domains.Requests
 
         public Guid CreditId { get; set; }
 
+        [DisplayName("Scoring index")]
+        public int ScoringIndex { get; set; }
+
         [DisplayName("Credit Type")]
         public virtual CreditTypeViewModel CreditType { get; set; }
 
