@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table .table-hover">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th></th>
@@ -17,18 +17,20 @@
             </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>@Html.LabelFor(m => m.Number)</td>
-                    <td>@Model.Number</td>
-                </tr>
-                <tr>
-<tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Number)</td>
+                <td>@Model.Number</td>
+            </tr>
+            <tr>
+            <tr>
                 <td>@Html.LabelFor(m => m.CreditInfo)</td>
                 <td>@Model.CreditInfo</td>
             </tr>
             <tr>
                 <td>@Html.LabelFor(m => m.CreditType)</td>
-                <td>@Model.CreditInfo</td>
+                <td>
+                    <a href="@Url.Action("Show", "CreditTypes", new {id = Model.CreditType.Id})" class="show-request" role="button">@Model.CreditType.Name</a>
+                </td>
             </tr>
             <tr>
                 <td>@Html.LabelFor(m => m.Confirm)</td>
@@ -36,13 +38,20 @@
                     @if (Model.Confirm == 0)
                     {
                         <div>
-                            Открыта
+                            <span class="label label-default">Opened</span>
                         </div>
                     }
                     @if (Model.Confirm == 1)
                     {
                         <div>
-                            Рассмотрена
+                            <span class="label label-warning">Confirm</span>
+                            <a href="@Url.Action("Show", "Credits", new {id = Model.CreditId})">show credit page</a>
+                        </div>
+                    }
+                    @if (Model.Confirm == 2)
+                    {
+                        <div>
+                            <span class="label label-warning">Discarted</span>
                         </div>
                     }
                 </td>
@@ -68,22 +77,53 @@
                 <td>@Model.UserInfo.Email</td>
             </tr>
             <tr>
-                <td>@Html.LabelFor(m => m.UserInfo.CreditHistoryIndex)</td>
-                <td>@Model.UserInfo.CreditHistoryIndex</td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(m => m.IncomeImage)</td>
+                <td>@Html.LabelFor(m => m.ScoringIndex)</td>
                 <td>
-                    @if (Model.IncomeImage != null)
+                    @if (Model.ScoringIndex < 0)
                     {
-                        <img src="data:image;base64,@Convert.ToBase64String(Model.IncomeImage)" alt="" width="100px" height="100px" />
+                        <span class="label label-danger">@Model.ScoringIndex</span>
                     }
-                    else
+                    @if (Model.ScoringIndex > 0 && Model.ScoringIndex <= 10)
                     {
-                        <img src="" alt="" width="100px" height="100px" />
+                        <span class="label label-warning">@Model.ScoringIndex</span>
+                    }
+                    @if (Model.ScoringIndex > 10)
+                    {
+                        <span class="label label-success">@Model.ScoringIndex</span>
                     }
                 </td>
             </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.IncomeImagePresented)</td>
+                <td>
+                    @if (Model.IncomeImagePresented)
+                    {
+                        @*<img src="data:image;base64,@Convert.ToBase64String(Model.IncomeImage)" alt="" width="100px" height="100px"/>*@
+                        <a href="@Url.Action("Income", "Images", new {id = Model.Id})" target="_blank">
+                            <img src="@Url.Action("Income", "Images", new {id = Model.Id})" alt="" width="100px" height="100px"/>
+                        </a>
+                    }
+                    else
+                    {
+                        <img src="" alt="" width="100px" height="100px"/>
+                    }
+                </td>
+            </tr>
+                <tr>
+                    <td>@Html.LabelFor(m => m.GuarantorImagePresented)</td>
+                    <td>
+                        @if (Model.GuarantorImagePresented)
+                        {
+                            <a href="@Url.Action("Garantor", "Images", new {id = Model.Id})" target="_blank">
+                                <img src="@Url.Action("Garantor", "Images", new {id = Model.Id})" alt="" width="100px" height="100px" />
+                            </a>
+                        }
+                        else
+                        {
+                            <img src="" alt="" width="100px" height="100px" />
+                        }
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -111,3 +151,34 @@
         </div>
     }
 </div>
+<div id="requestInfoModal" class="modal fade" title="Create Album">
+    <div id="dialogContent" class="modal-dialog">
+    </div>
+</div>
+<div class="load-icon"></div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $body = $("body");
+
+        //$(document).on({
+        //    ajaxStart: function () { $body.addClass("loading"); },
+        //    ajaxStop: function () { $body.removeClass("loading"); }
+        //});
+
+        jQuery(document).ready(function($) {
+            $(".show-request").click(function(e) {
+
+                e.preventDefault();
+                $body.addClass("loading");
+                $.get(this.href, function(data) {
+                    $('#dialogContent').html(data);
+                    $body.removeClass("loading");
+                    $('#requestInfoModal').modal('show');
+                });
+            });
+        });
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

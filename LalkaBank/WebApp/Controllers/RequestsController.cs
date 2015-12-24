@@ -161,12 +161,21 @@ namespace WebApp.Controllers
                 viewModel.IncomeImage.InputStream.Read(incomeImage, 0, fileLen);
             }
 
+            incomeImage = null;
+            if (viewModel.GuarantorImage != null)
+            {
+                var fileLen = viewModel.GuarantorImage.ContentLength;
+                incomeImage = new byte[fileLen];
+                viewModel.GuarantorImage.InputStream.Read(incomeImage, 0, fileLen);
+            }
+
             var request = new Request
             {
                 CreditTypeId = viewModel.CreditTypeId,
                 CreditInfo = viewModel.CreditInfo,
                 PersonId = Guid.Parse(User.Identity.GetUserId()),
                 IncomeImage = incomeImage,
+                GuarantorImage = incomeImage,
                 StartSum = viewModel.StartSum,
                 Date = _creditService.GetTimeTable().Date,
                 ScoringIndex = GetScoringIndexForRequest(viewModel)
@@ -209,7 +218,7 @@ namespace WebApp.Controllers
             var msg = "Confirm suc!";
             _requestService.ConfirmRequest(id, Guid.Parse(User.Identity.GetUserId()), msg);
 
-            return RedirectToAction("Create", "Credits", new {requestId = id});
+            return RedirectToAction("Show", "Requests", new {id = id});
         }
 
         //Отказать заявку
@@ -251,16 +260,19 @@ namespace WebApp.Controllers
                 CreditInfo = request.CreditInfo,
                 Confirm = request.Confirm,
                 Number = request.Number,
-                IncomeImage = request.IncomeImage,
+                IncomeImagePresented = request.IncomeImage != null,
+                GuarantorImagePresented = request.GuarantorImage != null,
                 Date = request.Date,
                 ScoringIndex = request.ScoringIndex,
+                CreditId = request.CreditId ?? Guid.Empty,
                 CreditType = new CreditTypeViewModel()
                 {
                     Id = creaditType?.Id ?? Guid.Empty,
                     Info = creaditType?.Info ?? "",
                     PayCount = creaditType?.PayCount ?? 0,
                     Percent = creaditType?.PayCount ?? 0,
-                    StartSumPercent = creaditType?.StartSumPercent ?? 0
+                    StartSumPercent = creaditType?.StartSumPercent ?? 0,
+                    Name = creaditType.Name
                 },
                 UserInfo = new UserInfoPartialViewModel()
                 {
@@ -276,7 +288,7 @@ namespace WebApp.Controllers
             };
 
             var  account = _accountService.Get();
-            account.Amount -= request.StartSum;
+            //account.Amount -= request.StartSum;
             _accountService.CreateOrUpdate(account);
 
             return model;

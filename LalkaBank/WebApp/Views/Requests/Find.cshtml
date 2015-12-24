@@ -27,7 +27,6 @@
                     role = "form"
                 }))
                 {
-                    @*@Html.TextBoxFor(m => m.CurrentPageNumber, new { @type="hidden", @value="0"})*@
                     <input type="hidden" id="CurrentPageNumber" name="CurrentPageNumber" value="1"/>
                     <div class="form-group">
                         @Html.LabelFor(m => m.Start)
@@ -113,15 +112,6 @@
         //});
 
         jQuery(document).ready(function ($) {
-
-            $(".show-request").click(function(e) {
-
-                e.preventDefault();
-                $.get(this.href, function(data) {
-                    $('#dialogContent').html(data);
-                    $('#requestInfoModal').modal('show');
-                });
-            });
         });
     </script>
     @Scripts.Render("~/bundles/jqueryval")

@@ -25,7 +25,10 @@ namespace WebApp.Models.Domains.Requests
         public byte[] PassportImage { get; set; }
 
         [DisplayName("User Income Image")]
-        public byte[] IncomeImage { get; set; }
+        public bool IncomeImagePresented { get; set; }
+
+        [DisplayName("Guarantor Image")]
+        public bool GuarantorImagePresented { get; set; }
 
         [DisplayName("Request Status")]
         public int Confirm { get; set; }

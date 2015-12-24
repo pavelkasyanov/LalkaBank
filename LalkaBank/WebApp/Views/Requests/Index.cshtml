@@ -145,21 +145,21 @@
         //});
 
         jQuery(document).ready(function ($) {
-            $(".show-request").click(function (e) {
+            //$(".show-request").click(function (e) {
 
-                var btn = $('show-request');
-                btn.button('loading');
+            //    var btn = $('show-request');
+            //    btn.button('loading');
 
-                e.preventDefault();
-                $body.addClass("loading");
-                $.get(this.href, function(data) {
-                    $('#dialogContent').html(data);
-                    $body.removeClass("loading");
-                    $('#requestInfoModal').modal('show');
-                });
+            //    e.preventDefault();
+            //    $body.addClass("loading");
+            //    $.get(this.href, function(data) {
+            //        $('#dialogContent').html(data);
+            //        $body.removeClass("loading");
+            //        $('#requestInfoModal').modal('show');
+            //    });
 
-                btn.button('reset');
-            });
+            //    btn.button('reset');
+            //});
         });
     </script>
     @Scripts.Render("~/bundles/jqueryval")

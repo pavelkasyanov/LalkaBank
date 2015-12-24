@@ -20,6 +20,9 @@ namespace WebApp.Models.Domains.Requests
         [DisplayName("Income Image")]
         public HttpPostedFileBase IncomeImage { get; set; }
 
+        [DisplayName("Guarantor Image")]
+        public HttpPostedFileBase GuarantorImage { get; set; }
+
         [Required]
         [DisplayName("Credit goal")]
         public string CreditInfo { get; set; }
