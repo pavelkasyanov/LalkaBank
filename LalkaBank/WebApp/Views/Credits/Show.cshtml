@@ -22,6 +22,17 @@
                 <td>@Model.Number</td>
             </tr>
             <tr>
+                <td>@Html.LabelFor(m => m.Status)</td>
+                @if (Model.Status.Equals("0"))
+                {
+                    <td><span class="label label-success">Open</span></td>
+                }
+                @if (Model.Status.Equals("1"))
+                {
+                    <td><span class="label label-success">Closed</span></td>
+                }
+            </tr>
+            <tr>
                 <td>@Html.LabelFor(m => m.DateStart)</td>
                 <td>@Model.DateStart.ToString("D")</td>
             </tr>

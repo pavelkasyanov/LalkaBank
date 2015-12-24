@@ -76,23 +76,26 @@
                 <td>@Html.LabelFor(m => m.UserInfo.Email)</td>
                 <td>@Model.UserInfo.Email</td>
             </tr>
-            <tr>
-                <td>@Html.LabelFor(m => m.ScoringIndex)</td>
-                <td>
-                    @if (Model.ScoringIndex < 0)
-                    {
-                        <span class="label label-danger">@Model.ScoringIndex</span>
-                    }
-                    @if (Model.ScoringIndex > 0 && Model.ScoringIndex <= 10)
-                    {
-                        <span class="label label-warning">@Model.ScoringIndex</span>
-                    }
-                    @if (Model.ScoringIndex > 10)
-                    {
-                        <span class="label label-success">@Model.ScoringIndex</span>
-                    }
-                </td>
-            </tr>
+            @if (!User.IsInRole("User"))
+            {
+                <tr>
+                    <td>@Html.LabelFor(m => m.ScoringIndex)</td>
+                    <td>
+                        @if (Model.ScoringIndex < 10)
+                        {
+                            <span class="label label-danger">@Model.ScoringIndex</span>
+                        }
+                        @if (Model.ScoringIndex >= 10 && Model.ScoringIndex <= 20)
+                        {
+                            <span class="label label-warning">@Model.ScoringIndex</span>
+                        }
+                        @if (Model.ScoringIndex > 20)
+                        {
+                            <span class="label label-success">@Model.ScoringIndex</span>
+                        }
+                    </td>
+                </tr>
+            }
             <tr>
                 <td>@Html.LabelFor(m => m.IncomeImagePresented)</td>
                 <td>
