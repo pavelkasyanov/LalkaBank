@@ -72,7 +72,11 @@
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.WorkChangeCount)
-            @Html.DropDownListFor(m => m.WorkChangeCount, Model.WorkChangeCountList, new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.WorkChangeCount, Model.WorkChangeCountList, new {@class = "form-control"})
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Earnings)
+            @Html.EditorFor(m => m.Earnings, new { htmlAttributes = new { @class = "form-control" } })
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-default" value="create request"/>

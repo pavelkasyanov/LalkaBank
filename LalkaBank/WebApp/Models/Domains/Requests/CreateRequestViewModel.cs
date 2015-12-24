@@ -59,5 +59,10 @@ namespace WebApp.Models.Domains.Requests
         public int WorkChangeCount { get; set; }
 
         public List<SelectListItem> WorkChangeCountList { get; set; }
+
+        [Required]
+        [DisplayName("Earnings")]
+        [Range(0, 500000000, ErrorMessage = "Earnings is ivalid")]
+        public int Earnings { get; set; }
     }
 }

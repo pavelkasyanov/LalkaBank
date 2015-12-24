@@ -1,4 +1,4 @@
-﻿@model WebApp.Models.Domains.Requests.ResultFindRequestsViewModel
+﻿@model WebApp.Models.Domains.Credits.SearchCreditsViewModel
 
 @{
     ViewBag.Title = "requests";
@@ -21,50 +21,75 @@
     {
         <div class="rows lb-margin">
             <div class="row">
-                @using (Html.BeginForm("Find", "Requests", FormMethod.Get, new
+                <a href="#" id="showSearchForm">Search</a>
+            </div>
+            <div class="row collapse" id="search_form">
+                @using (Html.BeginForm("Search", "Credits", FormMethod.Get, new
                 {
-                    @class = "form-inline",
                     role = "form"
                 }))
                 {
-                    <input type="hidden" id="CurrentPageNumber" name="CurrentPageNumber" value="1" />
+                    <input type="hidden" id="CurrentPageNumber" name="CurrentPageNumber" value="1"/>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SearchForDate)
+                        @Html.CheckBoxFor(m => m.SearchForDate)
+                    </div>
                     <div class="form-group">
                         @Html.LabelFor(m => m.Start)
-                        @Html.EditorFor(m => m.Start, new { htmlAttributes = new { @type = "date" } })
+                        @Html.EditorFor(m => m.Start, new {htmlAttributes = new {@type = "date"}})
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(m => m.End)
                         @Html.EditorFor(m => m.End)
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="Find" />
+                        @Html.LabelFor(m => m.HideActive)
+                        @Html.CheckBoxFor(m => m.HideActive)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.HideClosed)
+                        @Html.CheckBoxFor(m => m.HideClosed)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.HideOverdue)
+                        @Html.CheckBoxFor(m => m.HideOverdue)
+                    </div>
+                    if (!User.IsInRole("User"))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.UserId)
+                            @Html.DropDownListFor(m => m.UserId, Model.UserList, new {@class = "form-control"})
+                        </div>
+                    }
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Search"/>
                     </div>
                 }
             </div>
-            @if (Model.Requests != null && Model.Requests.ToList().Count > 0)
+            @if (Model.SearchResult)
             {
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Info</th>
-                                <th>Date</th>
-                                <th></th>
-                            </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Info</th>
+                            <th>Date</th>
+                            <th></th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach (var request in Model.Requests)
-                            {
-                                <tr>
-                                    <td>@(requestCount++ + scalar)</td>
-                                    <td>@request.CreditInfo</td>
-                                    <td>@request.Date.ToString("D")</td>
-                                    <td>
-                                        <a href="@Url.Action("Show", "Requests", new {id = request.Id})" class="btn btn-info show-request" role="button">Просмотреть</a>
-                                    </td>
-                                </tr>
-                            }
+                        @foreach (var request in Model.Credits)
+                        {
+                            <tr>
+                                <td>@(requestCount++ + scalar)</td>
+                                <td>@request.Number</td>
+                                <td>@request.DateStart.ToString("D")</td>
+                                <td>
+                                    <a href="@Url.Action("Show", "Credits", new {id = request.Id})" class="btn btn-info show-request" role="button">show</a>
+                                </td>
+                            </tr>
+                        }
                         </tbody>
                     </table>
                 </div>
@@ -106,21 +131,26 @@
 
         $body = $("body");
 
-        $(document).on({
-            ajaxStart: function () { $body.addClass("loading"); },
-            ajaxStop: function () { $body.removeClass("loading"); }
-        });
+        //$(document).on({
+        //    ajaxStart: function () { $body.addClass("loading"); },
+        //    ajaxStop: function () { $body.removeClass("loading"); }
+        //});
 
         jQuery(document).ready(function ($) {
-
-            $(".show-request").click(function(e) {
-
-                e.preventDefault();
-                $.get(this.href, function(data) {
-                    $('#dialogContent').html(data);
-                    $('#requestInfoModal').modal('show');
-                });
+            $('#showSearchForm').click(function () {
+                $("#search_form").collapse('toggle');
             });
+
+            var check = this.checked;
+            $("#Start").prop('disabled', !check);
+            $("#End").prop('disabled', !check);
+
+            $('#SearchForDate').change(function () {
+                var check = this.checked;
+                $("#Start").prop('disabled', !check);
+                $("#End").prop('disabled', !check);
+            });
+
         });
     </script>
     @Scripts.Render("~/bundles/jqueryval")

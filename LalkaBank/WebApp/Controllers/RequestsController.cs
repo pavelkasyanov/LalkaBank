@@ -498,7 +498,24 @@ namespace WebApp.Controllers
                     break;
             }
 
+            //Scoring Credit Sum
 
+            var creditType = _creditTypesService.Get(viewModel.CreditTypeId);
+            var paymentSum = (viewModel.StartSum + viewModel.StartSum*creditType.Percent)/creditType.PayCount;
+
+            if (viewModel.Earnings >= (int) (paymentSum*0.2))
+            {
+                scoringIndex += 5;
+
+            } else if (viewModel.Earnings >= (int)(paymentSum * 0.3) && viewModel.Earnings <= (int)(paymentSum * 0.2))
+            {
+                scoringIndex += 2;
+
+            }
+            else if (viewModel.Earnings <= (int)(paymentSum * 0.2))
+            {
+                scoringIndex += 0;
+            }
 
             return scoringIndex;
         }

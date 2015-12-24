@@ -209,6 +209,7 @@
     <Compile Include="Models\Domains\Credits\CreditTypesViewModel.cs" />
     <Compile Include="Models\Domains\Credits\CreditTypeViewModel.cs" />
     <Compile Include="Models\Domains\Credits\CreditViewModel.cs" />
+    <Compile Include="Models\Domains\Credits\SearchCreditsViewModel.cs" />
     <Compile Include="Models\Domains\Credits\SearchCreditTypesViewModel.cs" />
     <Compile Include="Models\Domains\Managers\ManagerViewModel.cs" />
     <Compile Include="Models\Domains\Messages\MessagesViewModel.cs" />

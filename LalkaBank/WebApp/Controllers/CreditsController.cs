@@ -19,12 +19,14 @@ namespace WebApp.Controllers
     {
         private readonly ICreditService _creditService;
         private readonly ICreditHistoryService _creditHistorySevice;
+        private readonly IPersonService _personService;
 
         public CreditsController(ICreditService creditService, 
-            ICreditHistoryService creditHistorySevice)
+            ICreditHistoryService creditHistorySevice, IPersonService personService)
         {
             _creditService = creditService;
             _creditHistorySevice = creditHistorySevice;
+            _personService = personService;
         }
 
         // GET: Credits
@@ -111,9 +113,21 @@ namespace WebApp.Controllers
             return RedirectToAction("Show");
         }
 
-        public ActionResult Search()
+        public ActionResult Search(SearchCreditsViewModel model)
         {
-            return View();
+            var viewModel = GetSearchCreditsViewModel(model.CurrentPageNumber,
+                model.HideActive, model.HideClosed, model.HideOverdue, model.UserId, 
+                model.SearchForDate ,model.Start, model.End);
+
+            var users = new List<SelectListItem>
+            {
+                new SelectListItem() {Value = Guid.Empty.ToString(), Text = "not selected"}
+            };
+            users.AddRange(_personService.GetList().Select(user => new SelectListItem() { Value = user.Id.ToString(), Text = user.Login }));
+
+            viewModel.UserList = users.ToList();
+
+            return View(viewModel);
         }
 
         //Ajax
@@ -321,6 +335,122 @@ namespace WebApp.Controllers
                 ItemsPerPage = itemsInPage,
                 IsSearch = true,
                 CreditId = creditId
+            };
+
+            return model;
+        }
+
+        private SearchCreditsViewModel GetSearchCreditsViewModel(int pageNumber,
+            bool hideActive, bool hideClosed, bool hideOverdue, string byUser, bool searchByDate,
+            DateTime searchDateStart, DateTime searchDateEnd)
+        {
+            int itemsInPage = 10;
+
+            List<Credit> list = null;
+            list = User.IsInRole("User") ?
+                _creditService.GetListByPersonId(Guid.Parse(User.Identity.GetUserId())) : _creditService.GetList();
+
+            if (byUser != null && !byUser.Equals(Guid.Empty.ToString()))
+            {
+                var userId = Guid.Parse(byUser);
+                list = list.Where(credit => credit.PersonId == userId).ToList();
+            }
+
+            if (list == null)
+            {
+                return new SearchCreditsViewModel()
+                {
+                    SearchResult = false
+                };
+            }
+
+            var temp = new List<Credit>();
+            foreach (var credit in list)
+            {
+                if (hideActive)
+                {
+                    if (credit.Status.Equals("0"))
+                    {
+                        continue;
+                    }
+                }
+
+                if (hideClosed)
+                {
+                    if (credit.Status.Equals("1"))
+                    {
+                        continue;
+                    }
+                }
+
+                if (hideOverdue)
+                {
+                    if (credit.CreditHistory.Sum(y => y.Arrears) > 0)
+                    {
+                        continue;
+                    }   
+                }
+
+                temp.Add(credit);
+            }
+
+            list = temp;
+
+            if (searchByDate)
+            {
+                list =
+                    list.Where(credit => credit.DateStart >= searchDateStart && credit.DateStart <= searchDateEnd)
+                        .ToList();
+            }
+
+            if (list.Count == 0)
+            {
+                return new SearchCreditsViewModel()
+                {
+                    SearchResult = false
+                };
+            }
+
+            int startRange = pageNumber * 10 - itemsInPage;
+            int allPageCount = list.Count / itemsInPage;
+            int ost = list.Count % itemsInPage;
+            if (ost != 0) { allPageCount++; }
+
+            int selectCount = ((pageNumber >= allPageCount && ost != 0) ? ost : itemsInPage);
+
+            if (list.Count != 0)
+            {
+                list = list.OrderBy(x => x.Number).ToList();
+                list = list.GetRange(startRange, selectCount);
+            }
+
+            
+
+            var model = new SearchCreditsViewModel()
+            {
+                Credits = list.Select(
+                credit => new CreditViewModel()
+                {
+                    Id = credit.Id,
+                    DateStart = credit.DateStart,
+                    DateEnd = credit.DateEnd,
+                    Percent = credit.Percent,
+                    StartSum = credit.StartSum,
+                    AllSum = credit.AllSum,
+                    PayCount = credit.PayCount,
+                    Status = credit.Status,
+                    Penya = credit.Penya,
+                    PayMounth = credit.PayMounth,
+                    Number = credit.Number
+                }).ToList(),
+
+                CurrentPageNumber = pageNumber,
+                AllPageCount = allPageCount,
+                ItemsPerPage = itemsInPage,
+                SearchResult = true,
+                SearchForDate = searchByDate,
+                Start = searchByDate ? searchDateStart : _creditService.GetTimeTable().Date,
+                End = searchByDate ? searchDateStart : _creditService.GetTimeTable().Date
             };
 
             return model;
