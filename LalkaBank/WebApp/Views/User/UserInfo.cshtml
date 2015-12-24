@@ -6,7 +6,7 @@
 
 <div class="row lb-margin">
     <div class="row lb-margin">
-        @if (ViewBag.Result != null)
+        @if (ViewBag.Result != null && string.IsNullOrEmpty(ViewBag.ResultMsg))
         {
             <div class="row">
                 @if (ViewBag.Result)
@@ -18,6 +18,26 @@
                     <div class="span" style="color: red">@ViewBag.Result Msg.ToString()</div>
                 }
             </div>
+        }
+
+        @if (!Model.IsUserRegister && !Model.IsBanned)
+        {
+            <div class="row">
+                <h4>
+                    <span class="label label-danger">@Html.ActionLink("Your need adding info about you", "EditUserInfo", "User")</span>
+                </h4>
+            </div>
+        }
+        @if (Model.IsBanned)
+        {
+            if (ViewBag.isUserBanned != null && ViewBag.isUserBanned)
+            {
+                <div class="row">
+                    <h4>
+                        <span class="label label-default"> Your Account is blocked</span>
+                    </h4>
+                </div>
+            }
         }
 
         <div class="row">
@@ -48,7 +68,7 @@
                     </tr>
                     <tr>
                         <td>@Html.LabelFor(m => Model.DateBirth)</td>
-                        <td>@Model.DateBirth</td>
+                        <td>@Model.DateBirth.ToString("d")</td>
                     </tr>
                     <tr>
                         <td>@Html.LabelFor(m => Model.RUVD)</td>
@@ -60,7 +80,7 @@
                     </tr>
                     <tr>
                         <td>@Html.LabelFor(m => Model.Validity)</td>
-                        <td>@Model.Validity</td>
+                        <td>@Model.Validity.ToString("d")</td>
                     </tr>
                     <tr>
                         <td>@Html.LabelFor(m => Model.PassportImage)</td>
@@ -68,21 +88,44 @@
                             @if (Model.PassportImage != null)
                             {
                                 <a href="@Url.Action("PasportImage", "Images", new {id = Model.PassportId})" target="_blank">
-                                    <img src="@Url.Action("PasportImage", "Images", new {id = Model.PassportId})" alt="" width="100px" height="100px" />
+                                    <img src="@Url.Action("PasportImage", "Images", new {id = Model.PassportId})" alt="" width="100px" height="100px"/>
                                 </a>
                             }
                             else
                             {
-                                <img src="" alt="" width="100px" height="100px" />
+                                <img src="" alt="" width="100px" height="100px"/>
                             }
                         </td>
                     </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => Model.CreditHistoryIndex)td>
+                        @if (Model.CreditHistoryIndex <= 3)
+                        {
+                            <td style="color: green">@Model.CreditHistoryIndex</td>
+                        }
+                        @if (Model.CreditHistoryIndex >= 3 && Model.CreditHistoryIndex <= 20 )
+                        {
+                            <td style="color: yellow">@Model.CreditHistoryIndex</td>
+                        }
+                        @if (Model.CreditHistoryIndex >= 21)
+                        {
+                            <td style="color: red">@Model.CreditHistoryIndex</td>
+                        }
+                            
+                    </tr>
+                    @if (!User.IsInRole("User"))
+                    {
+                        <tr>
+                            <td>@Html.LabelFor(m => Model.ScoringSystemIndex)</td>
+                            <td>@Model.ScoringSystemIndex</td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="row">
-            @if (User.IsInRole("User"))
+            @if (User.IsInRole("User") && !Model.IsBanned)
             {
             <div class="row">
                 <a href="@Url.Action("EditUserInfo", "User", new {id=Model.Id})" class="btn btn-primary">Edit info</a>

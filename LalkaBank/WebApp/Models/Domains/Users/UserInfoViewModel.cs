@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using WebApp.Models.Validators;
 
 namespace WebApp.Models.Domains.Users
 {
@@ -9,7 +10,6 @@ namespace WebApp.Models.Domains.Users
     {
         public Guid Id { get; set; }
 
-        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -17,24 +17,25 @@ namespace WebApp.Models.Domains.Users
         [Required]
         [DataType(DataType.Text)]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-        [Display(Name = "Имя")]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-        [Display(Name = "Фамилия")]
+        [Display(Name = "SecondName")]
         public string SecondName { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-        [Display(Name = "Отчество")]
+        [Display(Name = "LastName")]
         public string LastName { get; set; }
 
-        [Required]
+        [BirthDateValidator]
         [DataType(DataType.Date)]
-        [Display(Name = "Дата рождения")]
+        [Display(Name = "Birth Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy'-'MM'-'dd}", ApplyFormatInEditMode = true)]
         public DateTime DateBirth { get; set; }
 
         [Required]
@@ -52,9 +53,10 @@ namespace WebApp.Models.Domains.Users
         [Display(Name = "Место прописки")]
         public string Adress { get; set; }
 
-        [Required]
+        [PassportDateValidator]
         [DataType(DataType.Date)]
         [Display(Name = "Срок действия до")]
+        [DisplayFormat(DataFormatString = "{0:yyyy'-'MM'-'dd}", ApplyFormatInEditMode = true)]
         public System.DateTime Validity { get; set; }
 
         [DataType(DataType.Text)]
@@ -70,5 +72,10 @@ namespace WebApp.Models.Domains.Users
         public bool IsBanned { get; set; }
 
         public Guid PassportId { get; set; }
+
+        public bool IsUserRegister { get; set; }
+
+        [DisplayName("ScoringSystemIndex")]
+        public int ScoringSystemIndex { get; set; }
     }
 }

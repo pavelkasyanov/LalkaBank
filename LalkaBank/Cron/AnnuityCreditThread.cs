@@ -136,6 +136,7 @@ namespace Cron
                         }
 
                         previosHistory[i].Fine -= surcharge;
+                        context.BankAaccount.FirstOrDefault().Amount += (int)Math.Ceiling(surcharge);
                         bankBook.cache -= (int)Math.Ceiling(surcharge);
                                                 
                         Console.WriteLine("Annuity Credit Thread {0}: Payment done, Account balance - {1}, Remaining surcharge - {2}", _number, bankBook.cache, previosHistory[i].Fine);
@@ -154,6 +155,7 @@ namespace Cron
 
                         previosHistory[i].Arrears -= mouthArrears;
                         previosHistory[i].Paid += (int)Math.Ceiling(mouthArrears);
+                        context.BankAaccount.FirstOrDefault().Amount += (int)Math.Ceiling(mouthArrears);
                         bankBook.cache -= (int)Math.Ceiling(mouthArrears);
 
                         if (mouthArrears > 0)
@@ -218,6 +220,7 @@ namespace Cron
                     }
 
                     bankBook.cache -= pay;
+                    context.BankAaccount.FirstOrDefault().Amount += (int)Math.Ceiling((decimal)pay);
                     curentHistory.Paid += pay;
 
                     Console.WriteLine(

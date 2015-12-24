@@ -19,57 +19,56 @@
                 <a href="@Url.Action("Create", "CreditTypes")" class="btn btn-info show-request" role="button">Create</a>
             </div>
         }
-        <div class="row">
-            @*<input type="url" class="btn btn-primary" id="showSearchForm" value="Search"/>*@
-            <a href="#" id="showSearchForm">Search</a>
-        </div>
-        <div class="row collapse" id="search_form">
-            @using (Html.BeginForm("Index", "CreditTypes", FormMethod.Get, new
-            {
-                role = "form",
-                @class = "form-inline"
-            }))
-            {
-                <div class="row">
-                    <div class="form-group col-md-3">
-                        @Html.LabelFor(m => m.PercentFrom)
-                        <div class="input-group">
-                            <span class="input-group-addon" id="search_percent_begin">from</span>
-                            @Html.TextBoxFor(m => m.PercentFrom, new {@class = "form-control"})
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3">
-                        @Html.LabelFor(m => m.PercentTo)
-                        <div class="input-group">
-                            <span class="input-group-addon" id="search_percent_begin">to</span>
-                            @Html.TextBoxFor(m => m.PercentTo, new {@class = "form-control"})
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-3">
-                        @Html.LabelFor(m => m.PayCountFrom)
-                        <div class="input-group">
-                            <span class="input-group-addon" id="search_percent_begin">from</span>
-                            @Html.TextBoxFor(m => m.PayCountFrom, new {@class = "form-control"})
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3">
-                        @Html.LabelFor(m => m.PayCountTo)
-                        <div class="input-group">
-                            <span class="input-group-addon" id="search_percent_begin">to</span>
-                            @Html.TextBoxFor(m => m.PayCountTo, new {@class = "form-control"})
-                        </div>
-                    </div>
-                </div>
-                <br/>
-                <div class="form-group row col-md-1">
-                    <input type="submit" class="btn btn-primary" value="Search"/>
-                </div>
-            }
-        </div>
         @if (Model.SearchResult)
         {
+            <div class="row">
+                <a href="#" id="showSearchForm">Search</a>
+            </div>
+            <div class="row collapse" id="search_form">
+                @using (Html.BeginForm("Index", "CreditTypes", FormMethod.Get, new
+                {
+                    role = "form",
+                    @class = "form-inline"
+                }))
+                {
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            @Html.LabelFor(m => m.PercentFrom)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="search_percent_begin">from</span>
+                                @Html.TextBoxFor(m => m.PercentFrom, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            @Html.LabelFor(m => m.PercentTo)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="search_percent_begin">to</span>
+                                @Html.TextBoxFor(m => m.PercentTo, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            @Html.LabelFor(m => m.PayCountFrom)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="search_percent_begin">from</span>
+                                @Html.TextBoxFor(m => m.PayCountFrom, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            @Html.LabelFor(m => m.PayCountTo)
+                            <div class="input-group">
+                                <span class="input-group-addon" id="search_percent_begin">to</span>
+                                @Html.TextBoxFor(m => m.PayCountTo, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row col-md-1">
+                        <input type="submit" class="btn btn-primary" value="Search" />
+                    </div>
+                }
+            </div>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -131,6 +130,14 @@
                 </nav>
             </div>
         }
+        else
+        {
+            <div class="row">
+                <h3>
+                    <span class="label label-warning">Credit types not found</span>
+                </h3>
+            </div>
+        }
     </div>
 </div>
 
@@ -145,23 +152,24 @@
         
         $body = $("body");
 
-        $(document).on({
-            ajaxStart: function () { $body.addClass("loading"); },
-            ajaxStop: function () { $body.removeClass("loading"); }
-        });
+        //$(document).on({
+        //    ajaxStart: function () { $body.addClass("loading"); },
+        //    ajaxStop: function () { $body.removeClass("loading"); }
+        //});
 
         jQuery(document).ready(function($) {
             $(".show-request").click(function(e) {
 
                 e.preventDefault();
+                $body.addClass("loading");
                 $.get(this.href, function(data) {
                     $('#dialogContent').html(data);
+                    $body.removeClass("loading");
                     $('#requestInfoModal').modal('show');
                 });
             });
 
             $("form").submit(function() {
-                alert("form submit");
             });
 
             $('#showSearchForm').click(function() {

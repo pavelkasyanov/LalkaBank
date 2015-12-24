@@ -54,7 +54,9 @@ namespace WebApp.Controllers
                 Validity = user?.Passports.Validity ?? new DateTime(),
                 IsBanned =  user?.IsBanned ?? false,
                 PassportImage = user?.Passports.Image ?? null,
-                PassportId = user?.PassportId ?? Guid.NewGuid()
+                PassportId = user?.PassportId ?? Guid.NewGuid(),
+                IsUserRegister = user != null,
+                ScoringSystemIndex = 1
             };
 
             return View(model);
@@ -70,7 +72,7 @@ namespace WebApp.Controllers
             var model = new UserInfoViewModel
             {
                 Id = (user?.Id ?? id ?? Guid.NewGuid()),
-                Email = user?.Login ?? User.Identity.Name,
+                Email = User.Identity.Name,
                 Name = user?.Name ?? "",
                 LastName = user?.LastName ?? "",
                 SecondName = user?.SecondName ?? "",
@@ -79,7 +81,9 @@ namespace WebApp.Controllers
                 RUVD = user?.Passports.RUVD ?? "",
                 Adress = user?.Passports.Adress ?? "",
                 Validity = user?.Passports.Validity ?? new DateTime(),
-                IsBanned = user?.IsBanned ?? false
+                IsBanned = user?.IsBanned ?? false,
+                PassportImage = user?.Passports.Image,
+                PassportId = user?.PassportId ?? new Guid()
             };
 
             return View(model);
@@ -99,7 +103,7 @@ namespace WebApp.Controllers
             var person = new Person()
             {
                 Id = userId,
-                Login = model.Email,
+                Login = User.Identity.Name,
                 Name = model.Name,
                 LastName = model.LastName,
                 SecondName = model.SecondName,

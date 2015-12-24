@@ -1,7 +1,12 @@
 ﻿@model WebApp.Models.Domains.Messages.MessagesViewModel
 @{
     ViewBag.Title = "messages";
-    var messageCount = 1;
+    int requestCount = 1;
+    int scalar = 0;
+    if (Model.Page != 1)
+    {
+        scalar = Model.Page * Model.ItemsPerPage - Model.ItemsPerPage;
+    }
 }
 
 <div class="row">
@@ -9,30 +14,86 @@
         <div class="table-responsive">
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Info</th>
-                        <th></th>
-                    </tr>
+                <tr>
+                    <th>#</th>
+                    <th>Info</th>
+                    <th></th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var message in Model.Messages)
-                    {
-                        <tr>
-                            <td>@(messageCount++)</td>
-                            <td>@message.Text</td>
-                            <td>
-                                <button id="@message.Id" type="button" class="btn btn-primary btn-lg btn-modal">
+                @foreach (var message in Model.Messages)
+                {
+                    <tr>
+                        <td>@(requestCount++ + scalar)</td>
+                        <td>@message.Text</td>
+                        <td>
+                            @*<button id="@message.Id" type="button" class="btn btn-primary btn-lg btn-modal">
                                     Просмотреть
-                                </button>
-                            </td>
-                        </tr>
-                    }
+                                </button>*@
+                            <a href="@Url.Action("Show", "Messages", new {id = message.Id})" class="btn btn-info show-request">Show</a>
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>
+        <div class="row">
+            <nav>
+                <ul class="pager">
+                    @if (Model.Page == 1)
+                    {
+                        <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                    }
+                    else
+                    {
+                        <li class="previous"><a href="@Url.Action("Index", "Messages", new {Page = @Model.Page - 1})"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                    }
+                    @if (Model.Page == Model.AllPageCount || Model.AllPageCount == 0)
+                    {
+                        <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
+                    }
+                    else
+                    {
+                        <li class="next"><a href="@Url.Action("Index", "Messages", new {Page = @Model.Page + 1})">Next <span aria-hidden="true">&rarr;</span></a></li>
+                    }
+                </ul>
+            </nav>
+        </div>
+
     </div>
 </div>
 
+<div id="requestInfoModal" class="modal fade" title="Create Album">
+    <div id="dialogContent" class="modal-dialog">
+    </div>
+</div>
+<div class="load-icon"></div>
 
+@section Scripts {
+    <script type="text/javascript">
 
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+
+        jQuery(document).ready(function ($) {
+            $(".show-request").click(function (e) {
+
+                var btn = $('show-request');
+                btn.button('loading');
+
+                e.preventDefault();
+                $.get(this.href, function(data) {
+                    $('#dialogContent').html(data);
+                    $('#requestInfoModal').modal('show');
+                });
+
+                btn.button('reset');
+            });
+        });
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

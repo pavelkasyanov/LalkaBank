@@ -6,6 +6,8 @@ namespace WebApp.Models.Domains.Users
 {
     public class UserInfoPartialViewModel
     {
+        public Guid Id { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

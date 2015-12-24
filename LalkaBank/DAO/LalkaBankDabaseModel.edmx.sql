@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/14/2015 03:12:01
--- Generated from EDMX file: E:\pavlik\git_repo\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
+-- Date Created: 12/23/2015 20:34:17
+-- Generated from EDMX file: D:\univer\tofi\LalkaBank\LalkaBank\DAO\LalkaBankDabaseModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -59,6 +59,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CreditCreditHistory]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CreditHistory] DROP CONSTRAINT [FK_CreditCreditHistory];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CreditSubTypeCreditType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CreditTypes] DROP CONSTRAINT [FK_CreditSubTypeCreditType];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -106,6 +109,9 @@ GO
 IF OBJECT_ID(N'[dbo].[Table]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Table];
 GO
+IF OBJECT_ID(N'[dbo].[CreditSubType]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CreditSubType];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -135,7 +141,8 @@ CREATE TABLE [dbo].[Credits] (
     [ManagerId] uniqueidentifier  NOT NULL,
     [CreditTypeId] uniqueidentifier  NOT NULL,
     [DebtsId] uniqueidentifier  NULL,
-    [Number] int IDENTITY(1,1) NOT NULL
+    [Number] int IDENTITY(1,1) NOT NULL,
+    [RequestId] uniqueidentifier  NULL
 );
 GO
 
@@ -226,7 +233,9 @@ CREATE TABLE [dbo].[Requests] (
     [Number] int IDENTITY(1,1) NOT NULL,
     [StartSum] int  NOT NULL,
     [GuarantorImage] varbinary(max)  NULL,
-    [Date] datetime  NOT NULL
+    [Date] datetime  NOT NULL,
+    [CreditId] uniqueidentifier  NULL,
+    [ScoringIndex] int  NOT NULL
 );
 GO
 
@@ -591,7 +600,7 @@ ADD CONSTRAINT [FK_CreditSubTypeCreditType]
     FOREIGN KEY ([CreditSubTypeId])
     REFERENCES [dbo].[CreditSubType]
         ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_CreditSubTypeCreditType'

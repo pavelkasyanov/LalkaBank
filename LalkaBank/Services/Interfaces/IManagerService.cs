@@ -13,5 +13,7 @@ namespace Services.Interfaces
         bool Delete(Guid id);
 
         List<Manager> GetList();
+
+        bool IsManagerRegister(Guid managerId);
     }
 }

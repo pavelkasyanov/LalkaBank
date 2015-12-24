@@ -122,10 +122,16 @@ namespace Services.Implemenations
 
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
+        }
+
+        public bool IsUserRegister(Guid userId)
+        {
+            var t = _personDao.Get(userId);
+            return t != null;
         }
 
         private readonly IPersonDAO _personDao;

@@ -10,10 +10,13 @@ namespace WebApp.Controllers
     public class ImagesController : Controller
     {
         private readonly IPassportService _passportService;
+        private readonly IRequestService _requestService;
 
-        public ImagesController(IPassportService passportService)
+        public ImagesController(IPassportService passportService, 
+            IRequestService requestService)
         {
             _passportService = passportService;
+            _requestService = requestService;
         }
 
         // GET: Images
@@ -26,6 +29,32 @@ namespace WebApp.Controllers
             }
 
             var image = passport.Image;
+
+            return File(image, "image/jpg");
+        }
+
+        public ActionResult Garantor(Guid id)
+        {
+            var request = _requestService.Get(id);
+            if (request == null)
+            {
+                return HttpNotFound("passport image not fount");
+            }
+
+            var image = request.GuarantorImage;
+            
+            return File(image, "image/jpg");
+        }
+
+        public ActionResult Income(Guid id)
+        {
+            var request = _requestService.Get(id);
+            if (request == null)
+            {
+                return HttpNotFound("passport image not fount");
+            }
+
+            var image = request.IncomeImage;
 
             return File(image, "image/jpg");
         }

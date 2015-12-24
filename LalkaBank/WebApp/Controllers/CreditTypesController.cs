@@ -116,14 +116,14 @@ namespace WebApp.Controllers
                 return Json(new {result = false, msg = "credit type not fount", active = !isActive}, JsonRequestBehavior.AllowGet);
             }
 
-            creditType.Active = isActive;
+            creditType.Active = !creditType.Active;
             if (_creditTypesService.Create(creditType))
             {
                 return Json(new
                 {
                     result = true,
-                    msg = isActive ? "credit type active" : "credit type not active",
-                    active = isActive
+                    msg = creditType.Active ? "credit type active" : "credit type not active",
+                    active = creditType.Active
                 }, JsonRequestBehavior.AllowGet);
             }
             else
@@ -139,6 +139,14 @@ namespace WebApp.Controllers
             int itemsInPage = 10;
 
             var list = _creditTypesService.GetList();
+
+            if (list == null)
+            {
+                return new CreditTypesViewModel()
+                {
+                    SearchResult = false
+                };
+            }
 
             {
                 var tPercentFrom = (percentFrom != 0 ? percentFrom : double.MinValue);

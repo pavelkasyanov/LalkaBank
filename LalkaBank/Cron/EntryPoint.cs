@@ -1,5 +1,6 @@
 ﻿using DAO;
 using System;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.IO;
 
@@ -14,8 +15,6 @@ namespace Cron
         {
             try
             {
-                //TestGradedHistory();
-                //TestAnnuityHistory();
                 StartProcess();
             }
             catch (Exception ex)
@@ -27,42 +26,27 @@ namespace Cron
             }
         }
 
-        private static void TestAnnuityHistory()
-        {
-            var guid = Guid.Parse("73256b43-3357-478f-a8ba-65a7c6903bf7");
-        
-            Console.WriteLine("Entry Point: Start process history for test");
-        
-            AnnuityCreadit.ProcessHistory(guid);
-        
-            Console.WriteLine("Entry Point: End process history for test");
-        }
-
-        private static void TestGradedHistory()
-        {
-            var guid = Guid.Parse("73256b43-3357-478f-a8ba-65a7c6903bf7");
-        
-            Console.WriteLine("Entry Point: Start process history for test");
-        
-            GradedCredit.ProcessHistory(guid);
-        
-            Console.WriteLine("Entry Point: End process history for test");
-        }
-
         private static void StartProcess()
         {
-            Console.WriteLine("Entry Point: Start");
+            //Console.WriteLine("Entry Point: Start");
             
-            Console.WriteLine("Entry Point: Start installing the model time to the default value (for test only)");
+            //Console.WriteLine("Entry Point: Start installing the model time to the default value (for test only)");
 
             var defaultDate = DateTime.Parse("10-Dec-15 00:00:00");
             
             var context = new LalkaBankDabaseModelContainer();
 
-            context.Table.RemoveRange(context.Table);
-            context.Table.Add(new Table() { Date = defaultDate });
-            context.SaveChanges();
+            var time = context.Table.FirstOrDefault();
+            if (time == null)
+            {
+                context.Table.AddOrUpdate(new Table() { Date = defaultDate });
+            }
+            else
+            {
+                defaultDate = time.Date;
+            }
 
+            context.SaveChanges();
             context.Dispose();
 
             Console.WriteLine("Entry Point: Default value of model time - {0} (for test only)", defaultDate);

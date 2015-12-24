@@ -22,7 +22,7 @@ namespace WebApp
         {
             //var exception = Server.GetLastError();
             //Server.ClearError();
-            //Response.Redirect("/Home/Error");
+            //Response.Redirect("/Error/Error");
         }
     }
 }

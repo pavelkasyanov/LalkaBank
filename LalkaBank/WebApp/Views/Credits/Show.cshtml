@@ -17,19 +17,15 @@
             </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>@Html.LabelFor(m => m.Number)</td>
-                    <td>@Model.Number</td>
-                </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Number)</td>
+                <td>@Model.Number</td>
+            </tr>
             <tr>
                 <td>@Html.LabelFor(m => m.DateStart)</td>
-                <td>@Model.DateStart</td>
+                <td>@Model.DateStart.ToString("D")</td>
             </tr>
             <tr>
-            <tr>
-                <td>@Html.LabelFor(m => m.DateEnd)</td>
-                <td>@Model.DateEnd</td>
-            </tr>
             <tr>
                 <td>@Html.LabelFor(m => m.Percent)</td>
                 <td>@Model.Percent</td>
@@ -47,6 +43,12 @@
                 <td>@Model.PayCount</td>
             </tr>
             <tr>
+                <td>@Html.LabelFor(m => m.Person)</td>
+                <td>
+                    <a href="@Url.Action("UserInfo", "User", new {id = Model.Person.Id})">@Model.Person.SecondName @Model.Person.Name @Model.Person.LastName</a>
+                </td>
+            </tr>
+            <tr>
                 <td>@Html.LabelFor(m => m.CurrentDept)</td>
                 @if (Model.CurrentDept != 0)
                 {
@@ -61,7 +63,26 @@
         </table>
     </div>
     <div class="row">
-        <a href="@Url.Action("ShowCreditHistory", "Credits", new {CreditId = Model.Id})">Show Credit History</a>
+        <a class="btn btn-primary" href="@Url.Action("ShowCreditHistory", "Credits", new {CreditId = Model.Id})">Show Credit History</a>
     </div>
 </div>
 
+@section Scripts {
+    <script type="text/javascript">
+
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+
+        jQuery(document).ready(function($) {
+            $('#user_info').click(function () {
+                $("#user_info_table").collapse('toggle');
+            });
+
+        });
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

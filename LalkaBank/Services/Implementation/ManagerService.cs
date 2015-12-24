@@ -92,6 +92,11 @@ namespace Services.Implemenations
             }
         }
 
+        public bool IsManagerRegister(Guid managerId)
+        {
+            return _managerDao.Get(managerId) != null;
+        }
+
         private readonly IManagerDAO _managerDao;
     }
 }

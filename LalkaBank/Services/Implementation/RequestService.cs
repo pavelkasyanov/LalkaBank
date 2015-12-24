@@ -11,20 +11,26 @@ namespace Services.Implemenations
     public class RequestService : IRequestService
     {
         [Obsolete("use other constructor")]
-        public RequestService(IBankAccountDAO bankAccountDao)
+        public RequestService(IBankAccountDAO bankAccountDao, ICreditService creditService)
         {
             _bankAccountDao = bankAccountDao;
+            _creditService = creditService;
             _creditTypesDao = new CreditTypesDAO();
             _messageDao = new MessageDAO();
             _requestDao = new RequestDAO();
         }
 
-        public RequestService(IRequestDAO requestDao, ICreditTypesDAO creditTypesDao, IMessageDAO messageDao, IBankAccountDAO bankAccountDao)
+        public RequestService(IRequestDAO requestDao, 
+            ICreditTypesDAO creditTypesDao, 
+            IMessageDAO messageDao, 
+            IBankAccountDAO bankAccountDao, 
+            ICreditService creditService)
         {
             _requestDao = requestDao;
             _creditTypesDao = creditTypesDao;
             _messageDao = messageDao;
             _bankAccountDao = bankAccountDao;
+            _creditService = creditService;
         }
 
         public bool Create(Request request)
@@ -41,7 +47,8 @@ namespace Services.Implemenations
             }
             catch (Exception)
             {
-                throw;
+                //throw;
+                return false;
             }
         }
 
@@ -53,7 +60,6 @@ namespace Services.Implemenations
             }
             catch (Exception)
             {
-                throw;
                 return null;
             }
         }
@@ -117,8 +123,18 @@ namespace Services.Implemenations
             {
                 //create message
                 var request = _requestDao.Get(requestId);
-                request.Confirm = 1;
+
                 request.ManagerId = managerId;
+                _requestDao.CreateOrUpdate(request);
+
+                var creditId = _creditService.CreateCreditForRequest(requestId);
+                if (!creditId.HasValue)
+                {
+                    return false;
+                }
+
+                request.CreditId = creditId.Value;
+                request.Confirm = 1;
 
                 _requestDao.CreateOrUpdate(request);
 
@@ -185,5 +201,7 @@ namespace Services.Implemenations
         private readonly ICreditTypesDAO _creditTypesDao;
         private readonly IMessageDAO _messageDao;
         private readonly IBankAccountDAO _bankAccountDao;
+
+        private readonly ICreditService _creditService;
     }
 }

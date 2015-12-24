@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Services.Interfaces;
 using WebApp.Models.Domains.Credits;
 using WebApp.Models.Domains.Requests;
+using WebApp.Models.Domains.Users;
+using WebApp.Filters;
 
 namespace WebApp.Controllers
 {
@@ -28,11 +30,36 @@ namespace WebApp.Controllers
         // GET: Credits
         public ActionResult Index(CreditsViewModel model)
         {
-            var viewModel = GetCreditsViewModel(model.CurrentPageNumber);
+            //var viewModel = GetCreditsViewModel(model.CurrentPageNumber);
 
-            return View(viewModel);
+            //return View(viewModel);
+            return RedirectToAction("Actives");
         }
-        
+
+        public ActionResult Actives(CreditsViewModel model)
+        {
+            var viewModel = GetCreditsViewModel(model.CurrentPageNumber, 
+                "Actives");
+
+            return View("Index", viewModel);
+        }
+
+        public ActionResult Closeds(CreditsViewModel model)
+        {
+            var viewModel = GetCreditsViewModel(model.CurrentPageNumber, 
+                "Closeds");
+
+            return View("Index", viewModel);
+        }
+
+        public ActionResult Overdues(CreditsViewModel model)
+        {
+            var viewModel = GetCreditsViewModel(model.CurrentPageNumber,
+                "Overdues");
+
+            return View("Index", viewModel);
+        }
+
         public ActionResult Show(Guid? id)
         {
             if (!id.HasValue)
@@ -43,9 +70,7 @@ namespace WebApp.Controllers
 
             if (viewModel == null)
             {
-                ViewBag.Result = false;
-                ViewBag.ResultMsg = "error get Credit";
-                viewModel = GetEmptyCreditViewModel();
+                return HttpNotFound();
             }
             else
             {
@@ -57,6 +82,11 @@ namespace WebApp.Controllers
 
         public ActionResult ShowCreditHistory(CreditHistoryViewModel model)
         {
+            if (Guid.Empty.Equals(model.CreditId))
+            {
+                return HttpNotFound();
+            }
+
             var viewModel = GetCreditHistoryViewModel(model.CreditId, model.CurrentPageNumber);
 
             return View(viewModel);
@@ -66,27 +96,75 @@ namespace WebApp.Controllers
         public ActionResult Create(Guid requestId)
         {
             var result = _creditService.CreateCreditForRequest(requestId);
-            if (result)
+            if (result != null)
             {
                 ViewBag.Result = true;
                 ViewBag.ResultMsg = "credit created";
+
+                return RedirectToAction("Show", new {id = result.Value});
             }
             else
             {
                 ViewBag.Result = false;
                 ViewBag.ResultMsg = "credit not created";
             }
-            return View("Index", GetCreditsViewModel(1));
+            return RedirectToAction("Show");
         }
 
-        private CreditsViewModel GetCreditsViewModel(int pageNumber)
+        public ActionResult Search()
+        {
+            return View();
+        }
+
+        //Ajax
+        [AjaxActionFilter]
+        public ActionResult GetActivesCreditCount()
+        {
+            var list = User.IsInRole("User") ?
+                _creditService.GetListByPersonId(Guid.Parse(User.Identity.GetUserId())) : _creditService.GetList();
+
+            var t = list.Count(x => x.Status.Equals("0"));
+
+            return Json(new {result = t }, JsonRequestBehavior.AllowGet);
+        }
+
+        [AjaxActionFilter]
+        public ActionResult GetOverduesCreditCount()
+        {
+            var list = User.IsInRole("User") ?
+                _creditService.GetListByPersonId(Guid.Parse(User.Identity.GetUserId())) : _creditService.GetList();
+            
+            var t = list.Count(x => x.CreditHistory.Sum(y => y.Arrears) > 0);
+
+            return Json(new { result = t }, JsonRequestBehavior.AllowGet);
+        }
+
+        private CreditsViewModel GetCreditsViewModel(int pageNumber, 
+            String action)
         {
             int itemsInPage = 10;
 
             List<Credit> list = null;
             list = User.IsInRole("User") ?
                 _creditService.GetListByPersonId(Guid.Parse(User.Identity.GetUserId())) : _creditService.GetList();
-            if (list == null)
+
+            switch (action)
+            {
+                case "Actives":
+                    list = list.Where(x => x.Status.Equals("0")).ToList();
+                    break;
+                case "Closeds":
+                    list = list.Where(x => x.Status.Equals("1")).ToList();
+                    break;
+                case "Overdues":
+                    //list = list.Where(x => x.Status.Equals("0") && x.DateEnd <= _creditService.GetTimeTable().Date).ToList();
+                    list = list.Where(x => x.CreditHistory.Sum(y => y.Arrears) > 0).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            if (list == null || list.Count == 0)
             {
                 return new CreditsViewModel()
                 {
@@ -121,13 +199,15 @@ namespace WebApp.Controllers
                     PayCount = credit.PayCount,
                     Status = credit.Status,
                     Penya = credit.Penya,
-                    PayMounth = credit.PayMounth
+                    PayMounth = credit.PayMounth,
+                    Number = credit.Number
                 }).ToList(),
 
                 CurrentPageNumber = pageNumber,
                 AllPageCount = allPageCount,
                 ItemsPerPage = itemsInPage,
-                IsSearch = true
+                IsSearch = true,
+                Action = action
             };
 
             return model;
@@ -162,11 +242,20 @@ namespace WebApp.Controllers
                 Penya = credit.Penya,
                 StartSum = credit.StartSum,
                 Status = credit.Status,
-                Number = credit.Number
+                Number = credit.Number,
+                Person = new UserInfoViewModel()
+                {
+                    Id = credit.Persons.Id,
+                    Name = credit.Persons.Name,
+                    Email = credit.Persons.Login,
+                    LastName = credit.Persons.LastName,
+                    SecondName = credit.Persons.SecondName
+                }
             };
 
             decimal dept = credit.CreditHistory.Sum(creditHistoryItem => creditHistoryItem.Arrears);
             dept += credit.CreditHistory.Sum(creditHistoryItem => creditHistoryItem.Fine);
+            dept = (int)Math.Ceiling(dept);
 
             viewModel.CurrentDept = dept;
             viewModel.AllSum = credit.CreditHistory.Sum(x => x.TotalPayment);
@@ -230,7 +319,8 @@ namespace WebApp.Controllers
                 CurrentPageNumber = pageNumber,
                 AllPageCount = allPageCount,
                 ItemsPerPage = itemsInPage,
-                IsSearch = true
+                IsSearch = true,
+                CreditId = creditId
             };
 
             return model;

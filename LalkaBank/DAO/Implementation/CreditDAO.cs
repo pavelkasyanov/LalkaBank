@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using DAO.Interafaces;
 
@@ -66,6 +67,14 @@ namespace DAO.Implementation
                 return result;
             }
             
+        }
+
+        public Table GetTimeTable()
+        {
+            lock (Look)
+            {
+                return _db.Table.FirstOrDefault();
+            }
         }
 
         public void SaveToBase()

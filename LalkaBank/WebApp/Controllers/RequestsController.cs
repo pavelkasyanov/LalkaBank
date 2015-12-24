@@ -2,13 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using DAO;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+using WebApp.Models;
 using WebApp.Models.Domains.Credits;
 using WebApp.Models.Domains.Requests;
 using WebApp.Models.Domains.Users;
@@ -22,37 +19,57 @@ namespace WebApp.Controllers
         private readonly ICreditTypesService _creditTypesService;
         private readonly IPersonService _personService;
         private readonly IBankAccountService _accountService;
+        private readonly IManagerService _managerService;
+        private readonly ICreditService _creditService;
 
         public RequestsController(IRequestService requestService, 
             ICreditTypesService creditTypesService, 
-            IPersonService personService, IBankAccountService accountService)
+            IPersonService personService, 
+            IBankAccountService accountService, 
+            IManagerService managerService, 
+            ICreditService creditService)
         {
             _requestService = requestService;
             _creditTypesService = creditTypesService;
             _personService = personService;
             _accountService = accountService;
+            _managerService = managerService;
+            _creditService = creditService;
         }
 
         // GET: Requests
         public ActionResult Index(int? page)
         {
-            var user = _personService.Get(Guid.Parse(User.Identity.GetUserId()));
-
-            if (user == null)
+            if (User.IsInRole("User"))
             {
-                ViewBag.isUserNotRegister = true;
+                if (!_personService.IsUserRegister(Guid.Parse(User.Identity.GetUserId())))
+                {
+                        ViewBag.isUserNotRegister = true;
+                }
+                else
+                {
+                    var user = _personService.Get(Guid.Parse(User.Identity.GetUserId()));
+                    if (user != null && user.IsBanned)
+                    {
+                        ViewBag.isUserBanned = true;
+                    }
+                }
+
+            } else if (User.IsInRole("Manager"))
+            {
+                if (!_managerService.IsManagerRegister(Guid.Parse(User.Identity.GetUserId())))
+                {
+                    ViewBag.isManagerNotRegister = false;
+                }
             }
-
-            if (user != null && user.IsBanned)
+            else
             {
-                ViewBag.isUserBanned = true;
             }
 
             var viewModel = GetRequestsViewModelFromPage(page ?? 1);
             if (viewModel == null)
             {
                 ViewBag.Result = false;
-                ViewBag.ResultMsg = "error load requests";
             }
 
             return View(viewModel);
@@ -76,7 +93,24 @@ namespace WebApp.Controllers
 
             var model = new CreateRequestViewModel()
             {
-                CreditTypes = GetCreditTypes()
+                CreditTypes = GetCreditTypes(),
+                FamilyStatusList = new List<SelectListItem>()
+                {
+                    new SelectListItem() { Value = "0", Text = "married" },
+                    new SelectListItem() { Value = "1", Text = "single" }
+                },
+                EducationList = new List<SelectListItem>()
+                {
+                   new SelectListItem() { Value = "0", Text = "higher" },
+                   new SelectListItem() { Value = "1", Text = "secondary special" },
+                   new SelectListItem() { Value = "2", Text = "secondary" }
+                },
+                WorkChangeCountList = new List<SelectListItem>()
+                {
+                    new SelectListItem() { Value = "0", Text = "no one" },
+                    new SelectListItem() { Value = "1", Text = "once" },
+                    new SelectListItem() { Value = "2", Text = "more than one time" }
+                }
             };
 
             return View(model);
@@ -96,6 +130,23 @@ namespace WebApp.Controllers
             }
 
             viewModel.CreditTypes = GetCreditTypes();
+            viewModel.FamilyStatusList = new List<SelectListItem>()
+            {
+                new SelectListItem() {Value = "0", Text = "married"},
+                new SelectListItem() {Value = "1", Text = "single"}
+            };
+            viewModel.EducationList = new List<SelectListItem>()
+            {
+                new SelectListItem() {Value = "0", Text = "higher"},
+                new SelectListItem() {Value = "1", Text = "secondary special"},
+                new SelectListItem() {Value = "2", Text = "secondary"}
+            };
+            viewModel.WorkChangeCountList = new List<SelectListItem>()
+            {
+                new SelectListItem() {Value = "0", Text = "no one"},
+                new SelectListItem() {Value = "1", Text = "once"},
+                new SelectListItem() {Value = "2", Text = "more than one time"}
+            };
 
             if (!ModelState.IsValid)
             {
@@ -110,14 +161,24 @@ namespace WebApp.Controllers
                 viewModel.IncomeImage.InputStream.Read(incomeImage, 0, fileLen);
             }
 
+            incomeImage = null;
+            if (viewModel.GuarantorImage != null)
+            {
+                var fileLen = viewModel.GuarantorImage.ContentLength;
+                incomeImage = new byte[fileLen];
+                viewModel.GuarantorImage.InputStream.Read(incomeImage, 0, fileLen);
+            }
+
             var request = new Request
             {
                 CreditTypeId = viewModel.CreditTypeId,
                 CreditInfo = viewModel.CreditInfo,
                 PersonId = Guid.Parse(User.Identity.GetUserId()),
                 IncomeImage = incomeImage,
+                GuarantorImage = incomeImage,
                 StartSum = viewModel.StartSum,
-                Date = DateTime.Now
+                Date = _creditService.GetTimeTable().Date,
+                ScoringIndex = GetScoringIndexForRequest(viewModel)
             };
 
             var result = _requestService.Create(request);
@@ -136,13 +197,16 @@ namespace WebApp.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Show(Guid id)
+        public ActionResult Show(Guid? id)
         {
-            var model = GetRequestViewModel(id);
+            if (!id.HasValue)
+            {
+                return HttpNotFound();
+            }
 
-            Thread.Sleep(1000);
+            var model = GetRequestViewModel(id.Value);
 
-            return PartialView("ShowPartial", model);
+            return View(model);
         }
 
         //Подтвердить заявку
@@ -154,7 +218,7 @@ namespace WebApp.Controllers
             var msg = "Confirm suc!";
             _requestService.ConfirmRequest(id, Guid.Parse(User.Identity.GetUserId()), msg);
 
-            return RedirectToAction("Create", "Credits", new {requestId = id});
+            return RedirectToAction("Show", "Requests", new {id = id});
         }
 
         //Отказать заявку
@@ -171,14 +235,7 @@ namespace WebApp.Controllers
 
         public ActionResult Find(ResultFindRequestsViewModel model)
         {
-            ResultFindRequestsViewModel viewModel = new ResultFindRequestsViewModel()
-            {
-            };
-
-            //if (model.ItemsPerPage = 0)
-            {
-                viewModel = this.FindRequestsViewModelFromPage(model.CurrentPageNumber, model.Start, model.End);
-            }
+            var viewModel = FindRequestsViewModelFromPage(model.CurrentPageNumber, model.Start, model.End);
 
             return View(viewModel);
         }
@@ -188,7 +245,7 @@ namespace WebApp.Controllers
         private IEnumerable<SelectListItem> GetCreditTypes()
         {
             return _requestService.GetCreditTypes().Select(
-                role => new SelectListItem() { Text = role.Info, Value = role.Id.ToString() })
+                role => new SelectListItem() { Text = role.Name, Value = role.Id.ToString() })
                 .ToList();
         }
 
@@ -203,17 +260,23 @@ namespace WebApp.Controllers
                 CreditInfo = request.CreditInfo,
                 Confirm = request.Confirm,
                 Number = request.Number,
-                IncomeImage = request.IncomeImage,
+                IncomeImagePresented = request.IncomeImage != null,
+                GuarantorImagePresented = request.GuarantorImage != null,
+                Date = request.Date,
+                ScoringIndex = request.ScoringIndex,
+                CreditId = request.CreditId ?? Guid.Empty,
                 CreditType = new CreditTypeViewModel()
                 {
-                    Id = creaditType.Id,
-                    Info = creaditType.Info,
-                    PayCount = creaditType.PayCount,
-                    Percent = creaditType.PayCount,
-                    StartSumPercent = creaditType.StartSumPercent
+                    Id = creaditType?.Id ?? Guid.Empty,
+                    Info = creaditType?.Info ?? "",
+                    PayCount = creaditType?.PayCount ?? 0,
+                    Percent = creaditType?.PayCount ?? 0,
+                    StartSumPercent = creaditType?.StartSumPercent ?? 0,
+                    Name = creaditType.Name
                 },
                 UserInfo = new UserInfoPartialViewModel()
                 {
+                    Id = request.Persons.Id,
                     Name = request.Persons.Name,
                     SecondName = request.Persons.SecondName,
                     LastName = request.Persons.LastName,
@@ -225,7 +288,7 @@ namespace WebApp.Controllers
             };
 
             var  account = _accountService.Get();
-            account.Amount -= request.StartSum;
+            //account.Amount -= request.StartSum;
             _accountService.CreateOrUpdate(account);
 
             return model;
@@ -244,7 +307,7 @@ namespace WebApp.Controllers
             }
 
             list = list.Where(x => x.Date >= start && x.Date <= end).ToList();
-            list = list.OrderBy(x => x.Date).ToList();
+            list = list.OrderBy(x => x.Number).ToList();
 
             int startRange = pageNumber * 10 - itemsInPage;
             int allPageCount = list.Count / itemsInPage;
@@ -285,9 +348,18 @@ namespace WebApp.Controllers
             List<Request> list = null;
             list = User.IsInRole("User") ?
                 _requestService.GetListByPersonId(Guid.Parse(User.Identity.GetUserId())) : _requestService.GetList();
-            if (list == null)
+            list = list.Where(x => x.Confirm == 0).ToList();
+            if (list.Count == 0)
             {
-                return null;
+                var viewModel = new RequestsViewModel()
+                {
+                    CurrentPageNumber = pageNumber,
+                    AllPageCount = 1,
+                    ItemsPerPage = itemsInPage,
+                    IsRequestExist = false
+                };
+
+                return viewModel;
             }
 
             int startRange = pageNumber * 10 - itemsInPage;
@@ -314,10 +386,122 @@ namespace WebApp.Controllers
 
                 CurrentPageNumber = pageNumber,
                 AllPageCount = allPageCount,
-                ItemsPerPage = itemsInPage
+                ItemsPerPage = itemsInPage,
+                IsRequestExist = true
             };
 
             return model;
         }
+
+        private int GetScoringIndexForRequest(CreateRequestViewModel viewModel)
+        {
+            int scoringIndex = 0;
+
+            var person = _personService.Get(Guid.Parse(User.Identity.GetUserId()));
+            if (person == null)
+            {
+                return -100;
+            }
+
+            scoringIndex = (int)(person.CreditHistoryIndex * (-0.2));
+
+            var bday = person.DateBirth.Value;
+            var today = _creditService.GetTimeTable().Date;
+            int age = today.Year - bday.Year;
+            if (bday > today.AddYears(-age)) age--;
+
+
+            //Scoring Age
+            if (age < 24)
+            {
+                scoringIndex += -5;
+            } else if (age >= 24 && age <= 40)
+            {
+                scoringIndex += 5;
+            } else if (age > 40)
+            {
+                scoringIndex += 3;
+            }
+
+            //Family status
+            switch (viewModel.FamilyStatus)
+            {
+                case 0:
+                    scoringIndex += 3;
+                    break;
+                case 1:
+                    scoringIndex += -2;
+                    break;
+            }
+
+            //Have children
+            if (viewModel.HaveChildren)
+            {
+                scoringIndex += 3;
+            }
+            else
+            {
+                scoringIndex += -1;
+            }
+
+            //Education
+            switch (viewModel.Education)
+            {
+                case 0:
+                    scoringIndex += 5;
+                    break;
+                case 1:
+                    scoringIndex += 4;
+                    break;
+                case 2:
+                    scoringIndex += 0;
+                    break;
+            }
+
+            //have vehicle
+
+            if (viewModel.HaveVehicle)
+            {
+                scoringIndex += 3;
+            }
+            else
+            {
+                scoringIndex += 0;
+            }
+
+            //Work Expireance
+
+            if (viewModel.WorkExperience < 3)
+            {
+                scoringIndex += -1;
+
+            } else if (viewModel.WorkExperience >=3 && viewModel.WorkExperience <= 10)
+            {
+                scoringIndex += -3;
+
+            } else if (viewModel.WorkExperience > 10)
+            {
+                scoringIndex += -4;
+            }
+
+            //Work change count 
+            switch (viewModel.WorkChangeCount)
+            {
+                case 0:
+                    scoringIndex += 4;
+                    break;
+                case 1:
+                    scoringIndex += 1;
+                    break;
+                case 2:
+                    scoringIndex += -2;
+                    break;
+            }
+
+
+
+            return scoringIndex;
+        }
+
     }
 }

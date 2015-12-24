@@ -18,22 +18,18 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
-            // var viewModel = GetUserInfoViewModel(Guid.Parse(User.Identity.GetUserId()));
-            // if (viewModel == null)
-            // {
-            //     ViewBag.Result = false;
-            //     ViewBag.ResultMsg = "error load user info";
-            // }
-            //return View(viewModel);
             var role = User.IsInRole("User");
             if (role)
             {
                 return RedirectToAction("UserInfo", "User");
             }
-            else
+            else 
             {
-                return RedirectToAction("Index", "Managers");
+                if (User.IsInRole("Manager"))
+                    return RedirectToAction("Index", "Managers");
             }
+
+            return View();
         }
 
         public ActionResult Error()
