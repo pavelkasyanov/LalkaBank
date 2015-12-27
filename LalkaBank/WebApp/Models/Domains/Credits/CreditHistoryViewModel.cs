@@ -25,5 +25,8 @@ namespace WebApp.Models.Domains.Credits
         public int ItemsPerPage { get; set; }
 
         public bool IsSearch { get; set; }
+
+        public string ReturnUrl { get; set; }
+
     }
 }

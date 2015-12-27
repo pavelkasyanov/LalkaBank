@@ -21,5 +21,7 @@ namespace WebApp.Models.Domains.Managers
 
         [DisplayName("Position")]
         public string Position { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }

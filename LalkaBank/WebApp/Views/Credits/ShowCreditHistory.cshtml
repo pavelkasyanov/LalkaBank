@@ -71,10 +71,11 @@
                         else
                         {
                             <li class="previous"><a href="@Url.Action("ShowCreditHistory", "Credits", new
-                                                     {
-                                                         CurrentPageNumber = @Model.CurrentPageNumber - 1,
-                                                         CreditId = Model.CreditId
-                                                     })"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                                                          {
+                                                              CurrentPageNumber = @Model.CurrentPageNumber - 1,
+                                                              CreditId = Model.CreditId,
+                                                              ReturnUrl = Model.ReturnUrl
+                                                          })"><span aria-hidden="true">&larr;</span> Previous</a></li>
                         }
                         @if (Model.CurrentPageNumber == Model.AllPageCount || Model.AllPageCount == 0)
                         {
@@ -83,14 +84,27 @@
                         else
                         {
                             <li class="next"><a href="@Url.Action("ShowCreditHistory", "Credits", new
-                                                 {
-                                                     CurrentPageNumber = @Model.CurrentPageNumber + 1,
-                                                     CreditId = Model.CreditId
-                                                 })">Next <span aria-hidden="true">&rarr;</span></a></li>
+                                                      {
+                                                          CurrentPageNumber = @Model.CurrentPageNumber + 1,
+                                                          CreditId = Model.CreditId,
+                                                          ReturnUrl = Model.ReturnUrl
+                                                      })">Next <span aria-hidden="true">&rarr;</span></a></li>
                         }
                     </ul>
                 </nav>
             </div>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(Model.ReturnUrl))
+    {
+        <div class="row">
+            <a href="@Model.ReturnUrl" class="btn btn-primary">back</a>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <a href="@Url.Action("Show", "Credits", new {id = Model.CreditId})" class="btn btn-primary">back</a>
         </div>
     }
 </div>

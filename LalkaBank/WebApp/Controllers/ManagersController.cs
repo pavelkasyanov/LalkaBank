@@ -11,7 +11,7 @@ using WebApp.Models.Domains.Users;
 
 namespace WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Manager")]
     public class ManagersController : Controller
     {
         private readonly IManagerService _managerService;
@@ -22,16 +22,18 @@ namespace WebApp.Controllers
         }
 
         // GET: Managers
-        public ActionResult Index()
+        public ActionResult Index(Guid? id, string returnUrl)
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
+            
+            var userId = id ?? Guid.Parse(User.Identity.GetUserId());
             var user = _managerService.Get(userId);
 
             var model = new ManagerViewModel()
             {
                 Login = user?.Login ?? User.Identity.Name,
                 Name = user?.Name ?? "",
-                Position = user?.Position ?? "1"
+                Position = user?.Position ?? "1",
+                ReturnUrl = returnUrl
             };
 
             return View(model);

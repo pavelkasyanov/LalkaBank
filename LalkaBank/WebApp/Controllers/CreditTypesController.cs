@@ -19,6 +19,7 @@ namespace WebApp.Controllers
         }
 
         // GET: CreditTypes
+        [Authorize]
         public ActionResult Index(CreditTypesViewModel model)
         {
             var viewModel = GetCreditTypesViewModelForPage(model.CurrentPageNumber,
@@ -35,6 +36,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             var viewModel = new CreditTypeViewModel()
@@ -50,6 +52,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(CreditTypeViewModel viewModel)
         {
             viewModel.SubTypes = _creditTypesService.GetCreditSubTypes().Select(x => new SelectListItem()
@@ -60,6 +63,15 @@ namespace WebApp.Controllers
 
             if (!ModelState.IsValid)
             {
+                return PartialView("CreatePartial", viewModel);
+            }
+
+            var creditTypeName = viewModel.Name;
+            var containsCretitypeNameResult = 
+                _creditTypesService.GetList().Count(x => x.Name.Equals(creditTypeName));
+            if (containsCretitypeNameResult != 0)
+            {
+                ModelState.AddModelError("Name", "credity type name: " + creditTypeName + " existing");
                 return PartialView("CreatePartial", viewModel);
             }
 
@@ -91,9 +103,15 @@ namespace WebApp.Controllers
             return PartialView("CreatePartial", viewModel);
         }
 
-        public ActionResult Show(Guid id)
+        [Authorize]
+        public ActionResult Show(Guid? id)
         {
-            var creditType = _creditTypesService.Get(id);
+            if (!id.HasValue)
+            {
+                return HttpNotFound();
+            }
+
+            var creditType = _creditTypesService.Get(id.Value);
             var viewModel = new CreditTypeViewModel()
             {
                 Id = creditType.Id,
@@ -108,6 +126,7 @@ namespace WebApp.Controllers
             return PartialView("ShowPartial", viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Freeze(Guid creditTypeId, bool isActive)
         {
             var creditType = _creditTypesService.Get(creditTypeId);

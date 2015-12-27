@@ -73,7 +73,7 @@
                             <td>@user.Email</td>
                             <td>@user.SecondName @user.Name @user.LastName</td>
                             <td>
-                                <a href="@Url.Action("UserInfo", "User", new {id = user.Id})" class="btn btn-info show-request" role="button">Просмотреть</a>
+                                <a href="@Url.Action("UserInfo", "User", new {id = user.Id, returnUrl = Request.Url.AbsoluteUri})" class="btn btn-info show-request" role="button">Show</a>
                             </td>
                         </tr>
                     }

@@ -34,7 +34,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult UserInfo(Guid? id)
+        public ActionResult UserInfo(Guid? id, string returnUrl)
         {
             var userId = id ?? Guid.Parse(User.Identity.GetUserId());
 
@@ -56,7 +56,7 @@ namespace WebApp.Controllers
                 PassportImage = user?.Passports.Image ?? null,
                 PassportId = user?.PassportId ?? Guid.NewGuid(),
                 IsUserRegister = user != null,
-                ScoringSystemIndex = 1
+                ReturnUrl = returnUrl
             };
 
             return View(model);

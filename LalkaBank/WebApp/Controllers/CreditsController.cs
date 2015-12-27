@@ -62,7 +62,7 @@ namespace WebApp.Controllers
             return View("Index", viewModel);
         }
 
-        public ActionResult Show(Guid? id)
+        public ActionResult Show(Guid? id, string returnUrl)
         {
             if (!id.HasValue)
             {
@@ -74,10 +74,9 @@ namespace WebApp.Controllers
             {
                 return HttpNotFound();
             }
-            else
-            {
-                ViewBag.Result = true;
-            }
+
+            ViewBag.Result = true;
+            viewModel.ReturnUrl = returnUrl;
 
             return View(viewModel);
         }
@@ -90,14 +89,20 @@ namespace WebApp.Controllers
             }
 
             var viewModel = GetCreditHistoryViewModel(model.CreditId, model.CurrentPageNumber);
+            viewModel.ReturnUrl = model.ReturnUrl;
 
             return View(viewModel);
         }
 
         [Authorize(Roles = "Admin, Manager")]
-        public ActionResult Create(Guid requestId)
+        public ActionResult Create(Guid? requestId)
         {
-            var result = _creditService.CreateCreditForRequest(requestId);
+            if (!requestId.HasValue)
+            {
+                return HttpNotFound();
+            }
+
+            var result = _creditService.CreateCreditForRequest(requestId.Value);
             if (result != null)
             {
                 ViewBag.Result = true;

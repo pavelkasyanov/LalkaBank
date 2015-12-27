@@ -55,6 +55,8 @@ namespace WebApp.Models.Domains.Credits
         [DisplayName("Credit number")]
         public int Number { get; set; }
 
+        public string ReturnUrl { get; set; }
+
         public virtual UserInfoViewModel Person { get; set; }
 
         public virtual ManagerViewModel Manager { get; set; }

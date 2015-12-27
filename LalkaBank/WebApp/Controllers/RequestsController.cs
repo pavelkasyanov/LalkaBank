@@ -197,7 +197,7 @@ namespace WebApp.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Show(Guid? id)
+        public ActionResult Show(Guid? id, string returnUrl)
         {
             if (!id.HasValue)
             {
@@ -205,6 +205,7 @@ namespace WebApp.Controllers
             }
 
             var model = GetRequestViewModel(id.Value);
+            model.ReturnUrl = returnUrl;
 
             return View(model);
         }

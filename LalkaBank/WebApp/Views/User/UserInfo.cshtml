@@ -134,7 +134,13 @@
                 }
             }
         </div>
-
+        @if (!string.IsNullOrEmpty(Model.ReturnUrl))
+        {
+            <br/>
+            <div class="row">
+                <a href="@Model.ReturnUrl" class="btn btn-primary">back</a>
+            </div>
+        }
     </div>
 </div>
 

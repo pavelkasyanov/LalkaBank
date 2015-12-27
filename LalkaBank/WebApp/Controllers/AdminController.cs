@@ -10,6 +10,7 @@ using WebApp.Models.Domains.Users;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IPersonService _personService;

@@ -86,7 +86,7 @@
                                 <td>@request.Number</td>
                                 <td>@request.DateStart.ToString("D")</td>
                                 <td>
-                                    <a href="@Url.Action("Show", "Credits", new {id = request.Id})" class="btn btn-info show-request" role="button">show</a>
+                                    <a href="@Url.Action("Show", "Credits", new {id = request.Id, returnUrl = Request.Url.AbsoluteUri})" class="btn btn-info show-request" role="button">show</a>
                                 </td>
                             </tr>
                         }
@@ -141,9 +141,10 @@
                 $("#search_form").collapse('toggle');
             });
 
-            var check = this.checked;
-            $("#Start").prop('disabled', !check);
-            $("#End").prop('disabled', !check);
+            var checkel = $('#SearchForDate');
+            var isCheck = checkel.prop('checked');
+            $("#Start").prop('disabled', !isCheck);
+            $("#End").prop('disabled', !isCheck);
 
             $('#SearchForDate').change(function () {
                 var check = this.checked;

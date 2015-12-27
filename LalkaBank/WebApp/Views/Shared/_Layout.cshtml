@@ -17,7 +17,17 @@
         @if (Request.IsAuthenticated)
         {
             <div class="lb-container" id="lb-area">
-                <b>@User.Identity.Name</b>
+                <b>
+                    @User.Identity.Name
+                    @if (Request.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right"}))
+                        {
+                            @Html.AntiForgeryToken()
+                            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                        }
+                    }
+                </b>
                 <b><a class="lb-area" href="@Url.Action("Index", "Home")">My Page</a></b>
                 @if (User.IsInRole("Admin"))
                 {
@@ -41,11 +51,6 @@
                     <b><a class="lb-area" style="margin-left: 20px;" href="@Url.Action("Find", "Requests")">Search</a></b>
                 }
                 <b><a class="lb-area" href="@Url.Action("Index", "Messages")">Messages</a></b>
-                <div class="lb-margin">
-                    <b>
-                        @Html.Partial("_LoginPartial")
-                    </b>
-                </div>
             </div>
         }
         <div class="row">

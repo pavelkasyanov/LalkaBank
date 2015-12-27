@@ -153,6 +153,12 @@
 
         </div>
     }
+    @if (!string.IsNullOrEmpty(Model.ReturnUrl))
+    {
+        <div class="row">
+            <a href="@Model.ReturnUrl" class="btn btn-primary">back</a>
+        </div>
+    }
 </div>
 <div id="requestInfoModal" class="modal fade" title="Create Album">
     <div id="dialogContent" class="modal-dialog">

@@ -56,7 +56,7 @@
             <tr>
                 <td>@Html.LabelFor(m => m.Person)</td>
                 <td>
-                    <a href="@Url.Action("UserInfo", "User", new {id = Model.Person.Id})">@Model.Person.SecondName @Model.Person.Name @Model.Person.LastName</a>
+                    <a href="@Url.Action("UserInfo", "User", new {id = Model.Person.Id, returnUrl = Request.Url.AbsoluteUri})">@Model.Person.SecondName @Model.Person.Name @Model.Person.LastName</a>
                 </td>
             </tr>
             <tr>
@@ -74,8 +74,14 @@
         </table>
     </div>
     <div class="row">
-        <a class="btn btn-primary" href="@Url.Action("ShowCreditHistory", "Credits", new {CreditId = Model.Id})">Show Credit History</a>
+        <a class="btn btn-primary" href="@Url.Action("ShowCreditHistory", "Credits", new {CreditId = Model.Id, returnUrl = Request.Url.AbsoluteUri})">Show Credit History</a>
     </div>
+    @if (!string.IsNullOrEmpty(Model.ReturnUrl))
+    {
+        <div class="row">
+            <a href="@Model.ReturnUrl" class="btn btn-primary">back</a>
+        </div>
+    }
 </div>
 
 @section Scripts {

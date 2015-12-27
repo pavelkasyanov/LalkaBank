@@ -61,7 +61,7 @@
                                 <td>@request.CreditInfo</td>
                                 <td>@request.Date.ToString("D")</td>
                                 <td>
-                                    <a href="@Url.Action("Show", "Requests", new {id = request.Id})" class="btn btn-info show-request" role="button">Просмотреть</a>
+                                    <a href="@Url.Action("Show", "Requests", new {id = request.Id, returnUrl = Request.Url.AbsoluteUri})" class="btn btn-info show-request" role="button">Show</a>
                                 </td>
                             </tr>
                         }

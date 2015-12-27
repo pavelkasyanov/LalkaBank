@@ -75,7 +75,8 @@ namespace WebApp.Models.Domains.Users
 
         public bool IsUserRegister { get; set; }
 
-        [DisplayName("ScoringSystemIndex")]
-        public int ScoringSystemIndex { get; set; }
+        public string ReturnUrl { get; set; }
+
+
     }
 }

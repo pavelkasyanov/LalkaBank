@@ -7,6 +7,7 @@ using Services.Interfaces;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class ImagesController : Controller
     {
         private readonly IPassportService _passportService;

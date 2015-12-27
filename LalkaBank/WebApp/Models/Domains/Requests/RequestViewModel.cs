@@ -38,6 +38,8 @@ namespace WebApp.Models.Domains.Requests
         [DisplayName("Scoring index")]
         public int ScoringIndex { get; set; }
 
+        public string ReturnUrl { get; set; }
+
         [DisplayName("Credit Type")]
         public virtual CreditTypeViewModel CreditType { get; set; }
 
